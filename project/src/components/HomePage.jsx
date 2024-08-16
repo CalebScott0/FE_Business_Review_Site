@@ -25,11 +25,9 @@ const HomePage = () => {
     },
   ];
   return (
-    <div className="mt-10 flex justify-center">
+    <div className="mt-10">
+        <ModeToggle />
       <CarouselTemplate imageArr={imageArr} />
-      <div className="mt-1">
-        <ModeToggle></ModeToggle>
-      </div>
     </div>
   );
 };
