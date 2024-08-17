@@ -9,6 +9,7 @@ const App = () => {
       <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />}></Route>
+        {/* Add 404 route for "/*"" */}
       </Routes>
     </ThemeProvider>
   );
