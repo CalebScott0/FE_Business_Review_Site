@@ -27,7 +27,7 @@ const SearchCategories = ({ categories }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-[200px] justify-between"
+          className="w-72 justify-between"
         >
           {value
             ? categories.find((category) => category.name === value)?.name
@@ -35,7 +35,7 @@ const SearchCategories = ({ categories }) => {
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
+      <PopoverContent className="w-72 p-0">
         <Command>
           <CommandInput placeholder="Search category..." />
           <CommandList>
