@@ -1,4 +1,3 @@
-import { ModeToggle } from "@/components/ModeToggle";
 import { CarouselTemplate } from "@/components/Carousel";
 
 const HomePage = () => {
@@ -25,8 +24,7 @@ const HomePage = () => {
     },
   ];
   return (
-    <div className="mt-10">
-        <ModeToggle />
+    <div className="mt-10 flex flex-col items-center">
       <CarouselTemplate imageArr={imageArr} />
     </div>
   );

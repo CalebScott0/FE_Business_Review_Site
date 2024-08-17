@@ -1,7 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+/* :root {
+  --New-Swatch: #010C09;
+  --New-Swatch: #073226;
+  --New-Swatch: #145844;
+  --New-Swatch: #26795F;
+  --New-Swatch: #3D997D;
+  --New-Swatch: #5ABA9C;
+  --New-Swatch: #81DBC0;
+  --New-Swatch: #A4EDD8;
+  --New-Swatch: #DDFFF5;
+}
+ */
 
 @layer base {
   :root {

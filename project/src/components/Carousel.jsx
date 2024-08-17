@@ -10,7 +10,7 @@ import Autoplay from "embla-carousel-autoplay";
 export const CarouselTemplate = ({ imageArr }) => {
   return (
     <Carousel
-      className="w-full"
+      className="w-full max-w-xs"
       opts={{
         loop: true,
       }}
