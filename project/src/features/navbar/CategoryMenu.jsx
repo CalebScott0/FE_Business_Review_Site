@@ -39,7 +39,7 @@ const categoriesArray = [
   // "Beauty & Spas",
   // "Health & Medical",
   // "Arts & Entertainment",
-  // "Education",
+  // "Education", 
   // "Automotive",
   // "Event Planning & Services",
   // "Financial Services",
