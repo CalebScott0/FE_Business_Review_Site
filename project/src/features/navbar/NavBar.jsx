@@ -21,7 +21,7 @@ const NavBar = ({ setCategory }) => {
   return (
     <div>
       <ModeToggle />
-      <SearchCategories setCategory={setCategory} />
+      <SearchCategories setCategory={setCategory} /> OR
       <Separator />
       <div className="ml-96">
         <CategoryMenu />
