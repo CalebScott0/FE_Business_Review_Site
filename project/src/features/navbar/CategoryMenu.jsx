@@ -31,6 +31,7 @@ import {
   ShoppingBag,
   Cat,
   HeartPulse,
+  Sandwich,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 const categoriesArray = [
@@ -81,6 +82,29 @@ const healthArr = [
   },
 ];
 
+const foodAndDrinksArr = [
+  {
+    name: "Restaurants",
+    icon: <Utensils className="mr-2 size-6" />,
+  },
+  {
+    name: "Food",
+    icon: <Pizza className="mr-2 size-6" />,
+  },
+  {
+    name: "Bars",
+    icon: <Beer className="mr-2 size-6" />,
+  },
+  {
+    name: "Local Flavor",
+    icon: <Soup className="mr-2 size-6" />,
+  },
+  {
+    name: "Nightlife",
+    icon: <Martini className="mr-2 size-6" />,
+  },
+];
+
 const servicesArr = [
   {
     name: "Automotive",
@@ -105,29 +129,6 @@ const servicesArr = [
   {
     name: "Local Services",
     icon: <Hammer className="mr-2 size-6" />,
-  },
-];
-
-const foodAndDrinksArr = [
-  {
-    name: "Restaurants",
-    icon: <Utensils className="mr-2 size-6" />,
-  },
-  {
-    name: "Food",
-    icon: <Pizza className="mr-2 size-6" />,
-  },
-  {
-    name: "Bars",
-    icon: <Beer className="mr-2 size-6" />,
-  },
-  {
-    name: "Local Flavor",
-    icon: <Soup className="mr-2 size-6" />,
-  },
-  {
-    name: "Nightlife",
-    icon: <Martini className="mr-2 size-6" />,
   },
 ];
 
@@ -168,30 +169,57 @@ const handleClick = (category) => {
 //  or just set a default location?
 const CategoryMenu = () => {
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>
-            <HeartPulse className="mr-2 size-6" />
-            <span>Health & Wellness</span>
-          </NavigationMenuTrigger>
-          <NavigationMenuContent className="flex">
-            {healthArr.map((item, index) => (
-              <NavigationMenuLink key={index}>
-                <Button
-                  className="hover:bg-destructive"
-                  variant="outlined"
-                  onClick={() => handleClick(item.name)}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </Button>
-              </NavigationMenuLink>
-            ))}
-          </NavigationMenuContent>
-        </NavigationMenuItem>
-      </NavigationMenuList>
-    </NavigationMenu>
+    // MAKE THESE SHOW TWO ROWS?
+    <div className="flex">
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>
+              <Sandwich className="mr-2 size-6" />
+              <span>Food</span>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className="">
+              {foodAndDrinksArr.map((item, index) => (
+                <NavigationMenuLink key={index}>
+                  <Button
+                    className="w-full hover:bg-destructive"
+                    variant="outlined"
+                    onClick={() => handleClick(item.name)}
+                  >
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </Button>
+                </NavigationMenuLink>
+              ))}
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>
+              <HeartPulse className="mr-2 size-6" />
+              <span>Health & Wellness</span>
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className="">
+              {healthArr.map((item, index) => (
+                <NavigationMenuLink key={index}>
+                  <Button
+                    className="w-full hover:bg-destructive"
+                    variant="outlined"
+                    onClick={() => handleClick(item.name)}
+                  >
+                    {item.icon}
+                    <span>{item.name}</span>
+                  </Button>
+                </NavigationMenuLink>
+              ))}
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+    </div>
   );
 };
 export default CategoryMenu;
