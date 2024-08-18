@@ -23,7 +23,9 @@ const NavBar = ({ setCategory }) => {
       <ModeToggle />
       <SearchCategories setCategory={setCategory} />
       <Separator />
-      <CategoryMenu />
+      <div className="ml-96">
+        <CategoryMenu />
+      </div>
     </div>
   );
 };

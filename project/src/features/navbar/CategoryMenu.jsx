@@ -30,8 +30,9 @@ import {
   Plane,
   ShoppingBag,
   Cat,
+  HeartPulse,
 } from "lucide-react";
-
+import { Button } from "@/components/ui/button";
 const categoriesArray = [
   // "Active Life",
   // "Beauty & Spas",
@@ -57,7 +58,7 @@ const categoriesArray = [
   // "Religious Organizations",
 ];
 
-const healthAndWellnessArr = [
+const healthArr = [
   {
     name: "Active Life",
     icon: <Dumbbell className="mr-2 size-6" />,
@@ -160,18 +161,33 @@ const pets = {
   name: "Pets",
   icon: <Cat className="mr-2 size-6" />,
 };
-
+const handleClick = (category) => {
+  console.log(category);
+};
+// onclick go directly to businesseses if location is provided?
+//  or just set a default location?
 const CategoryMenu = () => {
   return (
     <NavigationMenu>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            {healthAndWellnessArr[0].icon}
-            <span>{healthAndWellnessArr[0].name}</span>
+            <HeartPulse className="mr-2 size-6" />
+            <span>Health & Wellness</span>
           </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <NavigationMenuLink>Link</NavigationMenuLink>
+          <NavigationMenuContent className="flex">
+            {healthArr.map((item, index) => (
+              <NavigationMenuLink key={index}>
+                <Button
+                  className="hover:bg-destructive"
+                  variant="outlined"
+                  onClick={() => handleClick(item.name)}
+                >
+                  {item.icon}
+                  <span>{item.name}</span>
+                </Button>
+              </NavigationMenuLink>
+            ))}
           </NavigationMenuContent>
         </NavigationMenuItem>
       </NavigationMenuList>
