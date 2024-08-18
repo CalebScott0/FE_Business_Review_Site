@@ -15,8 +15,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { useGetCategoriesQuery } from "./categoryslice";
 
-const SearchCategories = ({ categories }) => {
+const SearchCategories = () => {
+  const { data = {}, error, isLoading } = useGetCategoriesQuery();
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
 
@@ -30,7 +32,7 @@ const SearchCategories = ({ categories }) => {
           className="w-72 justify-between"
         >
           {value
-            ? categories.find((category) => category.name === value)?.name
+            ? data.categories.find((category) => category.name === value)?.name
             : "Select category..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -41,25 +43,24 @@ const SearchCategories = ({ categories }) => {
           <CommandList>
             <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
-              {categories &&
-                categories.map((category) => (
-                  <CommandItem
-                    key={category.id}
-                    value={category.name}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
-                      setOpen(false);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === category.name ? "opacity-100" : "opacity-0",
-                      )}
-                    />
-                    {category.name}
-                  </CommandItem>
-                ))}
+              {data.categories && data.categories.map((category) => (
+                <CommandItem
+                  key={category.id}
+                  value={category.name}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === category.name ? "opacity-100" : "opacity-0",
+                    )}
+                  />
+                  {category.name}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </Command>
