@@ -17,9 +17,10 @@ import {
 } from "@/components/ui/popover";
 import { useGetCategoriesQuery } from "./categoryslice";
 
-const SearchCategories = () => {
+const SearchCategories = ({ setCategory }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();
   const [open, setOpen] = useState(false);
+  // value mapped to category.id
   const [value, setValue] = useState("");
 
   return (
@@ -43,24 +44,26 @@ const SearchCategories = () => {
           <CommandList>
             <CommandEmpty>No category found.</CommandEmpty>
             <CommandGroup>
-              {data.categories && data.categories.map((category) => (
-                <CommandItem
-                  key={category.id}
-                  value={category.name}
-                  onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue);
-                    setOpen(false);
-                  }}
-                >
-                  <Check
-                    className={cn(
-                      "mr-2 h-4 w-4",
-                      value === category.name ? "opacity-100" : "opacity-0",
-                    )}
-                  />
-                  {category.name}
-                </CommandItem>
-              ))}
+              {data.categories &&
+                data.categories.map((category) => (
+                  <CommandItem
+                    key={category.id}
+                    value={category.name}
+                    onSelect={(currentValue) => {
+                      setValue(currentValue === value ? "" : currentValue);
+                      setOpen(false);
+                      setCategory(category.name);
+                    }}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        value === category.name ? "opacity-100" : "opacity-0",
+                      )}
+                    />
+                    {category.name}
+                  </CommandItem>
+                ))}
             </CommandGroup>
           </CommandList>
         </Command>
