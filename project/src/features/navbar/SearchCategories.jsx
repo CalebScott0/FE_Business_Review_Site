@@ -20,7 +20,7 @@ import { useGetCategoriesQuery } from "./categoryslice";
 const SearchCategories = ({ setCategory }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();
   const [open, setOpen] = useState(false);
-  // value mapped to category.id
+  // value mapped to category.name
   const [value, setValue] = useState("");
 
   return (
@@ -47,6 +47,7 @@ const SearchCategories = ({ setCategory }) => {
               {data.categories &&
                 data.categories.map((category) => (
                   <CommandItem
+                    className="cursor-pointer"
                     key={category.id}
                     value={category.name}
                     onSelect={(currentValue) => {
