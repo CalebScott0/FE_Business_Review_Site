@@ -29,8 +29,10 @@ const NavBar = ({ setCategory }) => {
       console.log(pos);
     });
   } else {
-    // show message that browser does not support Geolocation
-    // Location will have to be entered manually in search box
+    // show message that browser does not support Geolocation/
+    // if user does not allow location:
+    // Location will have to be entered manually in search box!
+    // REQUIRE THIS STEP BEFORE SEARCHING IS POSSIBLE TO FILTER SEARCH INITIALLY
   }
   const handleClick = (category) => {
     console.log(category);

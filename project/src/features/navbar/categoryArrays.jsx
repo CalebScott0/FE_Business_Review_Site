@@ -23,7 +23,6 @@ import {
   ShoppingBag,
   Cat,
 } from "lucide-react";
-import CategoryMenu from "./CategoryMenu";
 const categoriesArray = [
   // "Active Life",
   // "Beauty & Spas",
