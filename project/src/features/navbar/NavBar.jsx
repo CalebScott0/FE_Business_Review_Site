@@ -36,7 +36,6 @@ const NavBar = ({ setCategory }) => {
   }
   const handleClick = (category) => {
     console.log(category);
-    console.log(singleCategoryArr);
   };
   // onclick go directly to businesseses if location is provided?
   //  or just set a default location?
