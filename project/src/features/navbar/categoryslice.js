@@ -1,7 +1,7 @@
 import { api } from "../../app/api";
 // endpoint to get all categories
 
-const categoryApi = api.injectEndpoints({
+const categorySlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getCategories: builder.query({
       query: () => "/categories",
@@ -9,4 +9,4 @@ const categoryApi = api.injectEndpoints({
   }),
 });
 
-export const { useGetCategoriesQuery } = categoryApi;
+export const { useGetCategoriesQuery } = categorySlice;

@@ -19,6 +19,7 @@ import { useGetCategoriesQuery } from "./categoryslice";
 
 const SearchCategories = ({ setCategory }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();
+
   const [open, setOpen] = useState(false);
   // value mapped to category.name
   const [value, setValue] = useState("");
@@ -28,12 +29,15 @@ const SearchCategories = ({ setCategory }) => {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
+          x
           role="combobox"
           aria-expanded={open}
           className="w-72 justify-between"
         >
           {value
-            ? data.categories.find((category) => category.name === value)?.name
+            ? data.categories.find(
+                (category) => category.categoryName === value,
+              )?.categoryName
             : "Select category..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -48,21 +52,23 @@ const SearchCategories = ({ setCategory }) => {
                 data.categories.map((category) => (
                   <CommandItem
                     className="cursor-pointer"
-                    key={category.id}
-                    value={category.name}
+                    key={category.categoryId}
+                    value={category.categoryName}
                     onSelect={(currentValue) => {
                       setValue(currentValue === value ? "" : currentValue);
                       setOpen(false);
-                      setCategory(category.name);
+                      setCategory(category.categoryName);
                     }}
                   >
                     <Check
                       className={cn(
                         "mr-2 h-4 w-4",
-                        value === category.name ? "opacity-100" : "opacity-0",
+                        value === category.categoryName
+                          ? "opacity-100"
+                          : "opacity-0",
                       )}
                     />
-                    {category.name}
+                    {category.categoryName}
                   </CommandItem>
                 ))}
             </CommandGroup>

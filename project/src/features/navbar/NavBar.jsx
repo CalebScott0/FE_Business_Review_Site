@@ -11,42 +11,62 @@ import {
   singleCategoryArr,
 } from "./categoryArrays";
 import { HeartPulse, Layers, Sandwich, Wrench } from "lucide-react";
-import {
-  NavigationMenu,
-  NavigationMenuLink,
-} from "@/components/ui/navigation-menu";
+import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
+import { useState } from "react";
 
-const NavBar = ({ setCategory }) => {
+const NavBar = () => {
+  const [category, setCategory] = useState("");
+
+  const navigate = useNavigate();
   // request location in browser, return latitute/longitude
   // https://developers.google.com/maps/documentation/javascript/geolocation#maps_map_geolocation-javascript
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition((position) => {
-      const pos = {
-        lat: position.coords.latitude,
-        lng: position.coords.longitude,
-      };
-      console.log(pos);
-    });
-  } else {
-    // show message that browser does not support Geolocation/
-    // if user does not allow location:
-    // Location will have to be entered manually in search box!
-    // REQUIRE THIS STEP BEFORE SEARCHING IS POSSIBLE TO FILTER SEARCH INITIALLY
-  }
-  const handleClick = (category) => {
-    console.log(category);
+  // if (navigator.geolocation) {
+  //   navigator.geolocation.getCurrentPosition((position) => {
+  //     const pos = {
+  //       lat: position.coords.latitude,
+  //       lng: position.coords.longitude,
+  //     };
+  //     console.log(pos);
+  //   });
+  // } else {
+  // show message that browser does not support Geolocation/
+  // if user does not allow location:
+  // Location will have to be entered manually in search box!
+  // REQUIRE THIS STEP BEFORE SEARCHING IS POSSIBLE TO FILTER SEARCH INITIALLY
+  // }
+  const handleClick = (categoryName) => {
+    setCategory(categoryName);
   };
-  // onclick go directly to businesseses if location is provided?
+  // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
   return (
     <div className="mt-2">
+      {/* Have to filter by location before any search allowed */}
       <SearchCategories setCategory={setCategory} /> OR
+      {/* put another serach for business names here */}
+      <Button
+        disable
+        className="bg-green-500"
+        variant="outlined"
+        size="icon"
+        onClick={() => {
+          navigate(`/businesses/${category}`);
+        }}
+      >
+        Go
+      </Button>
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">
         {singleCategoryArr.map((item, index) => (
-          <Button variant="ghost" key={index}>
+          <Button
+            variant="ghost"
+            key={index}
+            onClick={() => {
+              setCategory(item.categoryName);
+            }}
+          >
             {item.icon}
             {item.categoryName}
           </Button>
