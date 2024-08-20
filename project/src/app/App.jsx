@@ -2,13 +2,11 @@ import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "@/features/navbar/NavBar";
 import HomePage from "@/features/HomePage";
 import Businesses from "@/features/businesses/Businesses";
-import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
   /* categoryId will be set in SearchCategories component,
    used to filter and render businesses */
-  const [category, setCategory] = useState("");
 
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
