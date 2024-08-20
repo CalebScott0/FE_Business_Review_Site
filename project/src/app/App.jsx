@@ -5,7 +5,7 @@ import Businesses from "@/features/businesses/Businesses";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
-  /* categoryId will be set in SearchCategories component,
+  /* categoryIwill be set in SearchCategories component,
    used to filter and render businesses */
 
   return (

@@ -16,7 +16,9 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 const NavBar = () => {
+  // category name set by category selection
   const [category, setCategory] = useState("");
+  // value for category search box, reset on go button click
   const [value, setValue] = useState("");
 
   const navigate = useNavigate();
