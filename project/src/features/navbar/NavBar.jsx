@@ -17,6 +17,7 @@ import { useState } from "react";
 
 const NavBar = () => {
   const [category, setCategory] = useState("");
+  const [value, setValue] = useState("");
 
   const navigate = useNavigate();
   // request location in browser, return latitute/longitude
@@ -37,21 +38,29 @@ const NavBar = () => {
   // }
   const handleClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
+    setValue("");
   };
   // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
   return (
     <div className="mt-2">
       {/* Have to filter by location before any search allowed */}
-      <SearchCategories setCategory={setCategory} /> OR
+      <SearchCategories
+        setCategory={setCategory}
+        value={value}
+        setValue={setValue}
+      />{" "}
+      OR
       {/* put another serach for business names here */}
       <Button
         disable
         className="bg-green-500"
         variant="outlined"
         size="icon"
+        // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
+        // Reset combobox on click
         onClick={() => {
-          handleClick(category);
+          category && handleClick(category);
         }}
       >
         Go

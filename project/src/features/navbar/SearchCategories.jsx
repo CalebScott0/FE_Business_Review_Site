@@ -17,12 +17,11 @@ import {
 } from "@/components/ui/popover";
 import { useGetCategoriesQuery } from "./categoryslice";
 
-const SearchCategories = ({ setCategory }) => {
+const SearchCategories = ({ setCategory, value, setValue }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();
 
   const [open, setOpen] = useState(false);
   // value mapped to category.name
-  const [value, setValue] = useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>

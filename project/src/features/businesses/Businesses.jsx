@@ -11,8 +11,8 @@ const Businesses = () => {
     error,
     isLoading,
   } = useGetBusinessesByCategoryQuery(category);
-  if (data) {
-    console.log(data);
+  if (data.businesses) {
+    console.log(data.businesses);
   }
   return (
     <>
