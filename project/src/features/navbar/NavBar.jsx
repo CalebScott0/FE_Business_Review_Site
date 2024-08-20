@@ -51,7 +51,7 @@ const NavBar = () => {
         variant="outlined"
         size="icon"
         onClick={() => {
-          navigate(`/businesses/${category}`);
+          handleClick(category);
         }}
       >
         Go
