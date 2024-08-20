@@ -10,10 +10,12 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useNavigate } from "react-router-dom";
 
 const Businesses = () => {
   // grab category name from url
   const { category } = useParams();
+  const navigate = useNavigate();
 
   const {
     data = {},
@@ -23,6 +25,9 @@ const Businesses = () => {
   if (data.businesses) {
     console.log(data.businesses[0].Categories);
   }
+  const handleBadgeClick = (categoryName) => {
+    navigate(`/businesses/${categoryName}`);
+  };
   // figure out how to also show this when a new category is selected
   // while still on businesses page, or speed up back end query?
   /*  Style this sizing / spacing after businesses are styled on page
@@ -54,9 +59,17 @@ const Businesses = () => {
             <CardHeader>
               <CardTitle>
                 <span className="text-lg">{bus.name}</span>
-                {/* {bus.categories.map((item) => (
-                  <Badge>{item.categoryName}</Badge>
-                ))} */}
+                {/* take 5 (or all if business has <= 5) categories */}
+                {bus.Categories.slice(0, 5).map((item) => (
+                  // MAKE THESE VARIOUS COLORS
+                  // (Array of colors in tailwind class syntax w/ random in badge classname?)
+                  <Badge
+                    className="cursor-pointer"
+                    onClick={() => handleBadgeClick(item.categoryName)}
+                  >
+                    {item.categoryName}
+                  </Badge>
+                ))}
               </CardTitle>
             </CardHeader>
           </Card>
