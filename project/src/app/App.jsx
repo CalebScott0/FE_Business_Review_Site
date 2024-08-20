@@ -10,7 +10,7 @@ const App = () => {
 
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <NavBar category={category} setCategory={setCategory} />
+      <NavBar />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/businesses/:category" element={<Businesses />} />

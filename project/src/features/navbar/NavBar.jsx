@@ -36,7 +36,7 @@ const NavBar = () => {
   // REQUIRE THIS STEP BEFORE SEARCHING IS POSSIBLE TO FILTER SEARCH INITIALLY
   // }
   const handleClick = (categoryName) => {
-    setCategory(categoryName);
+    navigate(`/businesses/${categoryName}`);
   };
   // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
@@ -64,7 +64,7 @@ const NavBar = () => {
             variant="ghost"
             key={index}
             onClick={() => {
-              setCategory(item.categoryName);
+              handleClick(item.categoryName);
             }}
           >
             {item.icon}
