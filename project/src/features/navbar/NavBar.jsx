@@ -70,18 +70,6 @@ const NavBar = () => {
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">
-        {singleCategoryArr.map((item, index) => (
-          <Button
-            variant="ghost"
-            key={index}
-            onClick={() => {
-              handleClick(item.categoryName);
-            }}
-          >
-            {item.icon}
-            {item.categoryName}
-          </Button>
-        ))}
         <NavigationMenu>
           <CategoryMenu
             icon={<Sandwich className="mr-2 size-6" />}
@@ -89,6 +77,8 @@ const NavBar = () => {
             array={foodAndDrinksArr}
             handleClick={handleClick}
           />
+        </NavigationMenu>
+        <NavigationMenu>
           <CategoryMenu
             icon={<HeartPulse className="mr-2 size-6" />}
             title="Health & Wellness"
@@ -103,6 +93,8 @@ const NavBar = () => {
             array={servicesArr}
             handleClick={handleClick}
           />
+        </NavigationMenu>
+        <NavigationMenu>
           <CategoryMenu
             icon={<Layers className="mr-2 size-6" />}
             title="Miscellanous"
@@ -110,6 +102,18 @@ const NavBar = () => {
             handleClick={handleClick}
           />
         </NavigationMenu>
+        {singleCategoryArr.map((item, index) => (
+          <Button
+            variant="ghost"
+            key={index}
+            onClick={() => {
+              handleClick(item.categoryName);
+            }}
+          >
+            {item.icon}
+            {item.categoryName}
+          </Button>
+        ))}
       </div>
     </div>
   );

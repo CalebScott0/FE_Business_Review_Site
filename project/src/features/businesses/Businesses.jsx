@@ -34,7 +34,6 @@ const Businesses = () => {
    Make it look different than loaded businesses so it's not just rectangles,
     like how hulu does it in app? */
   if (isLoading) {
-    console.log("Loading...");
     return (
       <div>
         {Array.from({ length: 10 }).map((_, idx) => (
