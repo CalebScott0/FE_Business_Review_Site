@@ -23,7 +23,7 @@ const Businesses = () => {
     isLoading,
   } = useGetBusinessesByCategoryQuery(category);
   if (data.businesses) {
-    console.log(data.businesses[0].Categories);
+    // console.log(data.businesses[0].Categories);
   }
   const handleBadgeClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
