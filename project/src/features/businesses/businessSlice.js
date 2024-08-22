@@ -1,5 +1,4 @@
 import { api } from "@/app/api";
-
 const businessSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getBusinesses: builder.query({
