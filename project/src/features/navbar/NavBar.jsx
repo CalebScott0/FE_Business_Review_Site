@@ -53,11 +53,8 @@ const NavBar = () => {
         setValue={setValue}
       />{" "}
       OR
-      {/* put another serach for business names here */}
+      {/* put another search for business names here */}
       <Button
-        disable
-        className="bg-green-500"
-        variant="outlined"
         size="icon"
         // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
         // Reset combobox on click

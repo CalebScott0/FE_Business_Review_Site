@@ -19,6 +19,7 @@ import { useGetCategoriesQuery } from "./categoryslice";
 
 const SearchCategories = ({ setCategory, value, setValue }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();
+  // use error and isLoading on this (isLoading use skeletons?)
 
   const [open, setOpen] = useState(false);
   // value mapped to category.name
