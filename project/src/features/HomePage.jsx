@@ -24,7 +24,7 @@ const HomePage = () => {
     },
   ];
   return (
-    <div className="mt-10 flex flex-col items-center">
+    <div className="mt-10 flex flex-col items-center ">
       <CarouselTemplate imageArr={imageArr} />
     </div>
   );
