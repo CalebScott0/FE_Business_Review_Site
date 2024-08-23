@@ -7,7 +7,9 @@ const businessSlice = api.injectEndpoints({
     }),
     getBusinessesByCategory: builder.query({
       query: (category) => `/businesses/category/${category}`,
+      providesTags: ["Businesses"],
     }),
+    // getBusinessById
   }),
 });
 
