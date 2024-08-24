@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 
-const Businesses = () => {
+const BusinessList = () => {
   // grab category name from url
   const { category } = useParams();
   const navigate = useNavigate();
@@ -57,7 +57,7 @@ const Businesses = () => {
         ))} */}
       {data.businesses &&
         data.businesses.map((bus) => (
-          <Card key={bus.id} className="mx-10 mt-10 pb-2 w-80">
+          <Card key={bus.id} className="mx-10 mt-10 w-80 pb-2">
             <CardHeader>
               <CardTitle>
                 <span className="text-lg">{bus.name}</span>
@@ -68,7 +68,7 @@ const Businesses = () => {
               underneath in an infinite carousel (width of larger image and scrolls left to right)? 
               Starting with a random index photo to show at the start*/}
               <img
-              className="size-52 object-cover mx-auto"
+                className="mx-auto size-52 object-cover"
                 src={`../../../photos/${bus.Photos[0].id}.jpg`}
                 alt={bus.Photos[0].caption ? bus.Photos[0].caption : bus.name}
               />
@@ -86,9 +86,10 @@ const Businesses = () => {
                 </Badge>
               ))}
             </CardDescription>
+            <CardFooter>{/* Stars / Review */}</CardFooter>
           </Card>
         ))}
     </div>
   );
 };
-export default Businesses;
+export default BusinessList;
