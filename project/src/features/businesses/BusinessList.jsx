@@ -24,7 +24,7 @@ const BusinessList = () => {
     isLoading,
   } = useGetBusinessesByCategoryQuery({ category, page: count, limit: 10 });
   if (data.businesses) {
-    // console.log(data.businesses[0].Categories);
+    console.log(data.businesses[0].Reviews);
   }
   const handleBadgeClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
@@ -50,7 +50,7 @@ const BusinessList = () => {
   }
   return (
     <div className="flex flex-wrap justify-center">
-      <Button onClick={() => count++}>Click</Button>
+      {/* <Button onClick={() => count++}>Click</Button> */}
       {/* {!data.businesses &&
         Array.from({ length: 10 }).map((_, idx) => (
           <div key={idx} className="mt-4">
@@ -59,25 +59,29 @@ const BusinessList = () => {
         ))} */}
       {data.businesses &&
         data.businesses.map((bus) => (
-          <Card key={bus.id} className="mx-10 mt-10 w-80 pb-2">
+          <Card key={bus.id} className="mx-10 mt-10 w-10/12 pb-2">
             <CardHeader>
               <CardTitle>
                 <span className="text-lg">{bus.name}</span>
               </CardTitle>
             </CardHeader>
-            <CardContent>
+            <CardContent className>
               {/* After images work, change this to show all other pictures
               underneath in an infinite carousel (width of larger image and scrolls left to right)? 
               Starting with a random index photo to show at the start*/}
               <img
-                className="mx-auto size-52 object-cover"
+                className="size-24 object-cover"
                 src={`../../../photos/${bus.Photos[0].id}.jpg`}
                 alt={bus.Photos[0].caption ? bus.Photos[0].caption : bus.name}
               />
+              <p className="mt-2 line-clamp-2 text-xs tracking-tight">
+                {bus.Reviews[0].text}
+              </p>
             </CardContent>
             {/* take 5 (or all if business has <= 5) categories */}
             <CardDescription className="ml-1 space-x-0.5 space-y-0.5 pb-2">
-              {bus.Categories.slice(0, 5).map((item) => (
+              {bus.Categories.map((item) => (
+                // {bus.Categories.slice(0, 5).map((item) => (
                 // MAKE THESE VARIOUS COLORS
                 // (Array of colors in tailwind class syntax w/ random in badge classname?)
                 <Badge
