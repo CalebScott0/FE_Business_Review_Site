@@ -11,17 +11,18 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const BusinessList = () => {
   // grab category name from url
   const { category } = useParams();
   const navigate = useNavigate();
-
+  let count = 1;
   const {
     data = {},
     error,
     isLoading,
-  } = useGetBusinessesByCategoryQuery(category);
+  } = useGetBusinessesByCategoryQuery({ category, page: count, limit: 10 });
   if (data.businesses) {
     // console.log(data.businesses[0].Categories);
   }
@@ -49,6 +50,7 @@ const BusinessList = () => {
   }
   return (
     <div className="flex flex-wrap justify-center">
+      <Button onClick={() => count++}>Click</Button>
       {/* {!data.businesses &&
         Array.from({ length: 10 }).map((_, idx) => (
           <div key={idx} className="mt-4">
