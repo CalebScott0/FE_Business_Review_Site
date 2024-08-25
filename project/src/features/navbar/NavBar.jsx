@@ -10,7 +10,7 @@ import {
   miscArr,
   singleCategoryArr,
 } from "./categoryArrays";
-import { HeartPulse, Layers, Sandwich, Wrench } from "lucide-react";
+import { HeartPulse, Layers, Sandwich, Shell, Wrench } from "lucide-react";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -45,7 +45,11 @@ const NavBar = () => {
   // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
   return (
-    <div className="mt-2">
+    <div className="mt-2 space-x-2">
+      <Button onClick={() => navigate("/")} className="ml-2">
+        <Shell />
+        Home
+      </Button>
       {/* Have to filter by location before any search allowed */}
       <SearchCategories
         setCategory={setCategory}

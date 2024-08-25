@@ -63,7 +63,7 @@ const BusinessList = () => {
           <NavLink to={`/business/${bus.name}/${bus.id}`}>
             <Card
               key={bus.id}
-              className="mx-10 mt-10 w-96 hover:shadow-md dark:hover:shadow-gray-500"
+              className="mx-10 mt-10 w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
             >
               <CardHeader>
                 <CardTitle>
