@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import { useGetBusinessesByCategoryQuery } from "./businessSlice";
 import {
   Card,
@@ -11,7 +11,8 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@/components/ui/button";
+import ReactStars from "react-rating-stars-component";
+import { CircleUser } from "lucide-react";
 
 const BusinessList = () => {
   // grab category name from url
@@ -24,7 +25,7 @@ const BusinessList = () => {
     isLoading,
   } = useGetBusinessesByCategoryQuery({ category, page: count, limit: 10 });
   if (data.businesses) {
-    console.log(data.businesses[0].Reviews);
+    console.log(data.businesses[0]);
   }
   const handleBadgeClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
@@ -49,7 +50,7 @@ const BusinessList = () => {
     );
   }
   return (
-    <div className="flex flex-wrap justify-center">
+    <div className="flex flex-col items-center">
       {/* <Button onClick={() => count++}>Click</Button> */}
       {/* {!data.businesses &&
         Array.from({ length: 10 }).map((_, idx) => (
@@ -59,41 +60,73 @@ const BusinessList = () => {
         ))} */}
       {data.businesses &&
         data.businesses.map((bus) => (
-          <Card key={bus.id} className="mx-10 mt-10 w-10/12 pb-2">
-            <CardHeader>
-              <CardTitle>
-                <span className="text-lg">{bus.name}</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className>
-              {/* After images work, change this to show all other pictures
+          <NavLink to={`/business/${bus.name}/${bus.id}`}>
+            <Card
+              key={bus.id}
+              className="mx-10 mt-10 w-96 hover:shadow-md dark:hover:shadow-gray-500"
+            >
+              <CardHeader>
+                <CardTitle>
+                  <span className="text-xl">{bus.name}</span>
+                  <ReactStars
+                    value={bus.stars}
+                    size={20}
+                    count={5}
+                    edit={false}
+                    isHalf={true}
+                    activeColor="#ffd700"
+                  />
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {/* After images work, change this to show all other pictures
               underneath in an infinite carousel (width of larger image and scrolls left to right)? 
               Starting with a random index photo to show at the start*/}
-              <img
-                className="size-24 object-cover"
-                src={`../../../photos/${bus.Photos[0].id}.jpg`}
-                alt={bus.Photos[0].caption ? bus.Photos[0].caption : bus.name}
-              />
-              <p className="mt-2 line-clamp-2 text-xs tracking-tight">
-                {bus.Reviews[0].text}
-              </p>
-            </CardContent>
-            {/* take 5 (or all if business has <= 5) categories */}
-            <CardDescription className="ml-1 space-x-0.5 space-y-0.5 pb-2">
-              {bus.Categories.map((item) => (
-                // {bus.Categories.slice(0, 5).map((item) => (
-                // MAKE THESE VARIOUS COLORS
-                // (Array of colors in tailwind class syntax w/ random in badge classname?)
-                <Badge
-                  className="cursor-pointer font-normal leading-3"
-                  onClick={() => handleBadgeClick(item.categoryName)}
-                >
-                  {item.categoryName}
-                </Badge>
-              ))}
-            </CardDescription>
-            <CardFooter>{/* Stars / Review */}</CardFooter>
-          </Card>
+                <div className="flex space-x-2">
+                  <img
+                    className="box-border size-24 border object-cover"
+                    src={`../../../photos/${bus.Photos[0].id}.jpg`}
+                    alt={
+                      bus.Photos[0].caption ? bus.Photos[0].caption : bus.name
+                    }
+                  />
+                  <Badge
+                    variant="outline"
+                    className={`h-fit text-muted ${bus.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                  >
+                    {bus.isOpen ? "Open" : "Closed"}
+                  </Badge>
+                </div>
+                <div className="flex items-center space-x-1">
+                  <CircleUser className="mt-2 size-5" />
+                  <p className="mt-2 text-xs tracking-tighter text-muted-foreground">
+                    @
+                    {bus.Reviews[0].author.username.slice(
+                      0,
+                      bus.Reviews[0].author.username.indexOf("#"),
+                    )}
+                  </p>
+                </div>
+                <p className="line-clamp-2 text-xs tracking-tight">
+                  {bus.Reviews[0].text}
+                </p>
+              </CardContent>
+              <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
+                {bus.Categories.slice(0, 5).map((item) => (
+                  // {bus.Categories.map((item) => (
+                  // MAKE THESE VARIOUS COLORS
+                  // (Array of colors in tailwind class syntax w/ random in badge classname?)
+                  <Badge
+                    className="cursor-pointer font-normal leading-3"
+                    onClick={() => handleBadgeClick(item.categoryName)}
+                  >
+                    {item.categoryName}
+                  </Badge>
+                ))}
+              </CardDescription>
+              <CardFooter>{/* Stars / Review */}</CardFooter>
+            </Card>
+          </NavLink>
         ))}
     </div>
   );

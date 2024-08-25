@@ -2,6 +2,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "@/features/navbar/NavBar";
 import HomePage from "@/features/HomePage";
 import BusinessList from "@/features/businesses/BusinessList";
+import SingleBusiness from "@/features/businesses/SingleBusiness";
 import { Route, Routes } from "react-router-dom";
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/businesses/:category" element={<BusinessList />} />
+        <Route path="/business/:name/:id" element={<SingleBusiness />} />
         {/* Add 404 route for "/*"" */}
       </Routes>
     </ThemeProvider>
