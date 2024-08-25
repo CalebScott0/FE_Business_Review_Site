@@ -1,5 +1,5 @@
 import { NavLink, useParams } from "react-router-dom";
-import { useGetBusinessesByCategoryQuery } from "./businessSlice";
+import { useGetBusinessListQuery } from "./businessSlice";
 import {
   Card,
   CardContent,
@@ -23,7 +23,7 @@ const BusinessList = () => {
     data = {},
     error,
     isLoading,
-  } = useGetBusinessesByCategoryQuery({ category, page: count, limit: 10 });
+  } = useGetBusinessListQuery({ category, page: count, limit: 10 });
   if (data.businesses) {
     console.log(data.businesses[0]);
   }
@@ -66,17 +66,19 @@ const BusinessList = () => {
               className="mx-10 mt-10 w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
             >
               <CardHeader>
-                <CardTitle>
+                <CardTitle className="text-center">
                   <span className="text-xl">{bus.name}</span>
+                </CardTitle>
+                <div className="flex place-content-center items-center space-x-1.5">
                   <ReactStars
                     value={bus.stars}
                     size={20}
-                    count={5}
                     edit={false}
                     isHalf={true}
-                    activeColor="#ffd700"
                   />
-                </CardTitle>
+                  <span className="text-sm">{bus.stars}</span>
+                  <span className="text-xs">{`(${bus.reviewCount}) reviews`}</span>
+                </div>
               </CardHeader>
               <CardContent>
                 {/* After images work, change this to show all other pictures
