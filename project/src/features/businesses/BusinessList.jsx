@@ -24,9 +24,7 @@ const BusinessList = () => {
     error,
     isLoading,
   } = useGetBusinessListQuery({ category, page: count, limit: 10 });
-  if (data.businesses) {
-    console.log(data.businesses[0]);
-  }
+
   const handleBadgeClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
   };
@@ -49,17 +47,17 @@ const BusinessList = () => {
       </div>
     );
   }
-  return (
-    <div className="flex flex-col items-center">
-      {/* <Button onClick={() => count++}>Click</Button> */}
-      {/* {!data.businesses &&
+  if (data) {
+    return (
+      <div className="flex flex-col items-center">
+        {/* <Button onClick={() => count++}>Click</Button> */}
+        {/* {!data.businesses &&
         Array.from({ length: 10 }).map((_, idx) => (
           <div key={idx} className="mt-4">
             <Skeleton className="mx-4 h-16" />
           </div>
         ))} */}
-      {data.businesses &&
-        data.businesses.map((bus) => (
+        {data.businesses.map((bus) => (
           <NavLink to={`/business/${bus.name}/${bus.id}`}>
             <Card
               key={bus.id}
@@ -67,7 +65,9 @@ const BusinessList = () => {
             >
               <CardHeader>
                 <CardTitle className="text-center">
-                  <span className="text-xl">{bus.name}</span>
+                  <span className="text-xl leading-5 tracking-wide">
+                    {bus.name}
+                  </span>
                 </CardTitle>
                 <div className="flex place-content-center items-center space-x-1.5">
                   <ReactStars
@@ -99,17 +99,20 @@ const BusinessList = () => {
                     {bus.isOpen ? "Open" : "Closed"}
                   </Badge>
                 </div>
-                <div className="flex items-center space-x-1">
+                <div className="mt-2 flex items-center space-x-1">
                   <CircleUser className="mt-2 size-5" />
                   <p className="mt-2 text-xs tracking-tighter text-muted-foreground">
                     @
-                    {bus.Reviews[0].author.username.slice(
-                      0,
-                      bus.Reviews[0].author.username.indexOf("#"),
-                    )}
+                    {
+                      // slice out '#' from username
+                      bus.Reviews[0].author.username.slice(
+                        0,
+                        bus.Reviews[0].author.username.indexOf("#"),
+                      )
+                    }
                   </p>
                 </div>
-                <p className="line-clamp-2 text-xs tracking-tight">
+                <p className="mt-2 line-clamp-2 text-xs tracking-tight">
                   {bus.Reviews[0].text}
                 </p>
               </CardContent>
@@ -130,7 +133,8 @@ const BusinessList = () => {
             </Card>
           </NavLink>
         ))}
-    </div>
-  );
+      </div>
+    );
+  }
 };
 export default BusinessList;

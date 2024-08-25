@@ -4,25 +4,46 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import ReactStars from "react-rating-stars-component";
 import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { CircleUser } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const SingleBusiness = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetBusinessByIdQuery(id);
-  if (data.business) {
+
+  if (isLoading) {
+    return (
+      <div className="py-5">
+        {Array.from({ length: 10 }).map((_, idx) => (
+          <div key={idx} className="mt-4">
+            <Skeleton className="mx-4 h-16" />
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (data) {
     const reviews = data && data.business && data.business.Reviews.slice(0, 10);
+
     console.log("reviews", reviews);
+
     return (
       <div>
-        <Card>
+        <Card className="border-none">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center space-x-2">
-                <span className="text-2xl">{data.business.name}</span>
+                <span className="text-2xl leading-10 tracking-wide">
+                  {data.business.name}
+                </span>
                 <Badge
                   variant="outline"
                   className={`h-fit text-muted ${data.business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
@@ -41,7 +62,7 @@ const SingleBusiness = () => {
               <span>{data.business.stars}</span>
             </div>
           </CardHeader>
-          <CardDescription className="ml-2">
+          <CardDescription className="ml-4">
             {`
             ${data.business.address} 
             ${data.business.city}, 
@@ -50,11 +71,44 @@ const SingleBusiness = () => {
             `}
           </CardDescription>
         </Card>
-          {reviews.map((rev) => (
-            <Card key={rev.id}>
-                <CardContent>{rev.text}</CardContent>
-            </Card>
-          ))}
+        <Separator className="my-2" />
+        <span className="ml-5">{data.business.Reviews.length} reviews</span>
+        {reviews.map((rev) => (
+          <Card key={rev.id}>
+            <CardHeader>
+              <CardTitle>
+                <div className="flex">
+                  <ReactStars
+                    value={rev.stars}
+                    size={18}
+                    edit={false}
+                    isHalf={false}
+                  />
+                  <span className="-mt-0.5 ml-1 text-sm">{rev.stars}</span>
+                </div>
+                <div className="mt-5 flex space-x-1">
+                  <CircleUser className="-mt-0.5 size-5" />
+                  <span className="-mt-1 text-base tracking-wide">
+                    {
+                      // slice out '#' from username
+                      rev.author.username.slice(
+                        0,
+                        rev.author.username.indexOf("#"),
+                      )
+                    }
+                    :
+                  </span>
+                </div>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>{rev.text}</CardContent>
+            <CardFooter>
+              {rev.createdAt
+                .toLocaleString()
+                .slice(0, rev.createdAt.toLocaleString().indexOf("T"))}
+            </CardFooter>
+          </Card>
+        ))}
       </div>
     );
   }
