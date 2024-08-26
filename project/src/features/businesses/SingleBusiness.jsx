@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CircleUser } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import CommentList from "./CommentList";
 
 const SingleBusiness = () => {
   const { id } = useParams();
@@ -100,12 +101,20 @@ const SingleBusiness = () => {
                   </span>
                 </div>
               </CardTitle>
+              <CardDescription>
+                {rev.createdAt
+                  .toLocaleString()
+                  .slice(0, rev.createdAt.toLocaleString().indexOf("T"))}
+              </CardDescription>
             </CardHeader>
             <CardContent>{rev.text}</CardContent>
+            <CardContent>
+              <span className="text-sm font-semibold">
+                comments ({rev.Comments.length})
+              </span>
+            </CardContent>
             <CardFooter>
-              {rev.createdAt
-                .toLocaleString()
-                .slice(0, rev.createdAt.toLocaleString().indexOf("T"))}
+              <CommentList data={rev.Comments} />
             </CardFooter>
           </Card>
         ))}

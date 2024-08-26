@@ -49,7 +49,7 @@ const BusinessList = () => {
   }
   if (data) {
     return (
-      <div className="flex flex-col items-center">
+      <div className="m-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {/* <Button onClick={() => count++}>Click</Button> */}
         {/* {!data.businesses &&
         Array.from({ length: 10 }).map((_, idx) => (
@@ -61,7 +61,7 @@ const BusinessList = () => {
           <NavLink to={`/business/${bus.name}/${bus.id}`}>
             <Card
               key={bus.id}
-              className="mx-10 mt-10 w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
+              className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
             >
               <CardHeader>
                 <CardTitle className="text-center">
@@ -76,7 +76,7 @@ const BusinessList = () => {
                     edit={false}
                     isHalf={true}
                   />
-                  <span className="text-sm">{bus.stars}</span>
+                  <span className="text-sm">{bus.stars.toFixed(1)}</span>
                   <span className="text-xs">{`(${bus.reviewCount}) reviews`}</span>
                 </div>
               </CardHeader>
