@@ -1,0 +1,74 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { api } from "@/app/api";
+import Cookies from "universal-cookie";
+import { jwtDecode } from "jwt-decode";
+
+// initialize cookies
+const cookies = new Cookies();
+// cookies key
+const JWT = "jwt_authorization";
+
+const authApi = api.injectEndpoints({
+  endpoints: (builder) => ({
+    user: builder.query({
+      query: () => "/user",
+      providesTags: ["User"],
+    }),
+    login: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/login",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    register: builder.mutation({
+      query: (credentials) => ({
+        url: "/auth/register",
+        method: "POST",
+        body: credentials,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    logout: builder.mutation({
+      queryFn: () => ({ data: {} }),
+      invalidatesTags: ["User"],
+    }),
+  }),
+});
+// Store payload token in state and set to cookie
+const storeToken = (state, { payload }) => {
+  state.token = payload.token;
+  cookies.set(JWT, payload.token, {
+    expires: new Date(jwtDecode(token) * 1000),
+  });
+};
+
+// store token on login / register success
+const authSlice = createSlice({
+  name: "auth",
+  initialState: {
+    token: cookies.get(JWT),
+  },
+  reducers: {},
+  /* on fulfilled action: store token / remove token
+   *  & match on redux action storeToken for login/register
+   *     matchFulfilled: Matcher<FulfilledAction> */
+  extraReducers: (builder) => {
+    builder.addMatcher(api.endpoints.login.matchFulfilled, storeToken);
+    builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
+    builder.addMatcher(api.endpoints.user.matchFulfilled, (state) => {
+      state.token = null;
+      cookies.remove(JWT);
+    });
+  },
+});
+
+export default authSlice.reducer;
+
+export const {
+  useLoginMutation,
+  useLogoutMutation,
+  useRegisterMutation,
+  useUserQuery,
+} = authApi;
