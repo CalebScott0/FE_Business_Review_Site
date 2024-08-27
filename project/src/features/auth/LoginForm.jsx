@@ -43,7 +43,8 @@ const LoginForm = ({ setError }) => {
 
     return (
       <main>
-        <Form {...form}>
+        <p>Hi</p>
+        {/* <Form {...form}>
           <form onSubmit={form.handleSubmit(tryLogin)} className="space-y-8">
             <FormField
               control={form.control}
@@ -60,7 +61,7 @@ const LoginForm = ({ setError }) => {
             />
             <Button type="submit">Submit</Button>
           </form>
-        </Form>
+        </Form> */}
       </main>
     );
   };
