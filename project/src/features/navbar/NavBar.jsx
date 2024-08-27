@@ -3,6 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
 import CategoryMenu from "./CategoryMenu";
+import SheetDemo from "./LoginSheet";
 import {
   foodAndDrinksArr,
   healthArr,
@@ -45,7 +46,7 @@ const NavBar = () => {
   // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
   return (
-    <div className="mt-2 space-x-2">
+    <nav className="mt-2 space-x-2">
       <Button onClick={() => navigate("/")} className="ml-2">
         <Shell />
         Home
@@ -68,6 +69,7 @@ const NavBar = () => {
       >
         Go
       </Button>
+      <SheetDemo />
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">
@@ -116,7 +118,7 @@ const NavBar = () => {
           </Button>
         ))}
       </div>
-    </div>
+    </nav>
   );
 };
 export default NavBar;

@@ -49,7 +49,7 @@ const BusinessList = () => {
   }
   if (data) {
     return (
-      <div className="m-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <main className="m-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
         {/* <Button onClick={() => count++}>Click</Button> */}
         {/* {!data.businesses &&
         Array.from({ length: 10 }).map((_, idx) => (
@@ -133,7 +133,7 @@ const BusinessList = () => {
             </Card>
           </NavLink>
         ))}
-      </div>
+      </main>
     );
   }
 };

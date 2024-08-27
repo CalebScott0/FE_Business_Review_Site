@@ -18,7 +18,11 @@ import CommentList from "./CommentList";
 const SingleBusiness = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetBusinessByIdQuery(id);
-
+  const bus = [
+    {
+      name: "yuh",
+    },
+  ];
   if (isLoading) {
     return (
       <div className="py-5">
@@ -32,12 +36,10 @@ const SingleBusiness = () => {
   }
 
   if (data) {
-    const reviews = data && data.business && data.business.Reviews.slice(0, 10);
-
-    console.log("reviews", reviews);
+    const reviews = data.business?.Reviews?.slice(0, 10);
 
     return (
-      <div>
+      <main>
         <Card className="border-none">
           <CardHeader>
             <CardTitle>
@@ -74,7 +76,7 @@ const SingleBusiness = () => {
         </Card>
         <Separator className="my-2" />
         <span className="ml-5">{data.business.Reviews.length} reviews</span>
-        {reviews.map((rev) => (
+        {reviews?.map((rev) => (
           <Card key={rev.id}>
             <CardHeader>
               <CardTitle>
@@ -118,7 +120,7 @@ const SingleBusiness = () => {
             </CardFooter>
           </Card>
         ))}
-      </div>
+      </main>
     );
   }
 };
