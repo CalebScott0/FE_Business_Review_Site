@@ -10,7 +10,7 @@ const JWT = "jwt_authorization";
 
 const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    user: builder.query({
+    getUser: builder.query({
       query: () => "/user",
       providesTags: ["User"],
     }),
@@ -38,10 +38,18 @@ const authApi = api.injectEndpoints({
 });
 // Store payload token in state and set to cookie
 const storeToken = (state, { payload }) => {
+  // Decode jwt token
+  const decoded = jwtDecode(payload.token);
+
   state.token = payload.token;
+  // set cookies with expiration date
   cookies.set(JWT, payload.token, {
-    expires: new Date(jwtDecode(token) * 1000),
+    httpOnly: true,
+    expires: new Date(decoded.exp * 1000),
   });
+  // , {
+  // expires: new Date(decoded.exp * 1000),
+  // });
 };
 
 // store token on login / register success
@@ -57,7 +65,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder.addMatcher(api.endpoints.login.matchFulfilled, storeToken);
     builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
-    builder.addMatcher(api.endpoints.user.matchFulfilled, (state) => {
+    builder.addMatcher(api.endpoints.logout.matchFulfilled, (state) => {
       state.token = null;
       cookies.remove(JWT);
     });
@@ -70,5 +78,5 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
-  useUserQuery,
+  useGetUserQuery,
 } = authApi;

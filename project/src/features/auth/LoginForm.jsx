@@ -26,44 +26,60 @@ const LoginForm = ({ setError }) => {
 
   const form = useForm({
     resolver: zodResolver(schema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
   });
 
-  const tryLogin = async (event, values) => {
-    event.preventDefault();
+  const tryLogin = async (values) => {
     setError(null);
 
     try {
       setLoading(true);
-      //   await login(values).unwrap();
-      console.log(values);
+      const x = await login(values);
+      console.log(x);
     } catch (error) {
       setLoading(false);
       setError(error.data);
+      console.log("error", error);
     }
-
-    return (
-      <main>
-        <p>Hi</p>
-        {/* <Form {...form}>
-          <form onSubmit={form.handleSubmit(tryLogin)} className="space-y-8">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Username..." {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Submit</Button>
-          </form>
-        </Form> */}
-      </main>
-    );
   };
+
+  return (
+    <main>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(tryLogin)} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="Username" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input placeholder="Password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit">Log in</Button>
+        </form>
+      </Form>
+    </main>
+  );
 };
 export default LoginForm;

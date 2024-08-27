@@ -3,7 +3,8 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
 import CategoryMenu from "./CategoryMenu";
-import SheetDemo from "./LoginSheet";
+import LoginSheet from "./LoginSheet";
+// import LogoutButton from "../auth/LogoutButton";
 import {
   foodAndDrinksArr,
   healthArr,
@@ -15,8 +16,11 @@ import { HeartPulse, Layers, Sandwich, Shell, Wrench } from "lucide-react";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
+  const TOKEN = useSelector((state) => state.auth.token);
+  console.log("TOKEN", TOKEN);
   // category name set by category selection
   const [category, setCategory] = useState("");
   // value for category search box, reset on go button click
@@ -69,7 +73,8 @@ const NavBar = () => {
       >
         Go
       </Button>
-      <SheetDemo />
+      {/* {TOKEN ? <LogoutButton /> : } */}
+      <LoginSheet />
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">
