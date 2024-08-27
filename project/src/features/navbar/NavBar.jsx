@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
 import CategoryMenu from "./CategoryMenu";
 import LoginSheet from "./LoginSheet";
-// import LogoutButton from "../auth/LogoutButton";
+import LogoutButton from "../auth/LogoutButton";
 import {
   foodAndDrinksArr,
   healthArr,
@@ -75,6 +75,7 @@ const NavBar = () => {
       </Button>
       {/* {TOKEN ? <LogoutButton /> : } */}
       <LoginSheet />
+      <LogoutButton />
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">

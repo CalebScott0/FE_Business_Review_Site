@@ -9,4 +9,4 @@ const LogoutButton = () => {
   };
   return <Button onClick={handleLogout}>Logout</Button>;
 };
-export default LogoutButton();
+export default LogoutButton;

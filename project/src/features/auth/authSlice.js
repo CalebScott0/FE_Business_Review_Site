@@ -40,16 +40,14 @@ const authApi = api.injectEndpoints({
 const storeToken = (state, { payload }) => {
   // Decode jwt token
   const decoded = jwtDecode(payload.token);
-
+  console.log("decoded", decoded);
   state.token = payload.token;
   // set cookies with expiration date
   cookies.set(JWT, payload.token, {
+    path: "/",
     httpOnly: true,
-    expires: new Date(decoded.exp * 1000),
+    expires: new Date(decoded.expiresIn * 1000),
   });
-  // , {
-  // expires: new Date(decoded.exp * 1000),
-  // });
 };
 
 // store token on login / register success
