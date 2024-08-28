@@ -37,8 +37,7 @@ const LoginForm = ({ setError }) => {
 
     try {
       setLoading(true);
-      const x = await login(values);
-      console.log(x);
+      await login(values).unwrap();
     } catch (error) {
       setLoading(false);
       setError(error.data);

@@ -3,7 +3,7 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
 import CategoryMenu from "./CategoryMenu";
-import LoginSheet from "./LoginSheet";
+import LoginButton from "./LoginSheet";
 import LogoutButton from "../auth/LogoutButton";
 import {
   foodAndDrinksArr,
@@ -20,7 +20,6 @@ import { useSelector } from "react-redux";
 
 const NavBar = () => {
   const TOKEN = useSelector((state) => state.auth.token);
-  console.log("TOKEN", TOKEN);
   // category name set by category selection
   const [category, setCategory] = useState("");
   // value for category search box, reset on go button click
@@ -73,9 +72,7 @@ const NavBar = () => {
       >
         Go
       </Button>
-      {/* {TOKEN ? <LogoutButton /> : } */}
-      <LoginSheet />
-      <LogoutButton />
+      {TOKEN ? <LogoutButton /> : <LoginButton />}
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">

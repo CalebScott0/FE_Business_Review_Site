@@ -14,13 +14,13 @@ import {
 import { useState } from "react";
 import LoginForm from "../auth/LoginForm";
 
-const SheetDemo = () => {
+const LoginButton = () => {
   const [error, setError] = useState(null);
 
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline">Login</Button>
+        <Button>Login</Button>
       </SheetTrigger>
       <SheetContent>
         <SheetHeader>
@@ -32,4 +32,4 @@ const SheetDemo = () => {
     </Sheet>
   );
 };
-export default SheetDemo;
+export default LoginButton;
