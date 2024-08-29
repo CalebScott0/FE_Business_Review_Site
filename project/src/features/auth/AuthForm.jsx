@@ -52,13 +52,10 @@ const AuthForm = ({ location }) => {
     PATH === "/login" ? "Not signed up yet?" : "Already have an account?";
 
   const form = useForm({
-    resolver: zodResolver(schema || partialSchema),
+    resolver: zodResolver(schema),
     defaultValues: {
       username: "",
       password: "",
-      firstname: "",
-      lastname: "",
-      email: "",
     },
   });
 
@@ -127,52 +124,6 @@ const AuthForm = ({ location }) => {
                   </FormItem>
                 )}
               />
-              {/* {PATH === "/register" && (
-                <div>
-                  <div className="flex justify-between space-x-2">
-                    <FormField
-                      control={form.control}
-                      name="firstname"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Firstname</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Firstname" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Separator orientation="vertical" className="mt-8 h-10" />
-                    <FormField
-                      control={form.control}
-                      name="lastname"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Lastname</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Lastname" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  <FormField
-                    control={form.control}
-                    name="email"
-                    render={({ field }) => (
-                      <FormItem className="mt-4">
-                        <FormLabel>Email</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Email" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              )} */}
               <Button type="submit">{authType}</Button>
             </form>
           </Form>
