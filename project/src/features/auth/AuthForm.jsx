@@ -22,20 +22,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 
 const schema = z.object({
   username: z.string().min(1, { message: "Required" }),
   password: z.string().min(1, { message: "Required" }),
-  // firstname: z.string(),
-  // lastname: z.string(),
-  // email: z.string().email(),
 });
-// // const partialSchema = schema.partial({
-// //   firstname: true,
-// //   lastname: true,
-// //   email: true,
-// });
 
 const AuthForm = ({ location }) => {
   const navigate = useNavigate();

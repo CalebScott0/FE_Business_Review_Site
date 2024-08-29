@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CircleUser } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import CommentList from "../CommentList";
+import CommentList from "./CommentList";
 
 const SingleBusiness = () => {
   const { id } = useParams();
