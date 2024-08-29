@@ -27,15 +27,15 @@ import { Separator } from "@/components/ui/separator";
 const schema = z.object({
   username: z.string().min(1, { message: "Required" }),
   password: z.string().min(1, { message: "Required" }),
-  firstname: z.string(),
-  lastname: z.string(),
-  email: z.string().email(),
+  // firstname: z.string(),
+  // lastname: z.string(),
+  // email: z.string().email(),
 });
-const partialSchema = schema.partial({
-  firstname: true,
-  lastname: true,
-  email: true,
-});
+// // const partialSchema = schema.partial({
+// //   firstname: true,
+// //   lastname: true,
+// //   email: true,
+// });
 
 const AuthForm = ({ location }) => {
   const navigate = useNavigate();
@@ -52,7 +52,7 @@ const AuthForm = ({ location }) => {
     PATH === "/login" ? "Not signed up yet?" : "Already have an account?";
 
   const form = useForm({
-    resolver: zodResolver(partialSchema),
+    resolver: zodResolver(schema || partialSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -76,6 +76,8 @@ const AuthForm = ({ location }) => {
     }
   };
   const handleClick = () => {
+    form.reset();
+    setError(null);
     navigate(PATH === "/login" ? "/register" : "/login");
   };
 
@@ -84,7 +86,7 @@ const AuthForm = ({ location }) => {
       <Button onClick={() => navigate("/")}>Home</Button>
       <Card className="mx-auto mt-10 max-w-md">
         <CardHeader>
-          <CardTitle>
+          <CardTitle className="tracking-wide">
             {PATH === "/login" ? "Log in to your Account" : "Create an Account"}
           </CardTitle>
         </CardHeader>
@@ -125,45 +127,60 @@ const AuthForm = ({ location }) => {
                   </FormItem>
                 )}
               />
-              <Separator />
-              {PATH === "/register" && (
-                <div className="flex space-x-2">
+              {/* {PATH === "/register" && (
+                <div>
+                  <div className="flex justify-between space-x-2">
+                    <FormField
+                      control={form.control}
+                      name="firstname"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Firstname</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Firstname" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Separator orientation="vertical" className="mt-8 h-10" />
+                    <FormField
+                      control={form.control}
+                      name="lastname"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Lastname</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Lastname" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                   <FormField
                     control={form.control}
-                    name="firstname"
+                    name="email"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Firstname</FormLabel>
+                      <FormItem className="mt-4">
+                        <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input placeholder="Firstname" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Separator orientation="vertical" className="mt-8 h-10" />
-
-                  <FormField
-                    control={form.control}
-                    name="lastname"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Lastname</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Lastname" {...field} />
+                          <Input placeholder="Email" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
                 </div>
-              )}
+              )} */}
               <Button type="submit">{authType}</Button>
             </form>
           </Form>
+          <p className="mt-2 tracking-wide text-destructive">
+            {error && error}
+          </p>
         </CardContent>
         <CardFooter>
-          <p>{error && error}</p>
           <p>
             {changeAuthText}{" "}
             <span
