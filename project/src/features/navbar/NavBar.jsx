@@ -3,7 +3,6 @@ import { Separator } from "@/components/ui/separator";
 import { useNavigate } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
 import CategoryMenu from "./CategoryMenu";
-import LoginButton from "./LoginSheet";
 import LogoutButton from "../auth/LogoutButton";
 import {
   foodAndDrinksArr,
@@ -17,6 +16,7 @@ import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import AuthLinks from "./AuthLinks";
 
 const NavBar = () => {
   const TOKEN = useSelector((state) => state.auth.token);
@@ -72,7 +72,7 @@ const NavBar = () => {
       >
         Go
       </Button>
-      {TOKEN ? <LogoutButton /> : <LoginButton />}
+      {TOKEN ? <LogoutButton /> : <AuthLinks />}
       <ModeToggle />
       <Separator className="mt-2" />
       <div className="ml-0.5 flex">

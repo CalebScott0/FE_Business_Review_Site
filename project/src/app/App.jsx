@@ -4,18 +4,29 @@ import HomePage from "@/features/HomePage";
 import BusinessList from "@/features/businesses/BusinessList";
 import SingleBusiness from "@/features/businesses/SingleBusiness";
 import { Route, Routes } from "react-router-dom";
+import AuthForm from "@/features/auth/AuthForm";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const App = () => {
+  const location = useLocation();
+
+  // console.log("isRegister", isRegister);
   /* categoryIwill be set in SearchCategories component,
    used to filter and render businesses */
-
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
-      <NavBar />
+      {/* Hide navbar in auth */}
+      {location.pathname !== "/login" && location.pathname !== "/register" && (
+        <NavBar />
+      )}
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/businesses/:category" element={<BusinessList />} />
         <Route path="/business/:name/:id" element={<SingleBusiness />} />
+        {/* google better way to do the below location pathname?*/}
+        <Route path="/login" element={<AuthForm location={location} />} />
+        <Route path="/register" element={<AuthForm location={location} />} />
         {/* Add 404 route for "/*"" */}
       </Routes>
     </ThemeProvider>
