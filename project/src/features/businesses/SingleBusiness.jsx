@@ -18,11 +18,7 @@ import CommentList from "../CommentList";
 const SingleBusiness = () => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetBusinessByIdQuery(id);
-  const bus = [
-    {
-      name: "yuh",
-    },
-  ];
+
   if (isLoading) {
     return (
       <div className="py-5">

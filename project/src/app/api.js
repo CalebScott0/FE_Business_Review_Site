@@ -9,11 +9,11 @@ export const api = createApi({
   baseQuery: fetchBaseQuery({
     baseUrl: "http://localhost:8080/api",
     // if exists, grab token from auth slice & set header
-    //   prepareHeaders: (headers, { getState }) => {
-    //     const token = getState().auth.token;
-    //     token && headers.set("authorization", `Bearer ${token}`);
-    //     return headers;
-    //   },
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+      token && headers.set("authorization", `Bearer ${token}`);
+      return headers;
+    },
   }),
   endpoints: () => ({}),
 });

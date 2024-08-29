@@ -10,7 +10,7 @@ const JWT = "jwt_authorization";
 
 const authApi = api.injectEndpoints({
   endpoints: (builder) => ({
-    getUser: builder.query({
+    getMe: builder.query({
       query: () => "/user",
       providesTags: ["User"],
     }),
@@ -75,5 +75,5 @@ export const {
   useLoginMutation,
   useLogoutMutation,
   useRegisterMutation,
-  useGetUserQuery,
+  useGetMeQuery,
 } = authApi;

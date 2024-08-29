@@ -67,6 +67,7 @@ const AuthForm = ({ location }) => {
     try {
       setLoading(true);
       await authMethod(values).unwrap();
+      navigate("/profile");
     } catch (error) {
       setLoading(false);
       setError(error.data.message);

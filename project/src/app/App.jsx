@@ -5,8 +5,8 @@ import BusinessList from "@/features/businesses/BusinessList";
 import SingleBusiness from "@/features/businesses/SingleBusiness";
 import { Route, Routes } from "react-router-dom";
 import AuthForm from "@/features/auth/AuthForm";
-import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import ProfilePage from "@/features/ProfilePage";
 
 const App = () => {
   const location = useLocation();
@@ -27,6 +27,7 @@ const App = () => {
         {/* google better way to do the below location pathname?*/}
         <Route path="/login" element={<AuthForm location={location} />} />
         <Route path="/register" element={<AuthForm location={location} />} />
+        <Route path="/profile" element={<ProfilePage />} />
         {/* Add 404 route for "/*"" */}
       </Routes>
     </ThemeProvider>
