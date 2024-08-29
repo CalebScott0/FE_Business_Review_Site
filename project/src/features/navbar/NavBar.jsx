@@ -74,7 +74,7 @@ const NavBar = () => {
       </Button>
       {TOKEN ? <LogoutButton /> : <AuthLinks />}
       <ModeToggle />
-      <Separator className="mt-2" />
+      <Separator className="my-2" />
       <div className="ml-0.5 flex">
         <NavigationMenu>
           <CategoryMenu

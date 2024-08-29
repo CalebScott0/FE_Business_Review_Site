@@ -10,7 +10,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useLoginMutation, useRegisterMutation } from "./authSlice";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -22,10 +22,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 const schema = z.object({
   username: z.string().min(1, { message: "Required" }),
   password: z.string().min(1, { message: "Required" }),
+  firstname: z.string(),
+  lastname: z.string(),
+  email: z.string().email(),
+});
+const partialSchema = schema.partial({
+  firstname: true,
+  lastname: true,
+  email: true,
 });
 
 const AuthForm = ({ location }) => {
@@ -43,19 +52,24 @@ const AuthForm = ({ location }) => {
     PATH === "/login" ? "Not signed up yet?" : "Already have an account?";
 
   const form = useForm({
-    resolver: zodResolver(schema),
+    resolver: zodResolver(partialSchema),
     defaultValues: {
       username: "",
       password: "",
+      firstname: "",
+      lastname: "",
+      email: "",
     },
   });
 
   const tryAuth = async (values, e) => {
     e.preventDefault();
     setError(null);
+
+    const authMethod = PATH === "/login" ? login : register;
     try {
       setLoading(true);
-      await login(values).unwrap();
+      await authMethod(values).unwrap();
     } catch (error) {
       setLoading(false);
       setError(error.data.message);
@@ -66,7 +80,7 @@ const AuthForm = ({ location }) => {
   };
 
   return (
-    <>
+    <div>
       <Button onClick={() => navigate("/")}>Home</Button>
       <Card className="mx-auto mt-10 max-w-md">
         <CardHeader>
@@ -111,6 +125,39 @@ const AuthForm = ({ location }) => {
                   </FormItem>
                 )}
               />
+              <Separator />
+              {PATH === "/register" && (
+                <div className="flex space-x-2">
+                  <FormField
+                    control={form.control}
+                    name="firstname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Firstname</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Firstname" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Separator orientation="vertical" className="mt-8 h-10" />
+
+                  <FormField
+                    control={form.control}
+                    name="lastname"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Lastname</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Lastname" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              )}
               <Button type="submit">{authType}</Button>
             </form>
           </Form>
@@ -128,7 +175,7 @@ const AuthForm = ({ location }) => {
           </p>
         </CardFooter>
       </Card>
-    </>
+    </div>
   );
 };
 export default AuthForm;
