@@ -16,7 +16,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import CommentList from "./CommentList";
 import ReviewButton from "../reviews/ReviewButton";
 
-const SingleBusiness = ({ TOKEN }) => {
+const SingleBusiness = ({ TOKEN, USERID }) => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetBusinessByIdQuery(id);
 
@@ -33,6 +33,12 @@ const SingleBusiness = ({ TOKEN }) => {
   }
 
   if (data) {
+    if (data.business?.Reviews) {
+      const review = data.business.Reviews.find(
+        (rev) => rev.authorId === USERID,
+      );
+      console.log("user review", review);
+    }
     const reviews = data.business?.Reviews?.slice(0, 10);
 
     return (

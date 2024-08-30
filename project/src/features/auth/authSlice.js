@@ -41,6 +41,7 @@ const storeToken = (state, { payload }) => {
   // Decode jwt token
   const decoded = jwtDecode(payload.token);
   state.token = payload.token;
+  state.userId = decoded.id;
   // set cookies with expiration date
   cookies.set(JWT, payload.token, {
     path: "/",
@@ -54,6 +55,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: cookies.get(JWT),
+    userId: "",
   },
   reducers: {},
   /* on fulfilled action: store token / remove token

@@ -8,6 +8,10 @@ const reviewApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Business", id: arg.id },
+        "User",
+      ],
     }),
   }),
 });

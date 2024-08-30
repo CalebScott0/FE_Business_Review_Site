@@ -1,6 +1,6 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { Separator } from "@/components/ui/separator";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
 import CategoryMenu from "./CategoryMenu";
 import LogoutButton from "../auth/LogoutButton";
@@ -49,10 +49,12 @@ const NavBar = ({ TOKEN }) => {
   return (
     <nav className="mt-2 space-x-2">
       <div className="flex items-center space-x-10">
-        <Button onClick={() => navigate("/")} className="ml-2">
-          <Shell />
-          Home
-        </Button>
+        <NavLink to="/">
+          <Button className="ml-2">
+            <Shell />
+            Home
+          </Button>
+        </NavLink>
         {/* Have to filter by location before any search allowed */}
         <SearchCategories
           setCategory={setCategory}
@@ -73,6 +75,11 @@ const NavBar = ({ TOKEN }) => {
         </Button>
         <ModeToggle />
         {TOKEN ? <LogoutButton /> : <AuthLinks />}
+        {TOKEN && (
+          <NavLink to="/profile">
+            <Button>Profile</Button>
+          </NavLink>
+        )}
       </div>
       <Separator className="my-2" />
       <div className="ml-0.5 flex">

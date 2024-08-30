@@ -7,9 +7,12 @@ const businessSlice = api.injectEndpoints({
     getBusinessList: builder.query({
       query: ({ category, page, limit }) =>
         `/businesses/category/${category}?page=${page}&limit=${limit}`,
+      providesTags: (result, error, arg) =>
+        result ? { type: "Business", id } : ["Business"],
     }),
     getBusinessById: builder.query({
       query: (id) => `/businesses/${id}`,
+      providesTags: (result, error, id) => [{ type: "Business", id }],
     }),
   }),
 });

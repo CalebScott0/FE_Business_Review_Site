@@ -15,7 +15,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useGetCategoriesQuery } from "./categoryslice";
+import { useGetCategoriesQuery } from "./categorySlice";
 
 const SearchCategories = ({ setCategory, value, setValue }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();

@@ -13,10 +13,8 @@ import { useSelector } from "react-redux";
 const App = () => {
   const location = useLocation();
   const TOKEN = useSelector((state) => state.auth.token);
+  const USERID = useSelector((state) => state.auth.userId);
 
-  // console.log("isRegister", isRegister);
-  /* categoryIwill be set in SearchCategories component,
-   used to filter and render businesses */
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       {/* Hide navbar in auth */}
@@ -28,7 +26,7 @@ const App = () => {
         <Route path="/businesses/:category" element={<BusinessList />} />
         <Route
           path="/business/:name/:id"
-          element={<SingleBusiness TOKEN={TOKEN} />}
+          element={<SingleBusiness TOKEN={TOKEN} USERID={USERID} />}
         />
         {/* google better way to do the below location pathname?*/}
         <Route path="/login" element={<AuthForm location={location} />} />
