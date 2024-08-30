@@ -3,11 +3,20 @@ import { NavLink } from "react-router-dom";
 
 const AuthLinks = () => {
   return (
-    <div>
+    <div className="flex items-center space-x-2">
       <Button>
-        <NavLink to="/login">Login</NavLink>
+        <NavLink to="/login">Log in</NavLink>
       </Button>
-      <NavLink to="/register">Create an account.</NavLink>
+      <div>
+        Need to create an account?
+        <NavLink
+          to="/register"
+          className="text-zinc-600 hover:text-zinc-500 dark:text-zinc-400 hover:dark:text-zinc-300"
+        >
+          {" "}
+          Sign up.
+        </NavLink>
+      </div>
     </div>
   );
 };

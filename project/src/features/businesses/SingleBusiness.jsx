@@ -14,8 +14,9 @@ import { Separator } from "@/components/ui/separator";
 import { CircleUser } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import CommentList from "./CommentList";
+import ReviewButton from "../reviews/ReviewButton";
 
-const SingleBusiness = () => {
+const SingleBusiness = ({ TOKEN }) => {
   const { id } = useParams();
   const { data, error, isLoading } = useGetBusinessByIdQuery(id);
 
@@ -58,7 +59,7 @@ const SingleBusiness = () => {
                 edit={false}
                 isHalf={true}
               />
-              <span>{data.business.stars}</span>
+              <span>{data.business.stars.toFixed(1)}</span>
             </div>
           </CardHeader>
           <CardDescription className="ml-4">
@@ -69,6 +70,13 @@ const SingleBusiness = () => {
             ${data.business.zipCode}
             `}
           </CardDescription>
+          <CardFooter>
+            <ReviewButton
+              businessName={data.business.name}
+              businessId={id}
+              TOKEN={TOKEN}
+            />
+          </CardFooter>
         </Card>
         <Separator className="my-2" />
         <span className="ml-5">{data.business.Reviews.length} reviews</span>

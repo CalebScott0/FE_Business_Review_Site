@@ -27,7 +27,10 @@ const Commentlist = ({ data }) => {
         </div>
         <CollapsibleContent className="space-y-2">
           {data.slice(1).map((item) => (
-            <div className="rounded-md border px-4 py-2 text-sm shadow-sm">
+            <div
+              key={item.id}
+              className="rounded-md border px-4 py-2 text-sm shadow-sm"
+            >
               {item.text}
             </div>
           ))}

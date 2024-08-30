@@ -35,7 +35,7 @@ const AuthForm = ({ location }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const PATH = location.pathname;
+  const PATH = location.pathname || "/login";
 
   const authType = PATH === "/login" ? "Log in" : "Register";
   const oppAuthType = PATH !== "/login" ? "Log in" : "Create an account";
@@ -53,12 +53,11 @@ const AuthForm = ({ location }) => {
   const tryAuth = async (values, e) => {
     e.preventDefault();
     setError(null);
-
     const authMethod = PATH === "/login" ? login : register;
     try {
       setLoading(true);
       await authMethod(values).unwrap();
-      navigate("/profile");
+      navigate(-1);
     } catch (error) {
       setLoading(false);
       setError(error.data.message);
@@ -116,7 +115,9 @@ const AuthForm = ({ location }) => {
                   </FormItem>
                 )}
               />
-              <Button type="submit">{authType}</Button>
+              <Button type="submit" className="w-full">
+                {authType}
+              </Button>
             </form>
           </Form>
           <p className="mt-2 tracking-wide text-destructive">

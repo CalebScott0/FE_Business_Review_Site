@@ -15,11 +15,9 @@ import { HeartPulse, Layers, Sandwich, Shell, Wrench } from "lucide-react";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
-import { useSelector } from "react-redux";
 import AuthLinks from "./AuthLinks";
 
-const NavBar = () => {
-  const TOKEN = useSelector((state) => state.auth.token);
+const NavBar = ({ TOKEN }) => {
   // category name set by category selection
   const [category, setCategory] = useState("");
   // value for category search box, reset on go button click
@@ -50,30 +48,32 @@ const NavBar = () => {
   //  or just set a default location?
   return (
     <nav className="mt-2 space-x-2">
-      <Button onClick={() => navigate("/")} className="ml-2">
-        <Shell />
-        Home
-      </Button>
-      {/* Have to filter by location before any search allowed */}
-      <SearchCategories
-        setCategory={setCategory}
-        value={value}
-        setValue={setValue}
-      />{" "}
-      OR
-      {/* put another search for business names here */}
-      <Button
-        size="icon"
-        // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
-        // Reset combobox on click
-        onClick={() => {
-          category && handleClick(category);
-        }}
-      >
-        Go
-      </Button>
-      {TOKEN ? <LogoutButton /> : <AuthLinks />}
-      <ModeToggle />
+      <div className="flex items-center space-x-10">
+        <Button onClick={() => navigate("/")} className="ml-2">
+          <Shell />
+          Home
+        </Button>
+        {/* Have to filter by location before any search allowed */}
+        <SearchCategories
+          setCategory={setCategory}
+          value={value}
+          setValue={setValue}
+        />{" "}
+        <span className="">OR</span>
+        {/* put another search for business names here */}
+        <Button
+          size="sm"
+          // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
+          // Reset combobox on click
+          onClick={() => {
+            category && handleClick(category);
+          }}
+        >
+          Go
+        </Button>
+        <ModeToggle />
+        {TOKEN ? <LogoutButton /> : <AuthLinks />}
+      </div>
       <Separator className="my-2" />
       <div className="ml-0.5 flex">
         <NavigationMenu>
