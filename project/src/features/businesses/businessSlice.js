@@ -12,7 +12,7 @@ const businessSlice = api.injectEndpoints({
     }),
     getBusinessById: builder.query({
       query: (id) => `/businesses/${id}`,
-      providesTags: (result) => providesId("Business"),
+      providesTags: () => providesId("Business"),
       // providesTags: (result, error, id) => [{ type: "Business", id }],
     }),
   }),
