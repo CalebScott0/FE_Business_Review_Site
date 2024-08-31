@@ -7,7 +7,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   Form,
   FormControl,
@@ -32,14 +32,16 @@ const schema = z.object({
   text: z.string().min(1, { message: "Required" }),
 });
 
-const ReviewForm = ({ TOKEN }) => {
-  const { businessName, businessId } = useParams();
+const ReviewForm = ({ TOKEN, isEdit }) => {
+  const { name, businessId, reviewId } = useParams();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [createReview] = useCreateReviewMutation();
+  const { state } = useLocation();
+
   // prevent user from accessing page without token
   useEffect(() => {
-    !TOKEN && navigate("/");
+    !TOKEN && !isEdit && navigate("/");
   }, [TOKEN]);
 
   const form = useForm({
@@ -49,13 +51,21 @@ const ReviewForm = ({ TOKEN }) => {
       text: "",
     },
   });
-  const handleReview = async (values, e) => {
+
+  // set form values if review form is accessed in edit mode
+  const stars = state?.stars;
+  const text = state?.text;
+
+  stars && form.setValue("stars", stars);
+  text && form.setValue("text", text);
+
+  const handleCreateReview = async (values, e) => {
     e.preventDefault();
     setError(null);
 
     try {
       await createReview({ businessId, body: values }).unwrap();
-      navigate(`/business/${businessName}/${businessId}`);
+      navigate(`/business/${name}/${businessId}`);
     } catch (error) {
       setError(error.data.message);
     }
@@ -65,13 +75,13 @@ const ReviewForm = ({ TOKEN }) => {
     <Card className="mx-auto w-full max-w-2xl rounded-none">
       <CardHeader>
         <CardTitle className="tracking-wide">
-          Write a Review for {businessName}
+          {`${!isEdit ? "Write a" : "Edit"} Review for ${name}`}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleReview)}
+            onSubmit={form.handleSubmit(handleCreateReview)}
             className="space-y-8"
           >
             <FormField
@@ -80,12 +90,7 @@ const ReviewForm = ({ TOKEN }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
-                    <ReactStars
-                      value={form.formState.defaultValues.stars}
-                      isHalf={false}
-                      size={26}
-                      {...field}
-                    />
+                    <ReactStars isHalf={false} size={26} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -112,11 +117,18 @@ const ReviewForm = ({ TOKEN }) => {
             </p>
             <CardFooter>
               {!form.formState.isSubmitting && (
-                <Button type="submit" className="mx-auto w-full max-w-52">
-                  Submit Review
-                </Button>
+                <>
+                  {isEdit && (
+                    <Button onClick={() => navigate(-1)}>Go Back</Button>
+                  )}
+                  <Button type="submit" className="mx-auto w-full max-w-52">
+                    {`${!isEdit ? "Submit" : "Edit"} Review`}
+                  </Button>
+                </>
               )}
-              {form.formState.isSubmitting && <p>Creating review...</p>}
+              {form.formState.isSubmitting && (
+                <p>{`${!isEdit ? "Creating" : "Editing"} review...`}</p>
+              )}
             </CardFooter>
           </form>
         </Form>

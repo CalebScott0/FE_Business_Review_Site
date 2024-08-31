@@ -1,4 +1,5 @@
 import { api } from "@/app/api";
+import { providesList, providesId } from "../../app/api";
 const businessSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getBusinesses: builder.query({
@@ -7,12 +8,12 @@ const businessSlice = api.injectEndpoints({
     getBusinessList: builder.query({
       query: ({ category, page, limit }) =>
         `/businesses/category/${category}?page=${page}&limit=${limit}`,
-      providesTags: (result, error, arg) =>
-        result ? { type: "Business", id } : ["Business"],
+      providesTags: (result) => providesList(result.businesses, "Business"),
     }),
     getBusinessById: builder.query({
       query: (id) => `/businesses/${id}`,
-      providesTags: (result, error, id) => [{ type: "Business", id }],
+      providesTags: (result) => providesId("Business"),
+      // providesTags: (result, error, id) => [{ type: "Business", id }],
     }),
   }),
 });

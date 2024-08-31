@@ -3,16 +3,23 @@ import { useNavigate } from "react-router-dom";
 import LoginPopupForm from "../auth/LoginPopupForm";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 
-const ReviewButton = ({ businessName, businessId, TOKEN }) => {
+const ReviewButton = ({ name, businessId, TOKEN, setIsEditReview }) => {
   const navigate = useNavigate();
+  // make sure review form is in create mode
   const handleClick = () => {
-    navigate(`/business/${businessName}/createreview/${businessId}`);
+    setIsEditReview(false);
+    navigate(`/business/${name}/createreview/${businessId}`);
   };
   if (!TOKEN) {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="outline">Leave a Review</Button>
+          <Button
+            variant="outline"
+            className="bg-gray-500 text-muted hover:bg-gray-400 hover:text-muted"
+          >
+            Leave a Review
+          </Button>
         </DialogTrigger>
         <LoginPopupForm />
       </Dialog>

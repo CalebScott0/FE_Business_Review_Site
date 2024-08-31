@@ -1,4 +1,5 @@
 import { api } from "@/app/api";
+import { invalidatesId } from "@/app/api";
 
 const reviewApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -8,10 +9,15 @@ const reviewApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        "User",
-      ],
+      invalidatesTags: () => invalidatesId("Business"),
+    }),
+    updateReview: builder.mutation({
+      query: ({ reviewId, body }) => ({
+        url: `/review/${reviewId}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: () => invalidatesId("Business"),
     }),
   }),
 });

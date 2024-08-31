@@ -62,11 +62,8 @@ const BusinessList = () => {
           </div>
         ))} */}
           {data.businesses.map((bus) => (
-            <NavLink to={`/business/${bus.name}/${bus.id}`}>
-              <Card
-                key={bus.id}
-                className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
-              >
+            <NavLink to={`/business/${bus.name}/${bus.id}`} key={bus.id}>
+              <Card className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
                 <CardHeader>
                   <CardTitle className="text-center">
                     <span className="text-xl leading-5 tracking-wide">
@@ -126,10 +123,13 @@ const BusinessList = () => {
                     // MAKE THESE VARIOUS COLORS
                     // (Array of colors in tailwind class syntax w/ random in badge classname?)
                     <Badge
-                      className="cursor-pointer font-normal leading-3"
+                      key={item.id}
+                      className="cursor-pointer"
                       onClick={() => handleBadgeClick(item.categoryName)}
                     >
-                      {item.categoryName}
+                      <span className="font-normal leading-3">
+                        {item.categoryName}
+                      </span>
                     </Badge>
                   ))}
                 </CardDescription>

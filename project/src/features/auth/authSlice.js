@@ -42,10 +42,12 @@ const storeToken = (state, { payload }) => {
   const decoded = jwtDecode(payload.token);
   state.token = payload.token;
   state.userId = decoded.id;
+
+  localStorage.setItem("USER_ID", decoded.id);
   // set cookies with expiration date
   cookies.set(JWT, payload.token, {
     path: "/",
-    httpOnly: true,
+    // httpOnly: true,
     expires: new Date(decoded.exp * 1000),
   });
 };
@@ -55,7 +57,7 @@ const authSlice = createSlice({
   name: "auth",
   initialState: {
     token: cookies.get(JWT),
-    userId: "",
+    userId: localStorage.getItem("USER_ID"),
   },
   reducers: {},
   /* on fulfilled action: store token / remove token
@@ -66,7 +68,9 @@ const authSlice = createSlice({
     builder.addMatcher(api.endpoints.register.matchFulfilled, storeToken);
     builder.addMatcher(api.endpoints.logout.matchFulfilled, (state) => {
       state.token = null;
+      state.userId = null;
       cookies.remove(JWT);
+      localStorage.removeItem("USER_ID");
     });
   },
 });

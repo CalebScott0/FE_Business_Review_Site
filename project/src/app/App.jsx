@@ -9,11 +9,13 @@ import { useLocation } from "react-router-dom";
 import ProfilePage from "@/features/ProfilePage";
 import ReviewForm from "@/features/reviews/ReviewForm";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const App = () => {
   const location = useLocation();
   const TOKEN = useSelector((state) => state.auth.token);
-  const USERID = useSelector((state) => state.auth.userId);
+  const USER_ID = useSelector((state) => state.auth.userId);
+  const [isEditReview, setIsEditReview] = useState(false);
 
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
@@ -26,15 +28,27 @@ const App = () => {
         <Route path="/businesses/:category" element={<BusinessList />} />
         <Route
           path="/business/:name/:id"
-          element={<SingleBusiness TOKEN={TOKEN} USERID={USERID} />}
+          element={
+            <SingleBusiness
+              TOKEN={TOKEN}
+              USER_ID={USER_ID}
+              setIsEditReview={setIsEditReview}
+            />
+          }
         />
         {/* google better way to do the below location pathname?*/}
         <Route path="/login" element={<AuthForm location={location} />} />
         <Route path="/register" element={<AuthForm location={location} />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route
-          path="/business/:businessName/createreview/:businessId"
-          element={<ReviewForm TOKEN={TOKEN} />}
+          path={`/business/:name/${!isEditReview ? "createreview/:businessId" : "editreview/:reviewId"}`}
+          element={
+            <ReviewForm
+              TOKEN={TOKEN}
+              isEdit={isEditReview}
+              setIsEditReview={setIsEditReview}
+            />
+          }
         />
         {/* Add 404 route for "/*"" */}
       </Routes>

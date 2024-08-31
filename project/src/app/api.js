@@ -17,3 +17,19 @@ export const api = createApi({
   }),
   endpoints: () => ({}),
 });
+
+export function providesList(resultsWithIds, tagType) {
+  return resultsWithIds
+    ? [
+        { type: tagType, id: "LIST" },
+        ...resultsWithIds.map(({ id }) => ({ type: tagType, id })),
+      ]
+    : [{ type: tagType, id: "LIST" }];
+}
+export function providesId(tagType) {
+  return (result, error, id) => [{ type: tagType, id }];
+}
+
+export function invalidatesId(tagType) {
+  return (result, error, arg) => [{ type: tagType, id: arg.id }];
+}

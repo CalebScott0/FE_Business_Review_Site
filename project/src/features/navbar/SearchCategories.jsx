@@ -16,6 +16,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { useGetCategoriesQuery } from "./categorySlice";
+import { CommandLoading } from "cmdk";
 
 const SearchCategories = ({ setCategory, value, setValue }) => {
   const { data = {}, error, isLoading } = useGetCategoriesQuery();
@@ -29,7 +30,6 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          x
           role="combobox"
           aria-expanded={open}
           className="w-72 justify-between"
@@ -46,7 +46,12 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
         <Command>
           <CommandInput placeholder="Search category..." />
           <CommandList>
-            <CommandEmpty>No category found.</CommandEmpty>
+            {error && <CommandEmpty>No categories found.</CommandEmpty>}
+            {isLoading && (
+              <CommandLoading className="text-center">
+                Loading categories...
+              </CommandLoading>
+            )}
             <CommandGroup>
               {data.categories &&
                 data.categories.map((category) => (
