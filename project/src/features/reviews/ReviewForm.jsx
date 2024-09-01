@@ -13,7 +13,6 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { useState } from "react";
@@ -22,7 +21,10 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import ReactStars from "react-rating-stars-component";
-import { useCreateReviewMutation } from "./reviewSlice";
+import {
+  useCreateReviewMutation,
+  useUpdateReviewMutation,
+} from "./reviewSlice";
 
 const schema = z.object({
   stars: z
@@ -34,15 +36,11 @@ const schema = z.object({
 
 const ReviewForm = ({ TOKEN, isEdit }) => {
   const { name, businessId, reviewId } = useParams();
-  const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [createReview] = useCreateReviewMutation();
+  const [updateReview] = useUpdateReviewMutation();
   const { state } = useLocation();
-
-  // prevent user from accessing page without token
-  useEffect(() => {
-    !TOKEN && !isEdit && navigate("/");
-  }, [TOKEN]);
+  const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(schema),
@@ -52,23 +50,36 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     },
   });
 
-  // set form values if review form is accessed in edit mode
-  const stars = state?.stars;
-  const text = state?.text;
+  // prevent user from accessing page without token
+  // Look into router history here?
+  useEffect(() => {
+    !TOKEN && !isEdit && navigate(-1);
+  }, [TOKEN]);
 
-  stars && form.setValue("stars", stars);
-  text && form.setValue("text", text);
+  // set form values from useLocation state on mount if review form is accessed in edit mode
+  useEffect(() => {
+    state?.stars && form.setValue("stars", state.stars);
+    state?.text && form.setValue("text", state.text);
+  }, []);
 
-  const handleCreateReview = async (values, e) => {
+  const handleReviewClick = async (values, e) => {
     e.preventDefault();
     setError(null);
 
     try {
-      await createReview({ businessId, body: values }).unwrap();
-      navigate(`/business/${name}/${businessId}`);
+      const reviewFunction = isEdit ? updateReview : createReview;
+
+      const id = isEdit ? { reviewId } : { businessId };
+
+      await reviewFunction({ ...id, body: values }).unwrap();
+      navigate(-1);
     } catch (error) {
-      setError(error.data.message);
+      setError(error.error || error.data.message);
     }
+  };
+
+  const handleRatingChange = (value) => {
+    form.setValue("stars", value);
   };
 
   return (
@@ -81,16 +92,22 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
       <CardContent>
         <Form {...form}>
           <form
-            onSubmit={form.handleSubmit(handleCreateReview)}
+            onSubmit={form.handleSubmit(handleReviewClick)}
             className="space-y-8"
           >
             <FormField
               control={form.control}
               name="stars"
-              render={({ field }) => (
+              render={() => (
                 <FormItem>
                   <FormControl>
-                    <ReactStars isHalf={false} size={26} {...field} />
+                    {/* <StarRating defaultValue={stars} />  */}
+                    <ReactStars
+                      isHalf={false}
+                      size={26}
+                      value={state?.stars}
+                      onChange={handleRatingChange}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>

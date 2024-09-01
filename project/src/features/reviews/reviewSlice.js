@@ -9,7 +9,7 @@ const reviewApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: () => invalidatesId("Business"),
+      // invalidatesTags: () => invalidatesId("Business"),
     }),
     updateReview: builder.mutation({
       query: ({ reviewId, body }) => ({
@@ -17,8 +17,18 @@ const reviewApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: () => invalidatesId("Business"),
+      // invalidatesTags: () => invalidatesId("Business"),
+    }),
+    deleteReview: builder.mutation({
+      query: (reviewId) => ({
+        url: `/review/${reviewId}`,
+        method: "DELETE",
+      }),
     }),
   }),
 });
-export const { useCreateReviewMutation } = reviewApi;
+export const {
+  useCreateReviewMutation,
+  useUpdateReviewMutation,
+  useDeleteReviewMutation,
+} = reviewApi;

@@ -17,9 +17,14 @@ import CommentList from "./CommentList";
 import ReviewButton from "../reviews/ReviewButton";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useDeleteReviewMutation } from "../reviews/reviewSlice";
+import { useState } from "react";
 
 const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const { id, name } = useParams();
+  const [deleteReview] = useDeleteReviewMutation();
+  const [isDelete, setIsDelete] = useState(false);
+
   const navigate = useNavigate();
 
   const { data, error, isLoading } = useGetBusinessByIdQuery(id);
@@ -47,17 +52,27 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     });
   };
 
-  if (data) {
+  const handleDelete = async ({ reviewId }) => {
+    setIsDelete(true);
+    try {
+      await deleteReview(reviewId);
+      setIsDelete(false);
+    } catch (error) {
+      setError("Unable to delete review. Please try again.");
+    }
+  };
+
+  if (data && data.business) {
     // if userReview, take out of array and display on top of reviews
-    const userReview = data.business?.Reviews.find(
+    const userReview = data.business.Reviews?.find(
       (rev) => rev.authorId === USER_ID,
     );
     const reviewList = userReview
-      ? data.business?.Reviews.toSpliced(
+      ? data.business.Reviews?.toSpliced(
           data.business.Reviews.indexOf(userReview),
           1,
         )
-      : data.business?.Reviews;
+      : data.business.Reviews;
 
     // change the below once inifinite scroll pagination is implemented
     const reviews = reviewList.slice(0, 10);
@@ -134,6 +149,21 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 >
                   Edit Review
                 </Button>
+                {!isDelete && (
+                  <Button
+                    onClick={() =>
+                      handleDelete({
+                        reviewId: userReview.id,
+                      })
+                    }
+                    className="mb-2 ml-2"
+                  >
+                    Delete Review
+                  </Button>
+                )}
+                {isDelete && (
+                  <p className="ml-2 inline text-base">Deleting Review...</p>
+                )}
                 <div className="flex">
                   <ReactStars
                     value={userReview.stars}
