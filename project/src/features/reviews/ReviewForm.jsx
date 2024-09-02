@@ -74,7 +74,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
       await reviewFunction({ ...id, body: values }).unwrap();
       navigate(-1);
     } catch (error) {
-      setError(error.error || error.data.message);
+      setError(error.error || error.data?.message);
     }
   };
 

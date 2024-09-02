@@ -118,12 +118,12 @@ const BusinessList = () => {
                   </p>
                 </CardContent>
                 <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
-                  {bus.Categories.slice(0, 5).map((item) => (
+                  {bus.Categories.slice(0, 5).map((item, idx) => (
                     // {bus.Categories.map((item) => (
                     // MAKE THESE VARIOUS COLORS
                     // (Array of colors in tailwind class syntax w/ random in badge classname?)
                     <Badge
-                      key={item.id}
+                      key={idx}
                       className="cursor-pointer"
                       onClick={() => handleBadgeClick(item.categoryName)}
                     >

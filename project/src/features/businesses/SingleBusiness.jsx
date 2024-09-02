@@ -150,16 +150,16 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                   Edit Review
                 </Button>
                 {!isDelete && (
-                  <Button
+                  <p
+                    className="ml-2 inline cursor-pointer"
                     onClick={() =>
                       handleDelete({
                         reviewId: userReview.id,
                       })
                     }
-                    className="mb-2 ml-2"
                   >
                     Delete Review
-                  </Button>
+                  </p>
                 )}
                 {isDelete && (
                   <p className="ml-2 inline text-base">Deleting Review...</p>

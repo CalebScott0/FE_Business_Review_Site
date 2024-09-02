@@ -9,7 +9,12 @@ const reviewApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      // invalidatesTags: () => invalidatesId("Business"),
+      invalidatesTags: (result, error, arg) => [
+        // { type: "Business", id: "LIST" },
+        { type: "Business", id: arg.id },
+      ],
+
+      // invalidatesTags: (result) => invalidatesId("Business"),
     }),
     updateReview: builder.mutation({
       query: ({ reviewId, body }) => ({
@@ -17,13 +22,22 @@ const reviewApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
-      // invalidatesTags: () => invalidatesId("Business"),
+      invalidatesTags: (result, error, arg) => [
+        // { type: "Business", id: "LIST" },
+        { type: "Business", id: arg.id },
+      ],
+      // invalidatesTags: (result) => invalidatesId("Business"),
     }),
     deleteReview: builder.mutation({
       query: (reviewId) => ({
         url: `/review/${reviewId}`,
         method: "DELETE",
       }),
+      invalidatesTags: (result, error, arg) => [
+        // { type: "Business", id: "LIST" },
+        { type: "Business", id: arg.id },
+      ],
+      // invalidatesTags: (result) => invalidatesId("Business"),
     }),
   }),
 });
