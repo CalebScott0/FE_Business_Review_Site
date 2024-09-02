@@ -23,6 +23,7 @@ const BusinessList = () => {
     data = {},
     error,
     isLoading,
+    status,
   } = useGetBusinessListQuery({ category, page: count, limit: 10 });
 
   const handleBadgeClick = (categoryName) => {
@@ -36,7 +37,7 @@ const BusinessList = () => {
   /*  Style this sizing / spacing after businesses are styled on page
    Make it look different than loaded businesses so it's not just rectangles,
     like how hulu does it in app? */
-  if (isLoading) {
+  if (isLoading || status === "pending") {
     return (
       <div className="py-5">
         {Array.from({ length: 10 }).map((_, idx) => (

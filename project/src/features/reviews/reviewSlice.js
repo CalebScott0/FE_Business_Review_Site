@@ -1,5 +1,4 @@
 import { api } from "@/app/api";
-import { invalidatesId } from "@/app/api";
 
 const reviewApi = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -13,8 +12,6 @@ const reviewApi = api.injectEndpoints({
         // { type: "Business", id: "LIST" },
         { type: "Business", id: arg.id },
       ],
-
-      // invalidatesTags: (result) => invalidatesId("Business"),
     }),
     updateReview: builder.mutation({
       query: ({ reviewId, body }) => ({
@@ -23,10 +20,8 @@ const reviewApi = api.injectEndpoints({
         body,
       }),
       invalidatesTags: (result, error, arg) => [
-        // { type: "Business", id: "LIST" },
         { type: "Business", id: arg.id },
       ],
-      // invalidatesTags: (result) => invalidatesId("Business"),
     }),
     deleteReview: builder.mutation({
       query: (reviewId) => ({
@@ -34,10 +29,8 @@ const reviewApi = api.injectEndpoints({
         method: "DELETE",
       }),
       invalidatesTags: (result, error, arg) => [
-        // { type: "Business", id: "LIST" },
         { type: "Business", id: arg.id },
       ],
-      // invalidatesTags: (result) => invalidatesId("Business"),
     }),
   }),
 });

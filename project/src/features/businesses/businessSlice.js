@@ -1,5 +1,5 @@
 import { api } from "@/app/api";
-import { providesList, providesId } from "../../app/api";
+import { providesList } from "../../app/api";
 const businessSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getBusinesses: builder.query({
@@ -12,7 +12,6 @@ const businessSlice = api.injectEndpoints({
     }),
     getBusinessById: builder.query({
       query: (id) => `/businesses/${id}`,
-      // providesTags: () => providesId("Business"),
       providesTags: (result, error, id) => [{ type: "Business", id }],
     }),
   }),

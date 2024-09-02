@@ -24,10 +24,14 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const { id, name } = useParams();
   const [deleteReview] = useDeleteReviewMutation();
   const [isDelete, setIsDelete] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
 
   const navigate = useNavigate();
 
-  const { data, error, isLoading } = useGetBusinessByIdQuery(id);
+  const { data, error, isLoading, status } = useGetBusinessByIdQuery(id);
+
+  // if (error) {
+  // }
 
   if (isLoading) {
     return (
@@ -41,6 +45,21 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     );
   }
 
+  // returns date formatted as yyyy-mm-dd
+  const dateFormatter = (date) => {
+    let year = date.getFullYear();
+
+    // getMonth will return a number 0-11
+    let month = date.getMonth() + 1;
+    month = month <= 10 ? `0${month}` : month;
+
+    let day = date.getDate();
+    day = day <= 10 ? `0${day}` : day;
+
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  };
+
   const handleEditClick = ({ reviewId, stars, text }) => {
     // navigate to review form in edit mode and pass stars and text to router location state
     setIsEditReview(true);
@@ -51,14 +70,13 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
       },
     });
   };
-
   const handleDelete = async ({ reviewId }) => {
     setIsDelete(true);
     try {
       await deleteReview(reviewId);
       setIsDelete(false);
     } catch (error) {
-      setError("Unable to delete review. Please try again.");
+      setDeleteError("Unable to delete review. Please try again.");
     }
   };
 
@@ -67,6 +85,9 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     const userReview = data.business.Reviews?.find(
       (rev) => rev.authorId === USER_ID,
     );
+    const userReviewDate = dateFormatter(new Date(userReview?.createdAt));
+
+    // take userReview out of review list if it exists
     const reviewList = userReview
       ? data.business.Reviews?.toSpliced(
           data.business.Reviews.indexOf(userReview),
@@ -74,7 +95,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
         )
       : data.business.Reviews;
 
-    // change the below once inifinite scroll pagination is implemented
+    // change the below once inifinite scroll pagination is implemented - also do this for comments
     const reviews = reviewList.slice(0, 10);
 
     return (
@@ -125,18 +146,16 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
           </CardFooter>
         </Card>
         <Separator className="my-2" />
+
         {/* userReview card */}
         <span className="ml-5">{data.business.Reviews.length} reviews</span>
-        {userReview && (
+        {/* on refetch after delete - status will be pending - hide userReview immediately as there is a delay in delete */}
+        {userReview && status !== "pending" && (
           <Card className="mb-10">
             <CardHeader>
               <CardTitle>
-                <p className="-mt-2 mb-4 font-normal tracking-wide">{`Your review from ${userReview.createdAt
-                  .toLocaleString()
-                  .slice(
-                    0,
-                    userReview.createdAt.toLocaleString().indexOf("T"),
-                  )}`}</p>
+                {deleteError && <p>{deleteError}</p>}
+                <p className="-mt-2 mb-4 font-normal tracking-wide">{`Your review from ${userReviewDate}`}</p>
                 <Button
                   onClick={() =>
                     handleEditClick({
@@ -189,11 +208,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                   </span>
                 </div>
               </CardTitle>
-              <CardDescription>
-                {userReview.createdAt
-                  .toLocaleString()
-                  .slice(0, userReview.createdAt.toLocaleString().indexOf("T"))}
-              </CardDescription>
+              <CardDescription>{userReviewDate}</CardDescription>
             </CardHeader>
             <CardContent>{userReview.text}</CardContent>
             <CardContent>
@@ -206,6 +221,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             </CardFooter>
           </Card>
         )}
+
         {/* map the rest of reviews */}
         {reviews?.map((rev) => (
           <Card key={rev.id}>
@@ -235,9 +251,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 </div>
               </CardTitle>
               <CardDescription>
-                {rev.createdAt
-                  .toLocaleString()
-                  .slice(0, rev.createdAt.toLocaleString().indexOf("T"))}
+                {dateFormatter(new Date(rev.createdAt))}
               </CardDescription>
             </CardHeader>
             <CardContent>{rev.text}</CardContent>
