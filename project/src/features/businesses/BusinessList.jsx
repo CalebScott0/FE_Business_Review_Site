@@ -29,11 +29,7 @@ const BusinessList = () => {
   const handleBadgeClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
   };
-  // For the below, "refreshing page on new category"
-  //  Try useffect with something!
-
-  // figure out how to also show this when a new category is selected
-  // while still on businesses page, or speed up back end query?
+  
   /*  Style this sizing / spacing after businesses are styled on page
    Make it look different than loaded businesses so it's not just rectangles,
     like how hulu does it in app? */
