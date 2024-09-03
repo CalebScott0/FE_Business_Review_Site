@@ -20,13 +20,14 @@ import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { NavLink } from "react-router-dom";
 
 const schema = z.object({
   username: z.string().min(1, { message: "Required" }),
   password: z.string().min(1, { message: "Required" }),
 });
 
-const LoginPopupForm = () => {
+const LoginPopupForm = ({ loginFormMsg }) => {
   const [login] = useLoginMutation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -56,13 +57,7 @@ const LoginPopupForm = () => {
         <DialogTitle className="tracking-wide">
           Login to your Account
         </DialogTitle>
-        {/* <CardHeader> */}
-        {/* <CardTitle className="tracking-wide"> */}
-        {/* </CardTitle>
-        </CardHeader> */}
-        <DialogDescription>
-          Please log in to your account before writing a review.
-        </DialogDescription>
+        <DialogDescription>{loginFormMsg}</DialogDescription>
       </DialogHeader>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-8">
@@ -93,9 +88,19 @@ const LoginPopupForm = () => {
             )}
           />
 
-      <p className="mt-2 tracking-wide text-destructive">{error && error}</p>
+          <p className="mt-2 tracking-wide text-destructive">
+            {error && error}
+          </p>
           <DialogFooter>
-            <Button type="submit" className="w-full">Log in</Button>
+            <Button type="submit" className="w-full">
+              Log in
+            </Button>
+            {/* <p>
+              Need to create an account?{" "}
+              <NavLink to="/register" className="cursor-pointer">
+                Sign up.
+              </NavLink>
+            </p> */}
           </DialogFooter>
         </form>
       </Form>

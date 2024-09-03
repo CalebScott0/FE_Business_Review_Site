@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { CircleUser } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import CommentList from "./CommentList";
+import CommentList from "../comments/CommentList";
 import ReviewButton from "../reviews/ReviewButton";
 import { useNavigate } from "react-router-dom";
 import { useDeleteReviewMutation } from "../reviews/reviewSlice";
@@ -192,13 +192,9 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
               </CardDescription>
             </CardHeader>
             <CardContent>{rev.text}</CardContent>
-            <CardContent>
-              <span className="text-sm font-semibold">
-                comments ({rev.Comments.length})
-              </span>
-            </CardContent>
+
             <CardFooter>
-              <CommentList data={rev.Comments} />
+              {rev.Comments.length && <CommentList data={rev.Comments} />}
             </CardFooter>
           </Card>
         ))}

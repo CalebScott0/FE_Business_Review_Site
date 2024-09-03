@@ -10,6 +10,9 @@ const ReviewButton = ({ name, businessId, TOKEN, setIsEditReview }) => {
     setIsEditReview(false);
     navigate(`/business/${name}/createreview/${businessId}`);
   };
+
+  let loginFormMsg = "Please log in to your account before writing a review.";
+
   if (!TOKEN) {
     return (
       <Dialog>
@@ -21,7 +24,7 @@ const ReviewButton = ({ name, businessId, TOKEN, setIsEditReview }) => {
             Leave a Review
           </Button>
         </DialogTrigger>
-        <LoginPopupForm />
+        <LoginPopupForm loginFormMsg={loginFormMsg} />
       </Dialog>
     );
   }

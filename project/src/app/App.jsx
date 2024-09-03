@@ -39,7 +39,7 @@ const App = () => {
         {/* google better way to do the below location pathname?*/}
         <Route path="/login" element={<AuthForm location={location} />} />
         <Route path="/register" element={<AuthForm location={location} />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage TOKEN={TOKEN}/>} />
         <Route
           path={`/business/:name/${!isEditReview ? "createreview/:businessId" : "editreview/:reviewId"}`}
           element={

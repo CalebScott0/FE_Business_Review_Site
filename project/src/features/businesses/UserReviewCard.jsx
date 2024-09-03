@@ -9,7 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
-import CommentList from "./CommentList";
+import CommentList from "../comments/CommentList";
 
 const UserReviewCard = ({
   deleteError,
