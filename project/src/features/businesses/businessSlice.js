@@ -1,6 +1,7 @@
 import { api } from "@/app/api";
 import { providesList } from "../../app/api";
-const businessSlice = api.injectEndpoints({
+
+const businessApi = api.injectEndpoints({
   endpoints: (builder) => ({
     getBusinesses: builder.query({
       query: () => "/businesses",
@@ -21,4 +22,4 @@ export const {
   useGetBusinessesQuery,
   useGetBusinessListQuery,
   useGetBusinessByIdQuery,
-} = businessSlice;
+} = businessApi;

@@ -9,7 +9,6 @@ const reviewApi = api.injectEndpoints({
         body,
       }),
       invalidatesTags: (result, error, arg) => [
-        // { type: "Business", id: "LIST" },
         { type: "Business", id: arg.id },
       ],
     }),

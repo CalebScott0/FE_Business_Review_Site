@@ -28,6 +28,6 @@ const ReviewButton = ({ name, businessId, TOKEN, setIsEditReview }) => {
       </Dialog>
     );
   }
-  return <Button onClick={handleClick}>Leave a Review</Button>;
+  return <Button onClick={handleClick}>Write a Review</Button>;
 };
 export default ReviewButton;

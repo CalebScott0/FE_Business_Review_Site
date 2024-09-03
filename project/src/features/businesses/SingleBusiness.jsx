@@ -194,7 +194,13 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             <CardContent>{rev.text}</CardContent>
 
             <CardFooter>
-              {rev.Comments.length && <CommentList data={rev.Comments} />}
+              {rev.Comments.length && (
+                <CommentList
+                  TOKEN={TOKEN}
+                  data={rev.Comments}
+                  isUserReview={false}
+                />
+              )}
             </CardFooter>
           </Card>
         ))}

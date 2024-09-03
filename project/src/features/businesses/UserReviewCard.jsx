@@ -83,13 +83,10 @@ const UserReviewCard = ({
           <CardDescription>{userReviewDate}</CardDescription>
         </CardHeader>
         <CardContent>{userReview.text}</CardContent>
-        <CardContent>
-          <span className="text-sm font-semibold">
-            comments ({userReview.Comments.length})
-          </span>
-        </CardContent>
         <CardFooter>
-          <CommentList data={userReview.Comments} />
+          {userReview.Comments.length !== 0 && (
+            <CommentList data={userReview.Comments} isUserReview={true} />
+          )}
         </CardFooter>
       </Card>
     );
