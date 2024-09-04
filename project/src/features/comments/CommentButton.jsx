@@ -1,6 +1,7 @@
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import LoginPopupForm from "../auth/LoginPopupForm";
+import { MessageCircle } from "lucide-react";
 
 const CommentButton = ({ TOKEN }) => {
   let loginFormMsg = "Please log in to your account before leaving a comment.";
@@ -9,7 +10,7 @@ const CommentButton = ({ TOKEN }) => {
     return (
       <Dialog>
         <DialogTrigger asChild>
-          <Button variant="ghost">Add a Comment</Button>
+          Add a Comment <MessageCircle className="size-4" />
         </DialogTrigger>
         <LoginPopupForm loginFormMsg={loginFormMsg} />
       </Dialog>
