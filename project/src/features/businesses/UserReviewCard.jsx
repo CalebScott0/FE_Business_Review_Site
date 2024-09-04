@@ -84,9 +84,7 @@ const UserReviewCard = ({
         </CardHeader>
         <CardContent>{userReview.text}</CardContent>
         <CardFooter>
-          {userReview.Comments.length !== 0 && (
-            <CommentList data={userReview.Comments} isUserReview={true} />
-          )}
+          <CommentList data={userReview.Comments} isUserReview={true} />
         </CardFooter>
       </Card>
     );
