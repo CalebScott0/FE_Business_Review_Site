@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -10,16 +10,33 @@ import CommentButton from "./CommentButton";
 
 const Commentlist = ({ TOKEN, data, isUserReview }) => {
   const [isOpen, setIsOpen] = useState(false);
-  // if (data.length) {
+  const [isCommenting, setIsCommenting] = useState(false);
+
+  const handleClick = () => {
+    setIsCommenting(true);
+  };
   return (
     <Collapsible
       open={isOpen}
       onOpenChange={setIsOpen}
       className="w-fit space-y-2"
     >
-      <div>
-       {!isUserReview && <CommentButton TOKEN={TOKEN}/>}
-      </div>
+      <section>
+        {!isUserReview && (
+          <div>
+            <CommentButton handleClick={handleClick} TOKEN={TOKEN} />
+            {isCommenting && (
+              <p>
+                Hi{" "}
+                <X
+                  onClick={() => setIsCommenting(false)}
+                  className="cursor-pointer"
+                />
+              </p>
+            )}
+          </div>
+        )}
+      </section>
       <CollapsibleTrigger asChild>
         <Button variant="ghost" size="sm">
           comments ({data.length})
