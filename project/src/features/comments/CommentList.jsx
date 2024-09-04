@@ -9,7 +9,7 @@ import { useState } from "react";
 import CommentButton from "./CommentButton";
 import CommentForm from "./CommentForm";
 
-const Commentlist = ({ TOKEN, data, isUserReview }) => {
+const Commentlist = ({ TOKEN, data, isUserReview, reviewId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
 
@@ -30,7 +30,12 @@ const Commentlist = ({ TOKEN, data, isUserReview }) => {
               TOKEN={TOKEN}
               isCommenting={isCommenting}
             />
-            {isCommenting && <CommentForm setIsCommenting={setIsCommenting} />}
+            {isCommenting && (
+              <CommentForm
+                setIsCommenting={setIsCommenting}
+                reviewId={reviewId}
+              />
+            )}
           </div>
         )}
       </section>

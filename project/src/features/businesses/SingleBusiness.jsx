@@ -198,6 +198,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 <CommentList
                   TOKEN={TOKEN}
                   data={rev.Comments}
+                  reviewId={rev.id}
                   isUserReview={false}
                 />
               )}

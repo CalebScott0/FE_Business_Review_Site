@@ -10,6 +10,7 @@ const reviewApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: "Business", id: arg.id },
+        { type: "User" },
       ],
     }),
     updateReview: builder.mutation({
@@ -20,6 +21,7 @@ const reviewApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: "Business", id: arg.id },
+        { type: "User" },
       ],
     }),
     deleteReview: builder.mutation({
@@ -29,6 +31,7 @@ const reviewApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: "Business", id: arg.id },
+        { type: "User" },
       ],
     }),
   }),

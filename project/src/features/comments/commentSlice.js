@@ -10,9 +10,10 @@ const commentApi = api.injectEndpoints({
       }),
       invalidatesTags: (result, error, arg) => [
         { type: "Business", id: arg.id },
+        { type: "User" },
       ],
     }),
   }),
 });
 
-export const {useCreateCommentMutation} = commentApi;
+export const { useCreateCommentMutation } = commentApi;

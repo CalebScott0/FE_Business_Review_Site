@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 import { useCreateCommentMutation } from "./commentSlice";
-import { useParams } from "react-router-dom";
 import { useState } from "react";
 
 const schema = z.object({
@@ -24,8 +23,7 @@ const schema = z.object({
     .max(255, { message: "Maximum characters for comment is 255" }),
 });
 
-const CommentForm = ({ setIsCommenting }) => {
-  const { reviewId } = useParams();
+const CommentForm = ({ setIsCommenting, reviewId }) => {
   const [createComment] = useCreateCommentMutation();
   const [error, setError] = useState();
 
@@ -40,18 +38,26 @@ const CommentForm = ({ setIsCommenting }) => {
     e.preventDefault();
     // form.formState.errors.text
     setError(null);
-    console.log(values);
+    try {
+      await createComment({ reviewId, body: values });
+      setIsCommenting(false);
+    } catch (error) {
+      setError(error);
+      console.log("error", error);
+    }
   };
   return (
     <section className="flex flex-row-reverse justify-end">
-      <X
-        onClick={() => setIsCommenting(false)}
-        className="align-end cursor-pointer hover:text-destructive"
-      />
+      {!form.formState.isSubmitting && (
+        <X
+          onClick={() => setIsCommenting(false)}
+          className="align-end cursor-pointer hover:text-destructive"
+        />
+      )}
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-1/3 space-y-6"
+          className="w-2/5 space-y-6"
         >
           <FormField
             control={form.control}
@@ -70,9 +76,13 @@ const CommentForm = ({ setIsCommenting }) => {
               </FormItem>
             )}
           />
-          <Button type="submit">Submit</Button>
+          {!form.formState.isSubmitting && (
+            <Button type="submit">Submit</Button>
+          )}
+          {form.formState.isSubmitting && <p>Creating comment...</p>}
         </form>
       </Form>
+      {error && <p>{error}</p>}
     </section>
   );
 };
