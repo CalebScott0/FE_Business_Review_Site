@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -7,6 +7,7 @@ import {
 } from "@/components/ui/collapsible";
 import { useState } from "react";
 import CommentButton from "./CommentButton";
+import CommentForm from "./CommentForm";
 
 const Commentlist = ({ TOKEN, data, isUserReview }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,17 +24,13 @@ const Commentlist = ({ TOKEN, data, isUserReview }) => {
     >
       <section>
         {!isUserReview && (
-          <div>
-            <CommentButton handleClick={handleClick} TOKEN={TOKEN} />
-            {isCommenting && (
-              <p>
-                Hi{" "}
-                <X
-                  onClick={() => setIsCommenting(false)}
-                  className="cursor-pointer"
-                />
-              </p>
-            )}
+          <div className="w-screen">
+            <CommentButton
+              handleClick={handleClick}
+              TOKEN={TOKEN}
+              isCommenting={isCommenting}
+            />
+            {isCommenting && <CommentForm setIsCommenting={setIsCommenting} />}
           </div>
         )}
       </section>

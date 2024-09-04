@@ -31,7 +31,7 @@ const schema = z.object({
     .number()
     .min(1, { message: "Please leave a rating" })
     .max(5, { message: "Rating must be less than 5" }),
-  text: z.string().min(1, { message: "Required" }),
+  text: z.string().min(1, { message: "Please enter text to write a review" }),
 });
 
 const ReviewForm = ({ TOKEN, isEdit }) => {
@@ -62,9 +62,11 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     state?.text && form.setValue("text", state.text);
   }, []);
 
-  const handleReviewClick = async (values, e) => {
+  const onSubmit = async (values, e) => {
     e.preventDefault();
     setError(null);
+    // form.formState.errors.text
+
 
     try {
       const reviewFunction = isEdit ? updateReview : createReview;
@@ -91,10 +93,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(handleReviewClick)}
-            className="space-y-8"
-          >
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <FormField
               control={form.control}
               name="stars"
