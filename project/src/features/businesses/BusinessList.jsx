@@ -23,17 +23,17 @@ const BusinessList = () => {
     data = {},
     error,
     isLoading,
-    status,
+    isFetching,
   } = useGetBusinessListQuery({ category, page: count, limit: 10 });
 
   const handleBadgeClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
   };
-  
+
   /*  Style this sizing / spacing after businesses are styled on page
    Make it look different than loaded businesses so it's not just rectangles,
     like how hulu does it in app? */
-  if (isLoading || status === "pending") {
+  if (isLoading || isFetching) {
     return (
       <div className="py-5">
         {Array.from({ length: 10 }).map((_, idx) => (

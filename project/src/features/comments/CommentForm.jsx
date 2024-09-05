@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -64,7 +63,7 @@ const CommentForm = ({
       await formMode({ ...id, body: values }).unwrap();
       setIsCommenting(false);
       setIsEditing(false);
-      setCommentId(null);
+      // setCommentId(null);
     } catch (error) {
       setError(error.error || error.data?.message);
       console.log("error", error);
@@ -82,7 +81,7 @@ const CommentForm = ({
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="w-2/5 space-y-6"
+          className="w-full space-y-6"
         >
           <FormField
             control={form.control}

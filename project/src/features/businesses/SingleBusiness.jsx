@@ -28,7 +28,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
 
   const navigate = useNavigate();
 
-  const { data, error, isLoading, status } = useGetBusinessByIdQuery(id);
+  const { data, error, isLoading, isFetching } = useGetBusinessByIdQuery(id);
 
   // if (error) {
   // }
@@ -154,7 +154,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
           handleDelete={handleDelete}
           handleEditClick={handleEditClick}
           isDelete={isDelete}
-          status={status}
+          isFetching={isFetching}
           userReview={userReview}
           userReviewDate={userReviewDate}
         />
@@ -200,6 +200,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                   reviewId={rev.id}
                   isUserReview={false}
                   userId={USER_ID}
+                  isFetching={isFetching}
                 />
               )}
             </CardFooter>

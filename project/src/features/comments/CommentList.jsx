@@ -5,17 +5,30 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CommentButton from "./CommentButton";
 import CommentForm from "./CommentForm";
 import { useDeleteCommentMutation } from "./commentSlice";
+import { Skeleton } from "@/components/ui/skeleton";
 
-const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
+const Commentlist = ({
+  TOKEN,
+  data,
+  isUserReview,
+  reviewId,
+  userId,
+  isFetching,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [commentId, setCommentId] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
+
+  useEffect(() => {
+    setCommentId(null);
+  }, [data]);
 
   const [deleteComment] = useDeleteCommentMutation();
 
@@ -28,10 +41,18 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
     setCommentId(commentId);
   };
 
-  const handleDeleteClick = (commentId) => {
+  const handleDeleteClick = async (commentId) => {
     setIsDeleting(true);
     setCommentId(commentId);
+    try {
+      await deleteComment({ commentId }).unwrap();
+      setIsDeleting(null);
+      // setCommentId(null);
+    } catch (error) {
+      setDeleteError("Unable to delete comment. Please try again.");
+    }
   };
+
   return (
     <Collapsible
       open={isOpen}
@@ -40,7 +61,7 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
     >
       <section>
         {!isUserReview && (
-          <div className="w-screen">
+          <div className="md:w-[500px]">
             <CommentButton
               handleClick={handleClick}
               TOKEN={TOKEN}
@@ -49,7 +70,9 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
             {isCommenting && (
               <CommentForm
                 setIsCommenting={setIsCommenting}
+                setIsEditing={setIsEditing}
                 reviewId={reviewId}
+                setCommentId={setCommentId}
               />
             )}
           </div>
@@ -89,10 +112,13 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
                     onClick={() => handleDeleteClick(item.id)}
                   />
                 </Button>
+                {deleteError && (
+                  <p className="text-destructive">{deleteError}</p>
+                )}
               </div>
             )}
-            {(item.id !== commentId ||
-              (item.id === commentId && isDeleting)) && <p>{item.text}</p>}
+            {item.id !== commentId && <p>{item.text}</p>}
+            {isFetching && item.id === commentId && <p>Loading...</p>}
             {isEditing && item.id === commentId && (
               <CommentForm
                 setIsCommenting={setIsCommenting}
@@ -104,12 +130,12 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
                 isEditing={isEditing}
               />
             )}
+            {isDeleting && <p>Deleting comment...</p>}
           </section>
         ))}
       </CollapsibleContent>
     </Collapsible>
   );
-  // }
 };
 
 export default Commentlist;
