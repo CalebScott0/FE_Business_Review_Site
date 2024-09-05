@@ -27,11 +27,11 @@ const schema = z.object({
 
 const CommentForm = ({
   setIsCommenting,
-  setIsEditing,
   reviewId,
   setCommentId,
   commentId,
   text,
+  setIsEditing,
   isEditing,
 }) => {
   const [createComment] = useCreateCommentMutation();

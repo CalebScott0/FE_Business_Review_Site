@@ -46,8 +46,7 @@ const Commentlist = ({
     setCommentId(commentId);
     try {
       await deleteComment({ commentId }).unwrap();
-      setIsDeleting(null);
-      // setCommentId(null);
+      setIsDeleting(false);
     } catch (error) {
       setDeleteError("Unable to delete comment. Please try again.");
     }
@@ -78,10 +77,10 @@ const Commentlist = ({
           </div>
         )}
       </section>
-      {data.length === 0 && (
+      {data.length === 0 && !isFetching && (
         <p className="ml-3 text-sm font-medium">comments (0)</p>
       )}
-      {data.length !== 0 && (
+      {data.length !== 0 && !isFetching && (
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm">
             comments ({data.length})
@@ -91,6 +90,7 @@ const Commentlist = ({
           </Button>
         </CollapsibleTrigger>
       )}
+
       <CollapsibleContent className="space-y-2">
         {data.map((item) => (
           <section
@@ -118,7 +118,7 @@ const Commentlist = ({
               </div>
             )}
             {item.id !== commentId && <p>{item.text}</p>}
-            {isFetching && item.id === commentId && <p>Loading...</p>}
+            {isFetching && item.id === commentId && <p>Updating...</p>}
             {isEditing && item.id === commentId && (
               <CommentForm
                 setIsCommenting={setIsCommenting}
@@ -130,7 +130,7 @@ const Commentlist = ({
                 isEditing={isEditing}
               />
             )}
-            {isDeleting && <p>Deleting comment...</p>}
+            {isDeleting && item.id === commentId && <p>Deleting comment...</p>}
           </section>
         ))}
       </CollapsibleContent>
