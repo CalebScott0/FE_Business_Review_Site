@@ -13,7 +13,7 @@ const reviewApi = api.injectEndpoints({
         { type: "User" },
       ],
     }),
-    updateReview: builder.mutation({
+    editReview: builder.mutation({
       query: ({ reviewId, body }) => ({
         url: `/review/${reviewId}`,
         method: "PUT",
@@ -38,6 +38,6 @@ const reviewApi = api.injectEndpoints({
 });
 export const {
   useCreateReviewMutation,
-  useUpdateReviewMutation,
+  useEditReviewMutation,
   useDeleteReviewMutation,
 } = reviewApi;

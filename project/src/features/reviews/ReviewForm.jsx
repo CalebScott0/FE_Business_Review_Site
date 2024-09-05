@@ -21,10 +21,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import ReactStars from "react-rating-stars-component";
-import {
-  useCreateReviewMutation,
-  useUpdateReviewMutation,
-} from "./reviewSlice";
+import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
 
 const schema = z.object({
   stars: z
@@ -38,7 +35,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
   const { name, businessId, reviewId } = useParams();
   const [error, setError] = useState(null);
   const [createReview] = useCreateReviewMutation();
-  const [updateReview] = useUpdateReviewMutation();
+  const [editReview] = useEditReviewMutation();
   const { state } = useLocation();
   const navigate = useNavigate();
 
@@ -67,9 +64,8 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     setError(null);
     // form.formState.errors.text
 
-
     try {
-      const reviewFunction = isEdit ? updateReview : createReview;
+      const reviewFunction = isEdit ? editReview : createReview;
 
       const id = isEdit ? { reviewId } : { businessId };
 

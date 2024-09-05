@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, Edit2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -8,14 +8,29 @@ import {
 import { useState } from "react";
 import CommentButton from "./CommentButton";
 import CommentForm from "./CommentForm";
+import { useDeleteCommentMutation } from "./commentSlice";
 
 const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
-  let count = 0;
-  console.log("userId", userId);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [commentId, setCommentId] = useState(null);
+
+  const [deleteComment] = useDeleteCommentMutation();
+
   const handleClick = () => {
     setIsCommenting(true);
+  };
+
+  const handleEditClick = (commentId) => {
+    setIsEditing(true);
+    setCommentId(commentId);
+  };
+
+  const handleDeleteClick = (commentId) => {
+    setIsDeleting(true);
+    setCommentId(commentId);
   };
   return (
     <Collapsible
@@ -55,12 +70,41 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
       )}
       <CollapsibleContent className="space-y-2">
         {data.map((item) => (
-          <p
+          <section
             key={item.id}
             className="rounded-md border px-4 py-2 text-sm shadow-sm"
           >
-            {item.text}
-          </p>
+            {item.authorId === userId && item.id !== commentId && (
+              <div className="flex space-x-2">
+                <Button variant="ghost" size="icon">
+                  <Edit2 size="20" onClick={() => handleEditClick(item.id)} />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hover:bg-destructive"
+                >
+                  <Trash2
+                    size="20"
+                    onClick={() => handleDeleteClick(item.id)}
+                  />
+                </Button>
+              </div>
+            )}
+            {(item.id !== commentId ||
+              (item.id === commentId && isDeleting)) && <p>{item.text}</p>}
+            {isEditing && item.id === commentId && (
+              <CommentForm
+                setIsCommenting={setIsCommenting}
+                setIsEditing={setIsEditing}
+                reviewId={reviewId}
+                setCommentId={setCommentId}
+                commentId={commentId}
+                text={item.text}
+                isEditing={isEditing}
+              />
+            )}
+          </section>
         ))}
       </CollapsibleContent>
     </Collapsible>

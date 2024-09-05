@@ -13,7 +13,32 @@ const commentApi = api.injectEndpoints({
         { type: "User" },
       ],
     }),
+    editComment: builder.mutation({
+      query: ({ commentId, body }) => ({
+        url: `/comment/${commentId}`,
+        method: "PUT",
+        body,
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Business", id: arg.id },
+        { type: "User" },
+      ],
+    }),
+    deleteComment: builder.mutation({
+      query: ({ commentId }) => ({
+        url: `/comment/${commentId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: (result, error, arg) => [
+        { type: "Business", id: arg.id },
+        { type: "User" },
+      ],
+    }),
   }),
 });
 
-export const { useCreateCommentMutation } = commentApi;
+export const {
+  useCreateCommentMutation,
+  useEditCommentMutation,
+  useDeleteCommentMutation,
+} = commentApi;
