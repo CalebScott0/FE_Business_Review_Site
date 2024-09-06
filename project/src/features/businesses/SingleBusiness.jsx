@@ -65,10 +65,10 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
 
     // getMonth will return a number 0-11
     let month = date.getMonth() + 1;
-    month = month <= 10 ? `0${month}` : month;
+    month = month < 10 ? `0${month}` : month;
 
     let day = date.getDate();
-    day = day <= 10 ? `0${day}` : day;
+    day = day < 10 ? `0${day}` : day;
 
     const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
@@ -95,23 +95,23 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   };
 
   // if userReview, take out of array and display on top of reviews
-  const userReview = business.Reviews?.find((rev) => rev.authorId === USER_ID);
+  const userReview = business.reviews?.find((rev) => rev.authorId === USER_ID);
   const userReviewDate = dateFormatter(new Date(userReview?.createdAt));
 
   // take userReview out of review list if it exists
   const reviewList = userReview
-    ? business.Reviews?.toSpliced(business.Reviews.indexOf(userReview), 1)
-    : business.Reviews;
+    ? business.reviews?.toSpliced(business.reviews.indexOf(userReview), 1)
+    : business.reviews;
 
   // change the below once inifinite scroll pagination is implemented - also do this for comments
   const reviews = reviewList?.slice(0, 10);
   if (business) {
-    console.log(business);
+    // console.log(business);
   }
   return (
     <main>
       {/* Business card */}
-      {!loading && (
+      {business.id && (
         <Card className="border-none">
           <CardHeader>
             <CardTitle>
@@ -157,7 +157,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
           </CardFooter>
         </Card>
       )}
-      <span className="ml-5">{business.Reviews?.length} reviews</span>
+      <span className="ml-5">{business.reviews?.length} reviews</span>
       <Separator className="my-2" />
       {/* userReview card */}
       <UserReviewCard
@@ -184,7 +184,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
               </div>
               <div className="mt-5 flex space-x-1">
                 <CircleUser className="-mt-0.5 size-5" />
-                <span className="-mt-1 text-base tracking-wide">
+                {/* <span className="-mt-1 text-base tracking-wide">
                   {
                     // slice out '#' from username
                     rev.author.username.slice(
@@ -193,7 +193,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                     )
                   }
                   :
-                </span>
+                </span> */}
               </div>
             </CardTitle>
             <CardDescription>
@@ -201,7 +201,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             </CardDescription>
           </CardHeader>
           <CardContent>{rev.text}</CardContent>
-          <CardFooter>
+          {/* <CardFooter>
             {rev.Comments.length && (
               <CommentList
                 TOKEN={TOKEN}
@@ -212,6 +212,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
               />
             )}
           </CardFooter>
+            */}
         </Card>
       ))}
     </main>

@@ -137,7 +137,7 @@ const BusinessList = () => {
               </CardContent>
               <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
                 {bus.Categories.slice(0, 5).map((item, idx) => (
-                  // {bus.Categories.map((item) => (
+                  // {bus.categories.map((item) => (
                   // MAKE THESE VARIOUS COLORS
                   // (Array of colors in tailwind class syntax w/ random in badge classname?)
                   <Badge
