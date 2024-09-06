@@ -16,14 +16,13 @@ const UserReviewCard = ({
   handleDelete,
   handleEditClick,
   isDelete,
-  status,
   userReview,
   userReviewDate,
 }) => {
   {
     /* on refetch after delete - status will be pending - hide userReview immediately as there is a delay in delete */
   }
-  if (userReview && status !== "pending") {
+  if (userReview) {
     return (
       <Card className="mb-10">
         <CardHeader>

@@ -11,14 +11,7 @@ import CommentForm from "./CommentForm";
 import { useDeleteCommentMutation } from "./commentSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const Commentlist = ({
-  TOKEN,
-  data,
-  isUserReview,
-  reviewId,
-  userId,
-  isFetching,
-}) => {
+const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -77,10 +70,10 @@ const Commentlist = ({
           </div>
         )}
       </section>
-      {data.length === 0 && !isFetching && (
+      {data.length === 0 && (
         <p className="ml-3 text-sm font-medium">comments (0)</p>
       )}
-      {data.length !== 0 && !isFetching && (
+      {data.length !== 0 && (
         <CollapsibleTrigger asChild>
           <Button variant="ghost" size="sm">
             comments ({data.length})
@@ -118,7 +111,7 @@ const Commentlist = ({
               </div>
             )}
             {item.id !== commentId && <p>{item.text}</p>}
-            {isFetching && item.id === commentId && <p>Updating...</p>}
+            &&
             {isEditing && item.id === commentId && (
               <CommentForm
                 setIsCommenting={setIsCommenting}

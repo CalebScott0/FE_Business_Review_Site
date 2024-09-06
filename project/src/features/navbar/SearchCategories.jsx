@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -15,16 +15,23 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useGetCategoriesQuery } from "./categorySlice";
-import { CommandLoading } from "cmdk";
+// import { useGetCategoriesQuery } from "./categorySlice";
 
 const SearchCategories = ({ setCategory, value, setValue }) => {
-  const { data = {}, error, isLoading } = useGetCategoriesQuery();
-  // use error and isLoading on this (isLoading use skeletons?)
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const res = await fetch("http://localhost:8080/api/categories");
+      const json = await res.json();
+      setCategories(json.categories);
+    }
+    fetchCategories();
+  }, []);
+  // use error and isLoading on this (isLoading use spinner?)
 
   const [open, setOpen] = useState(false);
   // value mapped to category.name
-
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -35,9 +42,8 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
           className="w-72 justify-between"
         >
           {value
-            ? data.categories.find(
-                (category) => category.categoryName === value,
-              )?.categoryName
+            ? categories.find((category) => category.categoryName === value)
+                ?.categoryName
             : "Select category..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
@@ -46,36 +52,35 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
         <Command>
           <CommandInput placeholder="Search category..." />
           <CommandList>
-            {error && <CommandEmpty>No categories found.</CommandEmpty>}
-            {isLoading && (
+            {/* {error && <CommandEmpty>No categories found.</CommandEmpty>} */}
+            {/* {isLoading && (
               <CommandLoading className="text-center">
                 Loading categories...
               </CommandLoading>
-            )}
+            )} */}
             <CommandGroup>
-              {data.categories &&
-                data.categories.map((category) => (
-                  <CommandItem
-                    className="cursor-pointer"
-                    key={category.categoryId}
-                    value={category.categoryName}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? "" : currentValue);
-                      setOpen(false);
-                      setCategory(category.categoryName);
-                    }}
-                  >
-                    <Check
-                      className={cn(
-                        "mr-2 h-4 w-4",
-                        value === category.categoryName
-                          ? "opacity-100"
-                          : "opacity-0",
-                      )}
-                    />
-                    {category.categoryName}
-                  </CommandItem>
-                ))}
+              {categories.map((category) => (
+                <CommandItem
+                  className="cursor-pointer"
+                  key={category.categoryId}
+                  value={category.categoryName}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
+                    setCategory(category.categoryName);
+                  }}
+                >
+                  <Check
+                    className={cn(
+                      "mr-2 h-4 w-4",
+                      value === category.categoryName
+                        ? "opacity-100"
+                        : "opacity-0",
+                    )}
+                  />
+                  {category.categoryName}
+                </CommandItem>
+              ))}
             </CommandGroup>
           </CommandList>
         </Command>
