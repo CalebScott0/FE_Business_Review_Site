@@ -4,7 +4,7 @@ import Cookies from "universal-cookie";
 import { jwtDecode } from "jwt-decode";
 
 // initialize cookies
-const cookies = new Cookies();
+export const cookies = new Cookies();
 // cookies key
 const JWT = "jwt_authorization";
 

@@ -22,7 +22,7 @@ import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import ReactStars from "react-rating-stars-component";
 // import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
-import axios from "axios";
+import instance from "@/app/axios";
 
 const schema = z.object({
   stars: z
@@ -68,42 +68,18 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
 
     // make an axios POST or PUT request based on isEdit
     !isEdit
-      ? axios
-          .post(
-            `http://localhost:8080/api/review/${businessId}`,
-            {
-              ...values,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${TOKEN}`,
-              },
-            },
-          )
-          .then(() => {
-            setLoading(false);
-            navigate(-1);
-          })
+      ? instance
+          .post(`/review/${businessId}`, { ...values })
+          .then(() => setLoading(false))
+          .then(() => navigate(-1))
           .catch((error) => {
             setError(error.error || error.response.data.message);
           })
       : // put request for edit form
-        axios
-          .put(
-            `http://localhost:8080/api/review/${reviewId}`,
-            {
-              ...values,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${TOKEN}`,
-              },
-            },
-          )
-          .then(() => {
-            setLoading(false);
-            navigate(-1);
-          })
+        instance
+          .put(`/review/${reviewId}`, { ...values })
+          .then(() => setLoading(false))
+          .then(() => navigate(-1))
           .catch((error) => {
             setError(error.error || error.response.data.message);
           });

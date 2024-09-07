@@ -15,6 +15,7 @@ import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
 import { useEditCommentMutation } from "../comments/commentSlice";
 import { useEffect, useState } from "react";
+import instance from "@/app/axios";
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -32,19 +33,32 @@ const BusinessList = () => {
   // } = useGetBusinessListQuery({ category, page: count, limit: 10 });
   useEffect(() => {
     setLoading(true);
-    try {
-      async function fetchBusinessList() {
-        const res = await fetch(
-          `http://localhost:8080/api/businesses/category/${categoryName}?page=${count}&limit=10`,
-        );
-        const json = await res.json();
-        setBusinesses(json.businesses);
-        setLoading(false);
+    async function fetchBusinessList() {
+      try {
+        // get businesses in category with page and limit parameters
+        const res = await instance.get(`/businesses/category/${categoryName}`, {
+          params: {
+            page: count,
+            limit: 10,
+          },
+        });
+        // const json = await res.json();
+        console.log(res);
+        // setBusinesses(json.businesses);
+        // setLoading(false);
+
+        // const res = await fetch(
+        // `http://localhost:8080/api/businesses/category/${categoryName}?page=${count}&limit=10`,
+        // );
+        // const json = await res.json();
+        // setBusinesses(json.businesses);
+        // setLoading(false);
+        // fetchBusinessList();
+      } catch (error) {
+        console.log(error);
       }
-      fetchBusinessList();
-    } catch (error) {
-      console.log(error);
     }
+    fetchBusinessList();
   }, [categoryName]);
 
   const handleBadgeClick = (categoryName) => {
