@@ -70,10 +70,7 @@ const UserReviewCard = ({
               <span className="-mt-1 text-base tracking-wide">
                 {
                   // slice out '#' from username
-                  userReview.author.username.slice(
-                    0,
-                    userReview.author.username.indexOf("#"),
-                  )
+                  userReview.author.slice(0, userReview.author.indexOf("#"))
                 }
                 :
               </span>
@@ -83,7 +80,7 @@ const UserReviewCard = ({
         </CardHeader>
         <CardContent>{userReview.text}</CardContent>
         <CardFooter>
-          <CommentList data={userReview.Comments} isUserReview={true} />
+          {/* <CommentList data={userReview.comments} isUserReview={true} /> */}
         </CardFooter>
       </Card>
     );

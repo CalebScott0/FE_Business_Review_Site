@@ -44,6 +44,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     } catch (error) {
       console.log(error);
     }
+    // refetch on id change (new business loaded) - review deletion?
   }, [id]);
   // if (error) {
   // }
@@ -199,18 +200,17 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             </CardDescription>
           </CardHeader>
           <CardContent>{rev.text}</CardContent>
-          {/* <CardFooter>
-            {rev.Comments.length && (
-              <CommentList
-                TOKEN={TOKEN}
-                data={rev.Comments}
-                reviewId={rev.id}
-                isUserReview={false}
-                userId={USER_ID}
-              />
-            )}
+          <CardFooter>
+            {/* {rev.comments.length && ( */}
+            {/* <CommentList */}
+            {/* TOKEN={TOKEN} */}
+            {/* data={rev.Comments} */}
+            {/* reviewId={rev.id} */}
+            {/* isUserReview={false} */}
+            {/* userId={USER_ID} */}
+            {/* /> */}
+            {/* )} */}
           </CardFooter>
-            */}
         </Card>
       ))}
     </main>

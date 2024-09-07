@@ -22,6 +22,7 @@ const Commentlist = ({ TOKEN, data, isUserReview, reviewId, userId }) => {
   useEffect(() => {
     setCommentId(null);
   }, [data]);
+  console.log(data)
 
   const [deleteComment] = useDeleteCommentMutation();
 
