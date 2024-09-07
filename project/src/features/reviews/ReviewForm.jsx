@@ -21,8 +21,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import ReactStars from "react-rating-stars-component";
-// import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
-import instance from "@/app/axios";
+import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
 
 const schema = z.object({
   stars: z
@@ -36,8 +35,8 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
   const { name, businessId, reviewId } = useParams();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  // const [createReview] = useCreateReviewMutation();
-  // const [editReview] = useEditReviewMutation();
+  const [createReview] = useCreateReviewMutation();
+  const [editReview] = useEditReviewMutation();
   const { state } = useLocation();
   const navigate = useNavigate();
   const form = useForm({
@@ -65,36 +64,39 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     setError(null);
     setLoading(true);
     // form.formState.errors.text
-
-    // make an axios POST or PUT request based on isEdit
-    !isEdit
-      ? instance
-          .post(`/review/${businessId}`, { ...values })
-          .then(() => setLoading(false))
-          .then(() => navigate(-1))
-          .catch((error) => {
-            setError(error.error || error.response.data.message);
-          })
-      : // put request for edit form
-        instance
-          .put(`/review/${reviewId}`, { ...values })
-          .then(() => setLoading(false))
-          .then(() => navigate(-1))
-          .catch((error) => {
-            setError(error.error || error.response.data.message);
-          });
-
     // try {
-    //   const reviewFunction = isEdit ? editReview : createReview;
-
-    //   const id = isEdit ? { reviewId } : { businessId };
-
-    //   await reviewFunction({ ...id, body: values }).unwrap();
+    //   const response = await fetch(
+    //     `http://localhost:8080/api/review/${businessId}`,
+    //     {
+    //       method: "POST",
+    //       body: JSON.stringify({ ...values }),
+    //       headers: {
+    //         authorization: `Bearer ${TOKEN}`,
+    //       },
+    //     },
+    //   );
+    //   const json = await response.json();
+    //   console.log(json);
+    //   setLoading(false);
     //   navigate(-1);
     // } catch (error) {
     //   console.log(error);
-    //   setError(error.error || error.data?.message);
+    // setError(error.message || error.data?.message);
     // }
+
+    try {
+      const reviewFunction = isEdit ? editReview : createReview;
+
+      const id = isEdit ? { reviewId } : { businessId };
+
+      await reviewFunction({ ...id, body: values }).unwrap();
+      setLoading(false);
+      navigate(-1);
+    } catch (error) {
+      console.log(error);
+      setError(error.error || error.data?.message);
+      setLoading(false);
+    }
   };
 
   const handleRatingChange = (value) => {

@@ -15,7 +15,7 @@ import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
 import { useEditCommentMutation } from "../comments/commentSlice";
 import { useEffect, useState } from "react";
-import instance from "@/app/axios";
+import axios from "axios";
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -33,32 +33,19 @@ const BusinessList = () => {
   // } = useGetBusinessListQuery({ category, page: count, limit: 10 });
   useEffect(() => {
     setLoading(true);
-    async function fetchBusinessList() {
+    (async function () {
+      // get businesses in category with page and limit parameters
       try {
-        // get businesses in category with page and limit parameters
-        const res = await instance.get(`/businesses/category/${categoryName}`, {
-          params: {
-            page: count,
-            limit: 10,
-          },
-        });
-        // const json = await res.json();
-        console.log(res);
-        // setBusinesses(json.businesses);
-        // setLoading(false);
-
-        // const res = await fetch(
-        // `http://localhost:8080/api/businesses/category/${categoryName}?page=${count}&limit=10`,
-        // );
-        // const json = await res.json();
-        // setBusinesses(json.businesses);
-        // setLoading(false);
-        // fetchBusinessList();
+        const response = await fetch(
+          `http://localhost:8080/api/businesses/category/${categoryName}?page=${count}&limit=10`,
+        );
+        const json = await response.json();
+        setBusinesses(json.businesses);
       } catch (error) {
         console.log(error);
       }
-    }
-    fetchBusinessList();
+      setLoading(false);
+    })();
   }, [categoryName]);
 
   const handleBadgeClick = (categoryName) => {
@@ -94,8 +81,8 @@ const BusinessList = () => {
         ))} */}
         {/* {data.businesses.map((bus) => ( */}
         {businesses.map((bus) => (
-          <NavLink to={`/business/${bus.name}/${bus.id}`} key={bus.id}>
-            <Card className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
+          <Card className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
+            <NavLink to={`/business/${bus.name}/${bus.id}`} key={bus.id}>
               <CardHeader>
                 <CardTitle className="text-center">
                   <span className="text-xl leading-5 tracking-wide">
@@ -149,25 +136,25 @@ const BusinessList = () => {
                   {bus.reviews[0].text}
                 </p>
               </CardContent>
-              <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
-                {bus.categories.slice(0, 5).map((item, idx) => (
-                  // {bus.categories.map((item) => (
-                  // MAKE THESE VARIOUS COLORS
-                  // (Array of colors in tailwind class syntax w/ random in badge classname?)
-                  <Badge
-                    key={idx}
-                    className="cursor-pointer"
-                    onClick={() => handleBadgeClick(item.categoryName)}
-                  >
-                    <span className="font-normal leading-3">
-                      {item.categoryName}
-                    </span>
-                  </Badge>
-                ))}
-              </CardDescription>
-              <CardFooter>{/* Stars / Review */}</CardFooter>
-            </Card>
-          </NavLink>
+            </NavLink>
+            <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
+              {bus.categories.slice(0, 5).map((item, idx) => (
+                // {bus.categories.map((item) => (
+                // MAKE THESE VARIOUS COLORS
+                // (Array of colors in tailwind class syntax w/ random in badge classname?)
+                <Badge
+                  key={idx}
+                  className="cursor-pointer"
+                  onClick={() => handleBadgeClick(item.categoryName)}
+                >
+                  <span className="font-normal leading-3">
+                    {item.categoryName}
+                  </span>
+                </Badge>
+              ))}
+            </CardDescription>
+            <CardFooter>{/* Stars / Review */}</CardFooter>
+          </Card>
         ))}
       </div>
     </main>

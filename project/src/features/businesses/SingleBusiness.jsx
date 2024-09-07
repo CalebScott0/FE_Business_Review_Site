@@ -33,19 +33,21 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   // const {data , error, isLoading, isFetching } = useGetBusinessByIdQuery(id);
   useEffect(() => {
     setLoading(true);
-    try {
-      async function fetchBusiness() {
+
+    // fetch business on mount / url id change to new business
+    (async function () {
+      try {
         const res = await fetch(`http://localhost:8080/api/businesses/${id}`);
         const json = await res.json();
         setBusiness(json.business);
-        setLoading(false);
+      } catch (error) {
+        console.log(error);
       }
-      fetchBusiness();
-    } catch (error) {
-      console.log(error);
-    }
+      setLoading(false);
+    })();
     // refetch on id change (new business loaded) - review deletion?
   }, [id]);
+
   // if (error) {
   // }
   if (loading) {
