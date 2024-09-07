@@ -21,7 +21,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import ReactStars from "react-rating-stars-component";
-import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
+// import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
 import axios from "axios";
 
 const schema = z.object({
@@ -66,7 +66,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     setLoading(true);
     // form.formState.errors.text
 
-    // make an axios POST or PUT request
+    // make an axios POST or PUT request based on isEdit
     !isEdit
       ? axios
           .post(
@@ -87,7 +87,8 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
           .catch((error) => {
             setError(error.error || error.response.data.message);
           })
-      : axios
+      : // put request for edit form
+        axios
           .put(
             `http://localhost:8080/api/review/${reviewId}`,
             {
