@@ -35,8 +35,9 @@ const schema = z.object({
 const ReviewForm = ({ TOKEN, isEdit }) => {
   const { name, businessId, reviewId } = useParams();
   const [error, setError] = useState(null);
-  const [createReview] = useCreateReviewMutation();
-  const [editReview] = useEditReviewMutation();
+  const [loading, setLoading] = useState(false);
+  // const [createReview] = useCreateReviewMutation();
+  // const [editReview] = useEditReviewMutation();
   const { state } = useLocation();
   const navigate = useNavigate();
   const form = useForm({
@@ -47,11 +48,10 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     },
   });
 
-  console.log(form.formState.isSubmitting);
   // prevent user from accessing page without token
   // Look into router history here?
   useEffect(() => {
-    !TOKEN && !isEdit && navigate(-1);
+    !TOKEN && navigate(-1);
   }, [TOKEN]);
 
   // set form values from useLocation state on mount if review form is accessed in edit mode
@@ -63,25 +63,49 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
   const onSubmit = async (values, e) => {
     e.preventDefault();
     setError(null);
+    setLoading(true);
     // form.formState.errors.text
 
-    // make an axios POST request
-    axios
-      .post(
-        `http://localhost:8080/api/review/${businessId}`,
-        {
-          ...values,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-          },
-        },
-      )
-      .then(() => navigate(-1))
-      .catch((error) => {
-        setError(error.error || error.response.data.message);
-      });
+    // make an axios POST or PUT request
+    !isEdit
+      ? axios
+          .post(
+            `http://localhost:8080/api/review/${businessId}`,
+            {
+              ...values,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${TOKEN}`,
+              },
+            },
+          )
+          .then(() => {
+            setLoading(false);
+            navigate(-1);
+          })
+          .catch((error) => {
+            setError(error.error || error.response.data.message);
+          })
+      : axios
+          .put(
+            `http://localhost:8080/api/review/${reviewId}`,
+            {
+              ...values,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${TOKEN}`,
+              },
+            },
+          )
+          .then(() => {
+            setLoading(false);
+            navigate(-1);
+          })
+          .catch((error) => {
+            setError(error.error || error.response.data.message);
+          });
 
     // try {
     //   const reviewFunction = isEdit ? editReview : createReview;
@@ -148,22 +172,19 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
               {error && error}
             </p>
             <CardFooter>
-              {!form.formState.isSubmitting && (
-                  <Button type="submit" className="w-full max-w-52">
-                    {`${!isEdit ? "Submit" : "Edit"} Review`}
-                  </Button>
+              {!loading && (
+                <Button type="submit" className="w-full max-w-52">
+                  {`${!isEdit ? "Submit" : "Edit"} Review`}
+                </Button>
               )}
-              {form.formState.isSubmitting && (
+              {loading && (
                 <p>{`${!isEdit ? "Creating" : "Editing"} review...`}</p>
               )}
             </CardFooter>
           </form>
-                  <Button
-                    className="w-full max-w-52"
-                    onClick={() => navigate(-1)}
-                  >
-                    Go Back
-                  </Button>
+          <Button className="w-full max-w-52" onClick={() => navigate(-1)}>
+            Go Back
+          </Button>
         </Form>
       </CardContent>
     </Card>
