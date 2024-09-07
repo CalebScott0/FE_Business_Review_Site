@@ -22,6 +22,7 @@ import { z } from "zod";
 import { Textarea } from "@/components/ui/textarea";
 import ReactStars from "react-rating-stars-component";
 import { useCreateReviewMutation, useEditReviewMutation } from "./reviewSlice";
+import axios from "axios";
 
 const schema = z.object({
   stars: z
@@ -38,7 +39,6 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
   const [editReview] = useEditReviewMutation();
   const { state } = useLocation();
   const navigate = useNavigate();
-
   const form = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
@@ -47,6 +47,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     },
   });
 
+  console.log(form.formState.isSubmitting);
   // prevent user from accessing page without token
   // Look into router history here?
   useEffect(() => {
@@ -64,16 +65,35 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     setError(null);
     // form.formState.errors.text
 
-    try {
-      const reviewFunction = isEdit ? editReview : createReview;
+    // make an axios POST request
+    axios
+      .post(
+        `http://localhost:8080/api/review/${businessId}`,
+        {
+          ...values,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${TOKEN}`,
+          },
+        },
+      )
+      .then(() => navigate(-1))
+      .catch((error) => {
+        setError(error.error || error.response.data.message);
+      });
 
-      const id = isEdit ? { reviewId } : { businessId };
+    // try {
+    //   const reviewFunction = isEdit ? editReview : createReview;
 
-      await reviewFunction({ ...id, body: values }).unwrap();
-      navigate(-1);
-    } catch (error) {
-      setError(error.error || error.data?.message);
-    }
+    //   const id = isEdit ? { reviewId } : { businessId };
+
+    //   await reviewFunction({ ...id, body: values }).unwrap();
+    //   navigate(-1);
+    // } catch (error) {
+    //   console.log(error);
+    //   setError(error.error || error.data?.message);
+    // }
   };
 
   const handleRatingChange = (value) => {
@@ -129,20 +149,21 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
             </p>
             <CardFooter>
               {!form.formState.isSubmitting && (
-                <>
-                  {isEdit && (
-                    <Button onClick={() => navigate(-1)}>Go Back</Button>
-                  )}
-                  <Button type="submit" className="mx-auto w-full max-w-52">
+                  <Button type="submit" className="w-full max-w-52">
                     {`${!isEdit ? "Submit" : "Edit"} Review`}
                   </Button>
-                </>
               )}
               {form.formState.isSubmitting && (
                 <p>{`${!isEdit ? "Creating" : "Editing"} review...`}</p>
               )}
             </CardFooter>
           </form>
+                  <Button
+                    className="w-full max-w-52"
+                    onClick={() => navigate(-1)}
+                  >
+                    Go Back
+                  </Button>
         </Form>
       </CardContent>
     </Card>

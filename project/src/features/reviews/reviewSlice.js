@@ -8,10 +8,10 @@ const reviewApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        { type: "User" },
-      ],
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: "Business", id: arg.id },
+      //   { type: "User" },
+      // ],
     }),
     editReview: builder.mutation({
       query: ({ reviewId, body }) => ({
@@ -19,20 +19,20 @@ const reviewApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        { type: "User" },
-      ],
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: "Business", id: arg.id },
+      //   { type: "User" },
+      // ],
     }),
     deleteReview: builder.mutation({
       query: (reviewId) => ({
         url: `/review/${reviewId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        { type: "User" },
-      ],
+      // invalidatesTags: (result, error, arg) => [
+      //   { type: "Business", id: arg.id },
+      //   { type: "User" },
+      // ],
     }),
   }),
 });
