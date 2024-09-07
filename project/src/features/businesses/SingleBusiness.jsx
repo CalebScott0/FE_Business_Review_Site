@@ -105,9 +105,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
 
   // change the below once inifinite scroll pagination is implemented - also do this for comments
   const reviews = reviewList?.slice(0, 10);
-  if (business) {
-    // console.log(business);
-  }
+
   return (
     <main>
       {/* Business card */}

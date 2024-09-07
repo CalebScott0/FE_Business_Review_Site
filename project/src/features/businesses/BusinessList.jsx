@@ -106,9 +106,9 @@ const BusinessList = () => {
                 <div className="flex space-x-2">
                   <img
                     className="box-border size-24 border object-cover"
-                    src={`../../../photos/${bus.Photos[0].id}.jpg`}
+                    src={`../../../photos/${bus.photos[0].id}.jpg`}
                     alt={
-                      bus.Photos[0].caption ? bus.Photos[0].caption : bus.name
+                      bus.photos[0].caption ? bus.photos[0].caption : bus.name
                     }
                   />
                   <Badge
@@ -124,19 +124,19 @@ const BusinessList = () => {
                     @
                     {
                       // slice out '#' from username
-                      bus.Reviews[0].author.username.slice(
+                      bus.reviews[0].author.slice(
                         0,
-                        bus.Reviews[0].author.username.indexOf("#"),
+                        bus.reviews[0].author.indexOf("#"),
                       )
                     }
                   </p>
                 </div>
                 <p className="mt-2 line-clamp-2 text-xs tracking-tight">
-                  {bus.Reviews[0].text}
+                  {bus.reviews[0].text}
                 </p>
               </CardContent>
               <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
-                {bus.Categories.slice(0, 5).map((item, idx) => (
+                {bus.categories.slice(0, 5).map((item, idx) => (
                   // {bus.categories.map((item) => (
                   // MAKE THESE VARIOUS COLORS
                   // (Array of colors in tailwind class syntax w/ random in badge classname?)
