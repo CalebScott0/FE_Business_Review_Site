@@ -1,6 +1,6 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "@/features/navbar/NavBar";
-import HomePage from "@/features/HomePage";
+import LandingPage from "@/features/landing-page/LandingPage";
 import BusinessList from "@/features/businesses/BusinessList";
 import SingleBusiness from "@/features/businesses/SingleBusiness";
 import { Route, Routes } from "react-router-dom";
@@ -24,7 +24,7 @@ const App = () => {
         <NavBar TOKEN={TOKEN} />
       )}
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="/businesses/:categoryName" element={<BusinessList />} />
         <Route
           path="/business/:name/:id"

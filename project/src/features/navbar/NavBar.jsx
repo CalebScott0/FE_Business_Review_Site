@@ -1,26 +1,19 @@
 import { ModeToggle } from "@/components/ModeToggle";
 import { Separator } from "@/components/ui/separator";
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
-import CategoryMenu from "./CategoryMenu";
 import LogoutButton from "../auth/LogoutButton";
-import {
-  foodAndDrinksArr,
-  healthArr,
-  servicesArr,
-  miscArr,
-} from "./categoryArrays";
-import { HeartPulse, Layers, Sandwich, Shell, Wrench } from "lucide-react";
-import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import AuthLinks from "./AuthLinks";
+import { Search } from "lucide-react";
 
 const NavBar = ({ TOKEN }) => {
   // category name set by category selection
   const [category, setCategory] = useState("");
   // value for category search box, reset on go button click
   const [value, setValue] = useState("");
+  const location = useLocation();
 
   const navigate = useNavigate();
   // request location in browser, return latitute/longitude
@@ -46,75 +39,48 @@ const NavBar = ({ TOKEN }) => {
   // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
   return (
-    <nav className="space-x-2">
-      <div className="flex flex-wrap items-center space-x-10 bg-accent p-5">
-        <NavLink to="/">
-          <Button className="ml-2">
-            <Shell />
-            Home
-          </Button>
+    <nav>
+      <div className="flex flex-wrap items-center justify-between space-x-10 bg-accent p-5 pr-10">
+        <NavLink to="/" className="ml-10 flex items-center">
+          <img src="../../../assets/favicon.ico" />
+          <h2 className="ml-3 text-xl font-semibold tracking-wider">
+            Review Guru
+          </h2>
         </NavLink>
         {/* Have to filter by location before any search allowed */}
-        <SearchCategories
-          setCategory={setCategory}
-          value={value}
-          setValue={setValue}
-        />{" "}
-        <span className="">OR</span>
-        {/* put another search for business names here */}
-        <Button
-          size="sm"
-          // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
-          // Reset combobox on click
-          onClick={() => {
-            category && handleClick(category);
-          }}
-        >
-          Go
-        </Button>
-        <ModeToggle />
-        {TOKEN ? <LogoutButton /> : <AuthLinks />}
-        {TOKEN && (
-          <NavLink to="/profile">
-            <Button>Profile</Button>
-          </NavLink>
+        {location.pathname !== "/" && (
+          <div className="flex">
+            <SearchCategories
+              setCategory={setCategory}
+              value={value}
+              setValue={setValue}
+            />
+            {/* put another search for business names here */}
+            <Button
+              size="icon"
+              className="-ml-1 rounded-l-none border-l-0"
+              variant="outline"
+              // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
+              // Reset combobox on click
+              onClick={() => {
+                category && handleClick(category);
+              }}
+            >
+              <Search />
+            </Button>
+          </div>
         )}
+        <div className="flex space-x-5">
+          <ModeToggle />
+          {TOKEN ? <LogoutButton /> : <AuthLinks />}
+          {TOKEN && (
+            <NavLink to="/profile">
+              <Button>Profile</Button>
+            </NavLink>
+          )}
+        </div>
       </div>
       <Separator className="mb-2" />
-      <div className="ml-0.5 flex">
-        <NavigationMenu>
-          <CategoryMenu
-            icon={<Sandwich className="mr-2 size-6" />}
-            title="Food"
-            array={foodAndDrinksArr}
-            handleClick={handleClick}
-          />
-        </NavigationMenu>
-        <NavigationMenu>
-          <CategoryMenu
-            icon={<HeartPulse className="mr-2 size-6" />}
-            title="Health & Wellness"
-            array={healthArr}
-            handleClick={handleClick}
-          />
-        </NavigationMenu>
-        <NavigationMenu>
-          <CategoryMenu
-            icon={<Wrench className="mr-2 size-6" />}
-            title="Services"
-            array={servicesArr}
-            handleClick={handleClick}
-          />
-        </NavigationMenu>
-        <NavigationMenu>
-          <CategoryMenu
-            icon={<Layers className="mr-2 size-6" />}
-            title="Miscellanous"
-            array={miscArr}
-            handleClick={handleClick}
-          />
-        </NavigationMenu>
-      </div>
     </nav>
   );
 };

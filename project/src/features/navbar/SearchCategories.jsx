@@ -39,7 +39,7 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
           variant="outline"
           role="combobox"
           aria-expanded={open}
-          className="w-72 justify-between"
+          className="w-72 justify-between rounded-r-none border-r-0"
         >
           {value
             ? categories.find((category) => category.categoryName === value)

@@ -10,11 +10,11 @@ const CategoryMenu = ({ icon, title, array, handleClick }) => {
   return (
     <NavigationMenuList>
       <NavigationMenuItem>
-        <NavigationMenuTrigger>
+        <NavigationMenuTrigger className="bg-muted hover:border">
           {icon}
           <span>{title}</span>
         </NavigationMenuTrigger>
-        <NavigationMenuContent className="flex min-w-80 flex-wrap pb-0.5">
+        <NavigationMenuContent className="flex min-w-80 cursor-pointer flex-wrap pb-0.5">
           {array.map((item, index) => (
             <NavigationMenuLink
               key={index}
