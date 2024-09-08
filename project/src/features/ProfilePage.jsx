@@ -19,7 +19,7 @@ const ProfilePage = ({ TOKEN }) => {
   //   return <p>{error}</p>;
   // }
   if (TOKEN && data) {
-    console.log(data);
+    console.table(data.user);
     return <p>{data.user.username}</p>;
   }
 
