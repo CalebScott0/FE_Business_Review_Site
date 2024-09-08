@@ -9,7 +9,6 @@ import {
   healthArr,
   servicesArr,
   miscArr,
-  singleCategoryArr,
 } from "./categoryArrays";
 import { HeartPulse, Layers, Sandwich, Shell, Wrench } from "lucide-react";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
@@ -47,8 +46,8 @@ const NavBar = ({ TOKEN }) => {
   // onclick go directly to businesseses if location is provided!!
   //  or just set a default location?
   return (
-    <nav className="mt-2 space-x-2">
-      <div className="flex items-center space-x-10">
+    <nav className="space-x-2">
+      <div className="flex flex-wrap items-center space-x-10 bg-accent p-5">
         <NavLink to="/">
           <Button className="ml-2">
             <Shell />
@@ -81,7 +80,7 @@ const NavBar = ({ TOKEN }) => {
           </NavLink>
         )}
       </div>
-      <Separator className="my-2" />
+      <Separator className="mb-2" />
       <div className="ml-0.5 flex">
         <NavigationMenu>
           <CategoryMenu
@@ -115,18 +114,6 @@ const NavBar = ({ TOKEN }) => {
             handleClick={handleClick}
           />
         </NavigationMenu>
-        {singleCategoryArr.map((item, index) => (
-          <Button
-            variant="ghost"
-            key={index}
-            onClick={() => {
-              handleClick(item.categoryName);
-            }}
-          >
-            {item.icon}
-            {item.categoryName}
-          </Button>
-        ))}
       </div>
     </nav>
   );

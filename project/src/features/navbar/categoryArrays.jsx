@@ -158,18 +158,19 @@ export const miscArr = [
     name: "Religion",
     icon: <Church className="mr-2 size-6" />,
   },
-];
-export const singleCategoryArr = [
   {
     categoryName: "Hotels & Travel",
+    name: "Hotels & Travel",
     icon: <Plane className="mr-2 size-6" />,
   },
   {
     categoryName: "Pets",
+    name: "Pets",
     icon: <Cat className="mr-2 size-6" />,
   },
   {
     categoryName: "Shopping",
+    name: "Shopping",
     icon: <ShoppingBag className="mr-2 size-6" />,
   },
 ];
