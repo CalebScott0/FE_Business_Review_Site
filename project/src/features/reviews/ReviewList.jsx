@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { CircleGauge, CircleUser } from "lucide-react";
 import CommentList from "../comments/CommentList";
 import { useDeleteReviewMutation } from "../reviews/reviewSlice";
+import { useEditCommentMutation } from "../comments/commentSlice";
 import UserReviewCard from "./UserReviewCard";
 import {
   Card,
@@ -13,6 +14,7 @@ import {
 } from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import ReviewButton from "../reviews/ReviewButton";
+import ReactStars from "react-rating-stars-component";
 
 // returns date formatted as yyyy-mm-dd
 const dateFormatter = (date) => {
@@ -29,19 +31,37 @@ const dateFormatter = (date) => {
   return formattedDate;
 };
 
-const ReviewList = ({ businessId, name, TOKEN, USER_ID, setIsEditReview }) => {
+const ReviewList = ({
+  businessId,
+  name,
+  TOKEN,
+  USER_ID,
+  setIsEditReview,
+  reviewCount,
+}) => {
   const [deleteReview] = useDeleteReviewMutation();
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
-  const [reviews, setReviews] = useState(null);
+  const [reviews, setReviews] = useState([]);
 
   const navigate = useNavigate();
+
+  const handleEditClick = ({ reviewId, stars, text }) => {
+    console.log(reviewId);
+    setIsEditReview(true);
+    navigate(`/business/${name}/editreview/${reviewId}`, {
+      state: {
+        stars,
+        text,
+      },
+    });
+  };
 
   useEffect(() => {
     (async function () {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/${id}/reviews`,
+          `http://localhost:8080/api/review/business/${businessId}`,
         );
         const json = await response.json();
         setReviews(json.reviews);
@@ -72,74 +92,73 @@ const ReviewList = ({ businessId, name, TOKEN, USER_ID, setIsEditReview }) => {
 
   // change the below once inifinite scroll pagination is implemented - also do this for comments
 
-  return (
-    <section>
-      {!userReview && (
-        <ReviewButton
-          businessId={businessId}
-          name={name}
-          setIsEditReview={setIsEditReview}
-          TOKEN={TOKEN}
+  if (reviews.length) {
+    return (
+      <section>
+        <span className="mx-5">{reviewCount} reviews</span>
+        {!userReview && (
+          <ReviewButton
+            businessId={businessId}
+            name={name}
+            setIsEditReview={setIsEditReview}
+            TOKEN={TOKEN}
+          />
+        )}
+        {/* userReview card */}
+        <UserReviewCard
+          deleteError={deleteError}
+          handleDelete={handleDelete}
+          handleEditClick={handleEditClick}
+          isDelete={isDelete}
+          userReview={userReview}
+          userReviewDate={userReviewDate}
         />
-      )}
-      <span className="ml-5">{reviews.length} reviews</span>
-      {/* userReview card */}
-      <UserReviewCard
-        deleteError={deleteError}
-        handleDelete={handleDelete}
-        handleEditClick={handleEditClick}
-        isDelete={isDelete}
-        userReview={userReview}
-        userReviewDate={userReviewDate}
-      />
-      {/* map the rest of reviews */}
-      {reviewList.map((rev) => (
-        <Card key={rev.id}>
-          <CardHeader>
-            <CardTitle>
-              <div className="flex">
-                <ReactStars
-                  value={rev.stars}
-                  size={18}
-                  edit={false}
-                  isHalf={false}
-                />
-                <span className="-mt-0.5 ml-1 text-sm">{rev.stars}</span>
-              </div>
-              <div className="mt-5 flex space-x-1">
-                <CircleUser className="-mt-0.5 size-5" />
-                {/* <span className="-mt-1 text-base tracking-wide">
-                 {
-                     // slice out '#' from username
-                     rev.author.username.slice(
-                         0,
-                         rev.author.username.indexOf("#"),
-                       )
-                     }
-                     :
-                   </span> */}
-              </div>
-            </CardTitle>
-            <CardDescription>
-              {dateFormatter(new Date(rev.createdAt))}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>{rev.text}</CardContent>
-          <CardFooter>
-            {/* {rev.comments.length && ( */}
-            {/* <CommentList */}
-            {/* TOKEN={TOKEN} */}
-            {/* data={rev.Comments} */}
-            {/* reviewId={rev.id} */}
-            {/* isUserReview={false} */}
-            {/* userId={USER_ID} */}
-            {/* /> */}
-            {/* )} */}
-          </CardFooter>
-        </Card>
-      ))}
-    </section>
-  );
+        {/* map the rest of reviews */}
+        {reviewList.map((rev) => (
+          <Card key={rev.id}>
+            <CardHeader>
+              <CardTitle>
+                <div className="flex">
+                  <ReactStars
+                    value={rev.stars}
+                    size={18}
+                    edit={false}
+                    isHalf={false}
+                  />
+                  <span className="-mt-0.5 ml-1 text-sm">{rev.stars}</span>
+                </div>
+                <div className="mt-5 flex space-x-1">
+                  <CircleUser className="-mt-0.5 size-5" />
+                  <span className="-mt-1 text-base tracking-wide">
+                    {
+                      // slauthorice out '#' from username
+                      rev.author.slice(0, rev.author.indexOf("#"))
+                    }
+                    :
+                  </span>
+                </div>
+              </CardTitle>
+              <CardDescription>
+                {dateFormatter(new Date(rev.createdAt))}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
+              <blockquote>{rev.text}</blockquote>
+            </CardContent>
+            <CardFooter>
+              <CommentList
+                TOKEN={TOKEN}
+                data={rev.Comments}
+                reviewId={rev.id}
+                isUserReview={false}
+                userId={USER_ID}
+              />
+            </CardFooter>
+          </Card>
+        ))}
+      </section>
+    );
+  }
 };
 
 export default ReviewList;

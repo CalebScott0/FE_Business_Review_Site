@@ -49,7 +49,7 @@ const NavBar = ({ TOKEN }) => {
         </NavLink>
         {/* Have to filter by location before any search allowed */}
         {location.pathname !== "/" && (
-          <div className="flex">
+          <div className="flex space-x-0.5">
             <SearchCategories
               setCategory={setCategory}
               value={value}
@@ -58,7 +58,6 @@ const NavBar = ({ TOKEN }) => {
             {/* put another search for business names here */}
             <Button
               size="icon"
-              className="-ml-1 rounded-l-none border-l-0"
               variant="outline"
               // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
               // Reset combobox on click

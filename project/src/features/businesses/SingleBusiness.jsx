@@ -101,6 +101,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
         TOKEN={TOKEN}
         USER_ID={USER_ID}
         setIsEditReview={setIsEditReview}
+        reviewCount={business.reviewCount}
       />
     </main>
   );

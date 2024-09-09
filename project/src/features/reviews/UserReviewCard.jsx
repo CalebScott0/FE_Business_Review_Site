@@ -70,7 +70,10 @@ const UserReviewCard = ({
               <span className="-mt-1 text-base tracking-wide">
                 {
                   // slice out '#' from username
-                  userReview.author.slice(0, userReview.author.indexOf("#"))
+                  userReview.author.slice(
+                    0,
+                    userReview.author.indexOf("#"),
+                  )
                 }
                 :
               </span>

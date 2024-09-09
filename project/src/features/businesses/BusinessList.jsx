@@ -13,9 +13,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
-import { useEditCommentMutation } from "../comments/commentSlice";
 import { useEffect, useState } from "react";
-import axios from "axios";
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);

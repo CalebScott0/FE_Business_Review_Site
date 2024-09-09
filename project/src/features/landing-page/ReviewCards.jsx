@@ -7,13 +7,28 @@ import {
 } from "@/components/ui/card";
 import { CircleUser } from "lucide-react";
 import ReactStars from "react-rating-stars-component";
+import { useEffect, useState } from "react";
 
-const ReviewCard = ({ data }) => {
-  console.table(data);
-  return (
-    data.length !== 0 && (
+const ReviewCards = ({ data }) => {
+  const [reviews, setReviews] = useState([]);
+
+  useEffect(() => {
+    // grab most recent reviews on mount
+    (async function () {
+      try {
+        const response = await fetch("http://localhost:8080/api/review/recent");
+        const json = await response.json();
+        setReviews(json.reviews);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, []);
+
+  if (reviews.length) {
+    return (
       <section className="m-10 grid grid-cols-5 items-center gap-2 gap-x-0">
-        {data.map((review) => (
+        {reviews.map((review) => (
           <Card
             className="box-border h-fit w-full max-w-[250px]"
             key={review.id}
@@ -37,15 +52,16 @@ const ReviewCard = ({ data }) => {
             </CardHeader>
             <CardContent className="-mt-4">
               <ReactStars value={review.stars} size={20} edit={false} />
-              <blockquote className="line-clamp-5 text-sm leading-7 tracking-wide hover:line-clamp-none">
+              <q className="line-clamp-5 text-sm leading-7 tracking-wide">
+                {/* <q className="line-clamp-5 text-sm leading-7 tracking-wide hover:line-clamp-none"> */}
                 {review.text}
-              </blockquote>
+              </q>
             </CardContent>
           </Card>
         ))}
       </section>
-    )
-  );
+    );
+  }
 };
 
-export default ReviewCard;
+export default ReviewCards;

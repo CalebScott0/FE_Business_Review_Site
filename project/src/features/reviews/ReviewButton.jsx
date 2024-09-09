@@ -19,7 +19,7 @@ const ReviewButton = ({ name, businessId, TOKEN, setIsEditReview }) => {
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="bg-gray-500 text-muted hover:bg-gray-400 hover:text-muted"
+            className="my-4 bg-gray-500 text-muted hover:bg-gray-400 hover:text-muted"
           >
             Leave a Review
           </Button>
@@ -28,6 +28,10 @@ const ReviewButton = ({ name, businessId, TOKEN, setIsEditReview }) => {
       </Dialog>
     );
   }
-  return <Button onClick={handleClick}>Write a Review</Button>;
+  return (
+    <Button onClick={handleClick} className="my-4">
+      Write a Review
+    </Button>
+  );
 };
 export default ReviewButton;

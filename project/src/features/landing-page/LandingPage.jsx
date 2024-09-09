@@ -1,6 +1,6 @@
 import { CarouselTemplate } from "@/components/Carousel";
-import { useEffect, useState } from "react";
-import ReviewCard from "./ReviewCard";
+import { useState } from "react";
+import ReviewCards from "./ReviewCards";
 import CategoryMenu from "../navbar/CategoryMenu";
 import {
   foodAndDrinksArr,
@@ -15,7 +15,6 @@ import SearchCategories from "../navbar/SearchCategories";
 import { Button } from "@/components/ui/button";
 
 const LandingPage = () => {
-  const [recentReviews, setRecentReviews] = useState([]);
   // category name set by category selection
   const [category, setCategory] = useState("");
   // value for category search box, reset on go button click
@@ -43,18 +42,6 @@ const LandingPage = () => {
   //     alt: "An auto repair shop",
   //   },
   // ];
-  useEffect(() => {
-    // grab most recent reviews on mount
-    (async function () {
-      try {
-        const response = await fetch("http://localhost:8080/api/review/recent");
-        const json = await response.json();
-        setRecentReviews(json.reviews);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
-  }, []);
 
   const handleClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
@@ -98,7 +85,7 @@ const LandingPage = () => {
             />
           </NavigationMenu>
         </div>
-        <div className="flex items-center">
+        <div className="ml-10 mt-10 flex items-center space-x-0.5">
           <SearchCategories
             setCategory={setCategory}
             value={value}
@@ -106,7 +93,6 @@ const LandingPage = () => {
           />
           <Button
             size="icon"
-            className="-ml-1 rounded-l-none border-l-0"
             variant="outline"
             // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
             // Reset combobox on click
@@ -120,7 +106,7 @@ const LandingPage = () => {
       </section>
       {/* <main className="mt-10 flex flex-col items-center"> */}
       {/* <CarouselTemplate imageArr={imageArr} /> */}
-      <ReviewCard data={recentReviews} />
+      <ReviewCards />
     </main>
   );
 };
