@@ -13,12 +13,14 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import ReviewList from "../reviews/ReviewList";
+import BusinessPhotos from "./BusinessPhotos";
 
 const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const { id, name } = useParams();
 
   const [business, setBusiness] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [refetch, setRefetch] = useState(false);
 
   // const {data , error, isLoading, isFetching } = useGetBusinessByIdQuery(id);
   useEffect(() => {
@@ -37,8 +39,8 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
       }
       setLoading(false);
     })();
-    // refetch on id change (new business loaded) - review deletion?
-  }, [id]);
+    // refetch on id change (new business loaded) & review deletion
+  }, [id, refetch]);
 
   // if (error) {
   // }
@@ -83,6 +85,9 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
               <span>{business.stars?.toFixed(1)}</span>
             </div>
           </CardHeader>
+          <CardContent>
+            <BusinessPhotos businessId={id} />
+          </CardContent>
           <CardDescription className="ml-4">
             {`
             ${business.address} 
@@ -102,6 +107,8 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
         USER_ID={USER_ID}
         setIsEditReview={setIsEditReview}
         reviewCount={business.reviewCount}
+        setRefetch={setRefetch}
+        refetch={refetch}
       />
     </main>
   );

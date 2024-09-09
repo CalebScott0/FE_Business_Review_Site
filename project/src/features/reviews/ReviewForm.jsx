@@ -63,27 +63,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
-    // form.formState.errors.text
-    // try {
-    //   const response = await fetch(
-    //     `http://localhost:8080/api/review/${businessId}`,
-    //     {
-    //       method: "POST",
-    //       body: JSON.stringify({ ...values }),
-    //       headers: {
-    //         authorization: `Bearer ${TOKEN}`,
-    //       },
-    //     },
-    //   );
-    //   const json = await response.json();
-    //   console.log(json);
-    //   setLoading(false);
-    //   navigate(-1);
-    // } catch (error) {
-    //   console.log(error);
-    // setError(error.message || error.data?.message);
-    // }
-
+    // create or edit review
     try {
       const reviewFunction = isEdit ? editReview : createReview;
 

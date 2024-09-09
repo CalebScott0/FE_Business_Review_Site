@@ -38,6 +38,8 @@ const ReviewList = ({
   USER_ID,
   setIsEditReview,
   reviewCount,
+  setRefetch,
+  refetch,
 }) => {
   const [deleteReview] = useDeleteReviewMutation();
   const [isDelete, setIsDelete] = useState(false);
@@ -47,8 +49,8 @@ const ReviewList = ({
   const navigate = useNavigate();
 
   const handleEditClick = ({ reviewId, stars, text }) => {
-    console.log(reviewId);
     setIsEditReview(true);
+    // set router state with stars and text to edit form
     navigate(`/business/${name}/editreview/${reviewId}`, {
       state: {
         stars,
@@ -58,6 +60,7 @@ const ReviewList = ({
   };
 
   useEffect(() => {
+    // fetch reviews for business on mount
     (async function () {
       try {
         const response = await fetch(
@@ -74,8 +77,10 @@ const ReviewList = ({
   const handleDelete = async ({ reviewId }) => {
     setIsDelete(true);
     try {
+      console.log(refetch);
       await deleteReview(reviewId);
       setIsDelete(false);
+      setRefetch(!refetch);
     } catch (error) {
       setDeleteError("Unable to delete review. Please try again.");
     }
@@ -89,8 +94,6 @@ const ReviewList = ({
   const reviewList = userReview
     ? reviews?.toSpliced(reviews?.indexOf(userReview), 1)
     : reviews;
-
-  // change the below once inifinite scroll pagination is implemented - also do this for comments
 
   if (reviews.length) {
     return (
@@ -131,7 +134,7 @@ const ReviewList = ({
                   <CircleUser className="-mt-0.5 size-5" />
                   <span className="-mt-1 text-base tracking-wide">
                     {
-                      // slauthorice out '#' from username
+                      // slice out '#' from username
                       rev.author.slice(0, rev.author.indexOf("#"))
                     }
                     :
@@ -148,7 +151,6 @@ const ReviewList = ({
             <CardFooter>
               <CommentList
                 TOKEN={TOKEN}
-                data={rev.Comments}
                 reviewId={rev.id}
                 isUserReview={false}
                 userId={USER_ID}

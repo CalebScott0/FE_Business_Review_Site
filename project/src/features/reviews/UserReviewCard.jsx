@@ -19,9 +19,6 @@ const UserReviewCard = ({
   userReview,
   userReviewDate,
 }) => {
-  {
-    /* on refetch after delete - status will be pending - hide userReview immediately as there is a delay in delete */
-  }
   if (userReview) {
     return (
       <Card className="mb-10">
@@ -70,10 +67,7 @@ const UserReviewCard = ({
               <span className="-mt-1 text-base tracking-wide">
                 {
                   // slice out '#' from username
-                  userReview.author.slice(
-                    0,
-                    userReview.author.indexOf("#"),
-                  )
+                  userReview.author.slice(0, userReview.author.indexOf("#"))
                 }
                 :
               </span>

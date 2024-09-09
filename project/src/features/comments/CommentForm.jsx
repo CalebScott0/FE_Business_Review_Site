@@ -33,6 +33,8 @@ const CommentForm = ({
   text,
   setIsEditing,
   isEditing,
+  refetch,
+  setRefetch,
 }) => {
   const [createComment] = useCreateCommentMutation();
   const [editComment] = useEditCommentMutation();
@@ -44,9 +46,11 @@ const CommentForm = ({
       text: "",
     },
   });
+  // set text if form as accessed to edit
   useEffect(() => {
     text && form.setValue("text", text);
   }, []);
+
   const handleXClick = () => {
     setIsCommenting(false);
     setIsEditing(false);
@@ -59,15 +63,17 @@ const CommentForm = ({
     e.preventDefault();
     // form.formState.errors.text
     setError(null);
+    // create or edit comment and refetch list on review
     try {
       await formMode({ ...id, body: values }).unwrap();
       setIsCommenting(false);
       setIsEditing(false);
-      // setCommentId(null);
+      setRefetch(!refetch);
     } catch (error) {
       setError(error.error || error.data?.message);
       console.log("error", error);
     }
+    setCommentId(null);
   };
   return (
     <section className="flex flex-row-reverse justify-end">
