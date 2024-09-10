@@ -14,6 +14,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import ReviewList from "../reviews/ReviewList";
 import BusinessPhotos from "./BusinessPhotos";
+import { useNavigate } from "react-router-dom";
 
 const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const { id, name } = useParams();
@@ -21,6 +22,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const [business, setBusiness] = useState([]);
   const [loading, setLoading] = useState(false);
   const [refetch, setRefetch] = useState(false);
+  const navigate = useNavigate();
 
   // const {data , error, isLoading, isFetching } = useGetBusinessByIdQuery(id);
   useEffect(() => {
@@ -42,6 +44,11 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     // refetch on id change (new business loaded) & review deletion
   }, [id, refetch]);
 
+  // navigate to category on badge click on business card
+  const handleBadgeClick = (categoryName) => {
+    navigate(`/businesses/${categoryName}`);
+  };
+
   // if (error) {
   // }
   if (loading) {
@@ -55,11 +62,10 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
       </div>
     );
   }
-
-  return (
-    <main>
-      {/* Business card */}
-      {business.id && (
+  if (business.length !== 0) {
+    return (
+      <main>
+        {/* Business card */}
         <Card className="border-none">
           <CardHeader>
             <CardTitle>
@@ -85,32 +91,48 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
               <span>{business.stars?.toFixed(1)}</span>
             </div>
           </CardHeader>
-          <CardContent>
-            <BusinessPhotos businessId={id} />
-          </CardContent>
-          <CardDescription className="ml-4">
-            {`
+          <CardDescription className="-mt-4 mb-4 ml-6">
+            <div>
+              {`
             ${business.address} 
             ${business.city}, 
             ${business.state} 
             ${business.zipCode}
             `}
+            </div>
           </CardDescription>
-          <CardFooter></CardFooter>
+          <CardContent>
+            <BusinessPhotos businessId={id} />
+          </CardContent>
+          <CardFooter>
+            <div className="grid grid-cols-6">
+              {business.categories
+                .sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1))
+                .map((category) => (
+                  <Badge
+                    className="mx-0.5 mb-2 h-6 cursor-pointer"
+                    key={category.id}
+                    onClick={() => handleBadgeClick(category.categoryName)}
+                  >
+                    {category.categoryName}
+                  </Badge>
+                ))}
+            </div>
+          </CardFooter>
         </Card>
-      )}
-      <Separator className="my-2" />
-      <ReviewList
-        businessId={id}
-        name={name}
-        TOKEN={TOKEN}
-        USER_ID={USER_ID}
-        setIsEditReview={setIsEditReview}
-        reviewCount={business.reviewCount}
-        setRefetch={setRefetch}
-        refetch={refetch}
-      />
-    </main>
-  );
+        <Separator className="my-2" />
+        <ReviewList
+          businessId={id}
+          name={name}
+          TOKEN={TOKEN}
+          USER_ID={USER_ID}
+          setIsEditReview={setIsEditReview}
+          reviewCount={business.reviewCount}
+          setRefetch={setRefetch}
+          refetch={refetch}
+        />
+      </main>
+    );
+  }
 };
 export default SingleBusiness;

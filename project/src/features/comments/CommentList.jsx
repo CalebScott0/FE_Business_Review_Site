@@ -57,7 +57,7 @@ const Commentlist = ({ TOKEN, isUserReview, reviewId, userId }) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/comment/review/${reviewId}`,
+          `http://localhost:8080/api/businesses/reviews/${reviewId}/comments`,
         );
         const json = await response.json();
         setComments(json.comments);

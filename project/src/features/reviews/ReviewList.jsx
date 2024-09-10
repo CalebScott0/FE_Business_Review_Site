@@ -64,7 +64,7 @@ const ReviewList = ({
     (async function () {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/review/business/${businessId}`,
+          `http://localhost:8080/api/businesses/${businessId}/reviews`,
         );
         const json = await response.json();
         setReviews(json.reviews);

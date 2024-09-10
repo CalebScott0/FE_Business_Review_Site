@@ -16,7 +16,9 @@ const ReviewCards = ({ data }) => {
     // grab most recent reviews on mount
     (async function () {
       try {
-        const response = await fetch("http://localhost:8080/api/review/recent");
+        const response = await fetch(
+          "http://localhost:8080/api/landing-page/reviews/recent",
+        );
         const json = await response.json();
         setReviews(json.reviews);
       } catch (error) {
@@ -30,7 +32,7 @@ const ReviewCards = ({ data }) => {
       <section className="m-10 grid grid-cols-5 items-center gap-2 gap-x-0">
         {reviews.map((review) => (
           <Card
-            className="box-border h-fit w-full max-w-[250px]"
+            className="box-border h-fit w-full max-w-[250px] animate-bounce"
             key={review.id}
           >
             <CardHeader>
@@ -46,7 +48,9 @@ const ReviewCards = ({ data }) => {
               <CardDescription>
                 <p>
                   reviewed{" "}
-                  <span className="text-black">{review.business.name}</span>
+                  <span className="text-black dark:text-white">
+                    {review.business.name}
+                  </span>
                 </p>
               </CardDescription>
             </CardHeader>

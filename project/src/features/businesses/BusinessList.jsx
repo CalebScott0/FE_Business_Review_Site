@@ -35,7 +35,7 @@ const BusinessList = () => {
       // get businesses in category with page and limit parameters
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/category/${categoryName}?page=${count}&limit=10`,
+          `http://localhost:8080/api/businesses/list/category/${categoryName}?page=${count}&limit=10`,
         );
         const json = await response.json();
         setBusinesses(json.businesses);
@@ -46,9 +46,12 @@ const BusinessList = () => {
     })();
   }, [categoryName]);
 
-  const handleBadgeClick = (categoryName) => {
-    navigate(`/businesses/${categoryName}`);
-  };
+    // navigate to category on badge click on business card
+    const handleBadgeClick = (categoryName) => {
+      navigate(`/businesses/${categoryName}`);
+    };
+  
+
 
   /*  Style this sizing / spacing after businesses are styled on page
    Make it look different than loaded businesses so it's not just rectangles,

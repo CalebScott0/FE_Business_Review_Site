@@ -6,9 +6,10 @@ import SingleBusiness from "@/features/businesses/SingleBusiness";
 import { Route, Routes } from "react-router-dom";
 import AuthForm from "@/features/auth/AuthForm";
 import { useLocation } from "react-router-dom";
-import ProfilePage from "@/features/ProfilePage";
+import ProfilePage from "@/features/profile-page/ProfilePage";
 import ReviewForm from "@/features/reviews/ReviewForm";
 import { useSelector } from "react-redux";
+
 import { useState } from "react";
 
 const App = () => {
@@ -16,6 +17,7 @@ const App = () => {
   const TOKEN = useSelector((state) => state.auth.token);
   const USER_ID = useSelector((state) => state.auth.userId);
   const [isEditReview, setIsEditReview] = useState(false);
+
 
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
