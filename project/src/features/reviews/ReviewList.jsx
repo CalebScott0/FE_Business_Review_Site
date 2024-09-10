@@ -17,7 +17,8 @@ import ReviewButton from "../reviews/ReviewButton";
 import ReactStars from "react-rating-stars-component";
 
 // returns date formatted as yyyy-mm-dd
-const dateFormatter = (date) => {
+const dateFormatter = (inpDate) => {
+  const date = new Date(inpDate);
   let year = date.getFullYear();
 
   // getMonth will return a number 0-11
@@ -77,13 +78,12 @@ const ReviewList = ({
   const handleDelete = async ({ reviewId }) => {
     setIsDelete(true);
     try {
-      console.log(refetch);
       await deleteReview(reviewId);
-      setIsDelete(false);
       setRefetch(!refetch);
     } catch (error) {
       setDeleteError("Unable to delete review. Please try again.");
     }
+    setIsDelete(false);
   };
 
   // if userReview, take out of array and display on top of reviews
@@ -131,7 +131,7 @@ const ReviewList = ({
                   <span className="-mt-0.5 ml-1 text-sm">{rev.stars}</span>
                 </div>
                 <div className="mt-5 flex space-x-1">
-                  <CircleUser className="-mt-0.5 size-5" />
+                  <CircleUser className="-mt-0.5 size-6" />
                   <span className="-mt-1 text-base tracking-wide">
                     {
                       // slice out '#' from username
@@ -141,15 +141,15 @@ const ReviewList = ({
                   </span>
                 </div>
               </CardTitle>
-              <CardDescription>
-                {dateFormatter(new Date(rev.createdAt))}
-              </CardDescription>
+              <CardDescription>{dateFormatter(rev.createdAt)}</CardDescription>
             </CardHeader>
             <CardContent>
               <blockquote>{rev.text}</blockquote>
             </CardContent>
             <CardFooter>
               <CommentList
+                reviewDate={dateFormatter(rev.createdAt)}
+                dateFormatter={dateFormatter}
                 TOKEN={TOKEN}
                 reviewId={rev.id}
                 isUserReview={false}

@@ -66,13 +66,13 @@ const CommentForm = ({
     // create or edit comment and refetch list on review
     try {
       await formMode({ ...id, body: values }).unwrap();
-      setIsCommenting(false);
-      setIsEditing(false);
       setRefetch(!refetch);
     } catch (error) {
       setError(error.error || error.data?.message);
       console.log("error", error);
     }
+    setIsCommenting(false);
+    setIsEditing(false);
     setCommentId(null);
   };
   return (

@@ -1,17 +1,38 @@
-import { ChevronDown, ChevronUp, CloudCog, Edit2, Trash2 } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  CircleUser,
+  Edit2,
+  Trash2,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { useEffect, useState } from "react";
 import CommentButton from "./CommentButton";
 import CommentForm from "./CommentForm";
 import { useDeleteCommentMutation } from "./commentSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const Commentlist = ({ TOKEN, isUserReview, reviewId, userId }) => {
+const Commentlist = ({
+  TOKEN,
+  isUserReview,
+  reviewId,
+  userId,
+  dateFormatter,
+  reviewDate,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isCommenting, setIsCommenting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -43,8 +64,8 @@ const Commentlist = ({ TOKEN, isUserReview, reviewId, userId }) => {
     setCommentId(commentId);
     try {
       await deleteComment({ commentId }).unwrap();
-      setIsDeleting(false);
       setRefetch(!refetch);
+      setIsDeleting(false);
     } catch (error) {
       setDeleteError("Unable to delete comment. Please try again.");
     }
@@ -67,6 +88,13 @@ const Commentlist = ({ TOKEN, isUserReview, reviewId, userId }) => {
       setLoading(false);
     })();
   }, [refetch]);
+
+  console.log("reviewDate", reviewDate);
+  const commentDate = (date) => {
+    // accidentally seeded comment dates w/o taking into account review date - handle that here
+    const comDate = dateFormatter(date);
+    return comDate < reviewDate ? reviewDate : comDate;
+  };
 
   return (
     <Collapsible
@@ -103,52 +131,71 @@ const Commentlist = ({ TOKEN, isUserReview, reviewId, userId }) => {
           <span className="sr-only">Toggle</span>
         </Button>
       </CollapsibleTrigger>
-      <CollapsibleContent className="space-y-2">
-        {!loading && <p>comments ({comments.length})</p>}
-        {/* comments.length !== 0 && */}
-        {comments.map((item) => (
-          <section
-            key={item.id}
-            className="rounded-md border px-4 py-2 text-sm shadow-sm"
-          >
-            {item.authorId === userId && item.id !== commentId && (
-              <div className="flex space-x-2">
-                <Button variant="ghost" size="icon">
-                  <Edit2 size="20" onClick={() => handleEditClick(item.id)} />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:bg-destructive"
-                >
-                  <Trash2
-                    size="20"
-                    onClick={() => handleDeleteClick(item.id)}
+      {/* hide comments on form function */}
+      {/* {!isCommenting && !loading && ( */}
+      {!isCommenting && (
+        <CollapsibleContent className="space-y-2">
+          <p>comments ({comments.length})</p>
+          {/* comments.length !== 0 && */}
+          {comments.map((item) => (
+            <Card
+              key={item.id}
+              className="rounded-md border px-4 py-2 text-sm shadow-sm"
+            >
+              <CardHeader>
+                <CardTitle className="flex items-center space-x-1 text-sm">
+                  <CircleUser className="size-5" />
+                  <span>{item.author.slice(0, item.author.indexOf("#"))}</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="text-base">
+                {item.id !== commentId && item.text}
+                {isEditing && item.id === commentId && (
+                  <CommentForm
+                    setIsCommenting={setIsCommenting}
+                    setIsEditing={setIsEditing}
+                    reviewId={reviewId}
+                    setCommentId={setCommentId}
+                    commentId={commentId}
+                    text={item.text}
+                    isEditing={isEditing}
+                    setRefetch={setRefetch}
+                    refetch={refetch}
                   />
-                </Button>
-                {deleteError && (
-                  <p className="text-destructive">{deleteError}</p>
                 )}
-              </div>
-            )}
-            {item.id !== commentId && <p>{item.text}</p>}
-            {isEditing && item.id === commentId && (
-              <CommentForm
-                setIsCommenting={setIsCommenting}
-                setIsEditing={setIsEditing}
-                reviewId={reviewId}
-                setCommentId={setCommentId}
-                commentId={commentId}
-                text={item.text}
-                isEditing={isEditing}
-                setRefetch={setRefetch}
-                refetch={refetch}
-              />
-            )}
-            {isDeleting && item.id === commentId && <p>Deleting comment...</p>}
-          </section>
-        ))}
-      </CollapsibleContent>
+              </CardContent>
+              {isDeleting && item.id === commentId && (
+                <CardFooter>Deleting comment...</CardFooter>
+              )}
+              {!isEditing && (
+                <CardDescription className="ml-5">
+                  {commentDate(item.createdAt)}
+                </CardDescription>
+              )}
+              {item.authorId === userId && item.id !== commentId && (
+                <CardFooter className="-mb-6 -ml-2.5 mt-2 flex space-x-2">
+                  <Button variant="ghost" size="icon">
+                    <Edit2 size="20" onClick={() => handleEditClick(item.id)} />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="hover:bg-destructive"
+                  >
+                    <Trash2
+                      size="20"
+                      onClick={() => handleDeleteClick(item.id)}
+                    />
+                  </Button>
+                  {deleteError && (
+                    <p className="text-destructive">{deleteError}</p>
+                  )}
+                </CardFooter>
+              )}
+            </Card>
+          ))}
+        </CollapsibleContent>
+      )}
     </Collapsible>
   );
 };

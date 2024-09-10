@@ -108,10 +108,10 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             <div className="grid grid-cols-6">
               {business.categories
                 .sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1))
-                .map((category) => (
+                .map((category, idx) => (
                   <Badge
                     className="mx-0.5 mb-2 h-6 cursor-pointer"
-                    key={category.id}
+                    key={idx}
                     onClick={() => handleBadgeClick(category.categoryName)}
                   >
                     {category.categoryName}

@@ -70,13 +70,12 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
       const id = isEdit ? { reviewId } : { businessId };
 
       await reviewFunction({ ...id, body: values }).unwrap();
-      setLoading(false);
       navigate(-1);
     } catch (error) {
       console.log(error);
       setError(error.error || error.data?.message);
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   const handleRatingChange = (value) => {
