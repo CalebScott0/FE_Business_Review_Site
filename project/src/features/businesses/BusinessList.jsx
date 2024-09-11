@@ -140,9 +140,6 @@ const BusinessList = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    {/* After images work, change this to show all other pictures
-              underneath in an infinite carousel (width of larger image and scrolls left to right)? 
-              Starting with a random index photo to show at the start*/}
                     <div className="flex space-x-2">
                       <img
                         className="box-border size-24 border object-cover"

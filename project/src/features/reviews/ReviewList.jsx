@@ -94,6 +94,7 @@ const ReviewList = ({
   }, [fetchData]);
 
   useEffect(() => {
+  
     // fetch reviews for business on mount
     (async function () {
       try {
@@ -139,7 +140,7 @@ const ReviewList = ({
     ? reviews?.toSpliced(reviews?.indexOf(userReview), 1)
     : reviews;
 
-  if (reviews.length !== 0) {
+  if (reviews.length > 0) {
     return (
       <section>
         <span className="mx-5">{reviewCount} reviews</span>

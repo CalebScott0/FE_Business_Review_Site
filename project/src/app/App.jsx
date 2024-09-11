@@ -22,9 +22,7 @@ const App = () => {
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       {/* Hide navbar in auth */}
       {pathname !== "/login" && pathname !== "/register" && (
-        <div className="sticky">
-          <NavBar TOKEN={TOKEN} />
-        </div>
+        <NavBar TOKEN={TOKEN} />
       )}
       <Routes>
         <Route path="/" element={<LandingPage />} />
