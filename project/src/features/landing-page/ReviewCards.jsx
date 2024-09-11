@@ -47,7 +47,7 @@ const ReviewCards = () => {
     // };
   }, []);
 
-  if (reviews.length) {
+  if (reviews.length > 0) {
     return (
       <section className="m-10 grid grid-cols-5 items-center gap-2 gap-x-0">
         {reviews.map((review) => (

@@ -13,17 +13,18 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 const App = () => {
-  const location = useLocation();
+  const { location, pathname } = useLocation();
   const TOKEN = useSelector((state) => state.auth.token);
   const USER_ID = useSelector((state) => state.auth.userId);
   const [isEditReview, setIsEditReview] = useState(false);
 
-
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       {/* Hide navbar in auth */}
-      {location.pathname !== "/login" && location.pathname !== "/register" && (
-        <NavBar TOKEN={TOKEN} />
+      {pathname !== "/login" && pathname !== "/register" && (
+        <div className="sticky">
+          <NavBar TOKEN={TOKEN} />
+        </div>
       )}
       <Routes>
         <Route path="/" element={<LandingPage />} />

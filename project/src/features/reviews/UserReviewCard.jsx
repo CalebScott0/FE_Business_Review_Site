@@ -15,7 +15,7 @@ import useTruncatedElement from "../../utilities/useTruncatedElement";
 
 const UserReviewCard = ({
   deleteError,
-  handleDelete,
+  handleDeleteClick,
   handleEditClick,
   isDelete,
   userReview,
@@ -49,7 +49,7 @@ const UserReviewCard = ({
               <p
                 className="ml-2 inline cursor-pointer"
                 onClick={() =>
-                  handleDelete({
+                  handleDeleteClick({
                     reviewId: userReview.id,
                   })
                 }
@@ -90,7 +90,11 @@ const UserReviewCard = ({
             {userReview.text}
           </blockquote>
           {isTruncated && (
-            <Button className="self-end" variant="ghost" onClick={toggleIsShowingMore}>
+            <Button
+              className="self-end"
+              variant="ghost"
+              onClick={toggleIsShowingMore}
+            >
               {!isShowingMore ? `Read More` : `See less`}
             </Button>
           )}

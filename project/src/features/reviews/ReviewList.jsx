@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import ReviewButton from "../reviews/ReviewButton";
 import ReviewCard from "./ReviewCard";
 import Loader from "@/components/Loader";
+
 // returns date formatted as yyyy-mm-dd
 const dateFormatter = (inpDate) => {
   const date = new Date(inpDate);
@@ -31,25 +32,66 @@ const ReviewList = ({
   setRefetch,
   refetch,
 }) => {
-  const [deleteReview] = useDeleteReviewMutation();
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(5);
-  const loaderRef = useRef(null)
+  const [isMoreData, setIsMoreData] = useState(true);
+
+  const loaderRef = useRef(null);
+  const [deleteReview] = useDeleteReviewMutation();
 
   const navigate = useNavigate();
-  const handleEditClick = ({ reviewId, stars, text }) => {
-    setIsEditReview(true);
-    // set router state with stars and text to edit form
-    navigate(`/business/${name}/editreview/${reviewId}`, {
-      state: {
-        stars,
-        text,
-      },
+
+  const fetchData = useCallback(async () => {
+    // escape function if loading or no more data to fetch
+    if (isLoading || !isMoreData) return;
+
+    setIsLoading(true);
+    setIsMoreData(true);
+
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=5`,
+      );
+      const json = await response.json();
+      // return if no more data
+      if (!json.reviews) {
+        setIsLoading(false);
+        setIsMoreData(false);
+        return;
+      }
+      // append new reviews to reviews state
+      setReviews((prevReviews) => [...prevReviews, ...json.reviews]);
+    } catch (error) {
+      console.log(error);
+    }
+    // increment index
+    setIndex((prevIndex) => prevIndex + 5);
+
+    setIsLoading(false);
+  }, [index, isLoading]);
+
+  useEffect(() => {
+    // add observer for loader ref to fetch data according to target
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        fetchData();
+      }
     });
-  };
+    if (loaderRef.current) {
+      // add loaderRef element to the set of target elements watched by IntersectionObserver
+      observer.observe(loaderRef.current);
+    }
+    // cleanup function to ensure loader element is not observed when component is unmounted
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [fetchData]);
 
   useEffect(() => {
     // fetch reviews for business on mount
@@ -66,7 +108,18 @@ const ReviewList = ({
     })();
   }, []);
 
-  const handleDelete = async ({ reviewId }) => {
+  const handleEditClick = ({ reviewId, stars, text }) => {
+    setIsEditReview(true);
+    // set router state with stars and text to edit form
+    navigate(`/business/${name}/editreview/${reviewId}`, {
+      state: {
+        stars,
+        text,
+      },
+    });
+  };
+
+  const handleDeleteClick = async ({ reviewId }) => {
     setIsDelete(true);
     try {
       await deleteReview(reviewId);
@@ -101,7 +154,7 @@ const ReviewList = ({
         {/* userReview card */}
         <UserReviewCard
           deleteError={deleteError}
-          handleDelete={handleDelete}
+          handleDeleteClick={handleDeleteClick}
           handleEditClick={handleEditClick}
           isDelete={isDelete}
           userReview={userReview}
@@ -119,6 +172,10 @@ const ReviewList = ({
             />
           ))}
         </div>
+        <div ref={loaderRef} className="mt-6 text-center">
+          {isLoading && <Loader />}
+        </div>
+        {!isMoreData && <p className="mt-6 text-center">End of list.</p>}
       </section>
     );
   }

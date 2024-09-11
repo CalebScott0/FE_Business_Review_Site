@@ -45,7 +45,7 @@ const UserComments = ({ TOKEN }) => {
     );
   };
 
-  if (comments.length !== 0) {
+  if (comments.length > 0) {
     return (
       <Carousel
         opts={{

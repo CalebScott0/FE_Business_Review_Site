@@ -27,7 +27,7 @@ const BusinessPhotos = ({ businessId }) => {
       }
     })();
   }, [businessId]);
-  if (photos.length !== 0) {
+  if (photos.length > 0) {
     // moved handlePhotoClick to top to set currentPhotoIndex after click
     const handlePhotoClick = (id) => {
       setCurrentPhoto(id);

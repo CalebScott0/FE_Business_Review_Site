@@ -13,7 +13,7 @@ const NavBar = ({ TOKEN }) => {
   const [category, setCategory] = useState("");
   // value for category search box, reset on go button click
   const [value, setValue] = useState("");
-  const location = useLocation();
+  const { pathname } = useLocation();
 
   const navigate = useNavigate();
   // request location in browser, return latitute/longitude
@@ -48,7 +48,7 @@ const NavBar = ({ TOKEN }) => {
           </h2>
         </NavLink>
         {/* Have to filter by location before any search allowed */}
-        {location.pathname !== "/" && (
+        {pathname !== "/" && (
           <div className="flex space-x-0.5">
             <SearchCategories
               setCategory={setCategory}

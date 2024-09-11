@@ -26,7 +26,7 @@ const ProfileReviewList = ({ TOKEN }) => {
     return reviewDate.toDateString() + " - " + reviewDate.toLocaleTimeString();
   };
 
-  if (reviews.length !== 0) {
+  if (reviews.length > 0) {
     return (
       <section>
         {reviews.map((review) => (

@@ -19,7 +19,7 @@ import { useNavigate } from "react-router-dom";
 const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const { id, name } = useParams();
 
-  const [business, setBusiness] = useState([]);
+  const [business, setBusiness] = useState({});
   const [loading, setLoading] = useState(false);
   const [refetch, setRefetch] = useState(false);
   const navigate = useNavigate();
@@ -62,7 +62,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
       </div>
     );
   }
-  if (business.length !== 0) {
+  if (business.id) {
     return (
       <main>
         {/* Business card */}
