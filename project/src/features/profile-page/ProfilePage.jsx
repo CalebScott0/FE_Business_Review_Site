@@ -79,17 +79,18 @@ const ProfilePage = ({ TOKEN }) => {
           <CardContent>
             User Since: {userDate}
             <ul>
-              <li className="mt-2">- Review Count: {data.user.reviewCount}</li>
-              <li className="flex items-center">
-                <span className="mr-2">- Average Review Stars:</span>
+              <li className="flex items-center mt-2">
+                <span className="mr-2">- Average Review Rating:</span>
                 <ReactStars
                   edit={false}
                   isHalf={true}
                   value={data.user.stars}
                   size={18}
                 />
-                <span className="mx-1">{data.user.stars.toFixed(1)}</span>
+                <span className="mx-1">{data.user.stars.toFixed(1)} Stars</span>
               </li>
+              <li>- Review Count: {data.user.reviewCount}</li>
+              <li>- Comment Count: {data.user.commentCount}</li>
 
               {/* add comment count */}
             </ul>

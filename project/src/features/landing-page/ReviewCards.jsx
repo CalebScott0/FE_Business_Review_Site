@@ -25,7 +25,7 @@ const ReviewCards = () => {
         );
         const json = await response.json();
         // if(!isMounted) return
-        localStorage.removeItem("landing-page-reviews");
+        // localStorage.removeItem("landing-page-reviews");
         localStorage.setItem(
           "landing-page-reviews",
           JSON.stringify(json.reviews),

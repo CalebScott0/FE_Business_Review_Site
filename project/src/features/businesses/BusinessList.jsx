@@ -1,5 +1,4 @@
 import { NavLink, useParams } from "react-router-dom";
-import { useGetBusinessListQuery } from "./businessSlice";
 import {
   Card,
   CardContent,
@@ -13,60 +12,111 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
+import Loader from "../../components/Loader";
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);
-  const [loading, setLoading] = useState(false);
-
+  const [isLoading, setIsLoading] = useState(false);
+  const [index, setIndex] = useState(1);
+  const [isMoreData, setIsMoreData] = useState(true);
+  // add a loader ref that will be attached to an element to signal a data fetch
+  const loaderRef = useRef(null);
   // grab category name from url
   const { categoryName } = useParams();
   const navigate = useNavigate();
-  let count = 1;
-  // const {
-  //   data = {},
-  //   error,
-  //   isLoading,
-  //   isFetching,
-  // } = useGetBusinessListQuery({ category, page: count, limit: 10 });
+
+  const fetchData = useCallback(async () => {
+    // escape function if loading or no more data to fetch
+    if (isLoading || !isMoreData) return;
+
+    setIsLoading(true);
+
+    try {
+      // fetch next batch of business data with offset of index in state
+      const response = await fetch(
+        `http://localhost:8080/api/businesses/list/category/${categoryName}?offset=${index}0&limit=10`,
+      );
+      const json = await response.json();
+      // return if no more data
+      if (!json.businesses) {
+        setIsLoading(false);
+        setIsMoreData(false);
+        return;
+      }
+      // append new businesses to businesses state
+      setBusinesses((prevBusinesses) => [
+        ...prevBusinesses,
+        ...json.businesses,
+      ]);
+    } catch (error) {
+      console.log(error);
+    }
+
+    setIndex((prevIndex) => prevIndex + 1);
+
+    setIsLoading(false);
+    // callback hook function change on index and loading dependency
+  }, [index, isLoading]);
+
   useEffect(() => {
-    setLoading(true);
+    // add observer for loader ref to fetch data according to target
+    const observer = new IntersectionObserver((entries) => {
+      const target = entries[0];
+      if (target.isIntersecting) {
+        fetchData();
+      }
+    });
+    if (loaderRef.current) {
+      // add loaderRef element to the set of target elements watched by IntersectionObserver
+      observer.observe(loaderRef.current);
+    }
+    // cleanup function to ensure loader element is not observed when component is unmounted
+    return () => {
+      if (loaderRef.current) {
+        observer.unobserve(loaderRef.current);
+      }
+    };
+  }, [fetchData]);
+
+  useEffect(() => {
+    // fetch initial page data
     (async function () {
+      setIsLoading(true);
       // get businesses in category with page and limit parameters
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/list/category/${categoryName}?page=${count}&limit=10`,
+          `http://localhost:8080/api/businesses/list/category/${categoryName}?offset=0&limit=10`,
         );
         const json = await response.json();
+
         setBusinesses(json.businesses);
       } catch (error) {
         console.log(error);
       }
-      setLoading(false);
+      setIsLoading(false);
     })();
   }, [categoryName]);
 
-    // navigate to category on badge click on business card
-    const handleBadgeClick = (categoryName) => {
-      navigate(`/businesses/${categoryName}`);
-    };
-  
-
+  // navigate to category on badge click on business card
+  const handleBadgeClick = (categoryName) => {
+    navigate(`/businesses/${categoryName}`);
+  };
 
   /*  Style this sizing / spacing after businesses are styled on page
    Make it look different than loaded businesses so it's not just rectangles,
     like how hulu does it in app? */
-  if (loading) {
-    return (
-      <div className="py-5">
-        {Array.from({ length: 10 }).map((_, idx) => (
-          <div key={idx} className="mt-4">
-            <Skeleton className="mx-4 h-16" />
-          </div>
-        ))}
-      </div>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <div className="py-5">
+  //       {Array.from({ length: 10 }).map((_, idx) => (
+  //         <div key={idx} className="mt-4">
+  //           <Skeleton className="mx-4 h-16" />
+  //         </div>
+  //       ))}
+  //     </div>
+  //   );
+  // }
   return (
     <main>
       <h1 className="m-5 text-2xl font-semibold leading-6 tracking-wide">
@@ -154,10 +204,12 @@ const BusinessList = () => {
                 </Badge>
               ))}
             </CardDescription>
-            <CardFooter>{/* Stars / Review */}</CardFooter>
+            <CardFooter></CardFooter>
           </Card>
         ))}
       </div>
+      <div ref={loaderRef}>{isLoading && <Loader />}</div>
+      {!isMoreData && <p className="text-center">End of list.</p>}
     </main>
   );
 };

@@ -107,6 +107,7 @@ const ReviewList = ({
         {/* map the rest of reviews */}
         {reviewList.map((review) => (
           <ReviewCard
+            key={review.id}
             review={review}
             dateFormatter={dateFormatter}
             TOKEN={TOKEN}
