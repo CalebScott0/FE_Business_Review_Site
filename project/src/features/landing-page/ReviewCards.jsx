@@ -9,22 +9,32 @@ import { CircleUser } from "lucide-react";
 import ReactStars from "react-rating-stars-component";
 import { useEffect, useState } from "react";
 
-const ReviewCards = ({ data }) => {
-  const [reviews, setReviews] = useState([]);
-
+const ReviewCards = () => {
+  // setState to revies in localstorage or empty array fallback
+  const [reviews, setReviews] = useState(
+    JSON.parse(localStorage.getItem("landing-page-reviews")) || [],
+  );
   useEffect(() => {
-    // grab most recent reviews on mount
+    // grab most recent reviews on mount - will update every 5 seconds
+    // const intervalId = setInterval(() => {
     (async function () {
       try {
         const response = await fetch(
           "http://localhost:8080/api/landing-page/reviews/recent",
         );
         const json = await response.json();
-        setReviews(json.reviews);
+        localStorage.setItem(
+          "landing-page-reviews",
+          JSON.stringify(json.reviews),
+        );
+        setReviews(JSON.parse(localStorage.getItem("landing-page-reviews")));
       } catch (error) {
         console.log(error);
       }
     })();
+    // }, 5000);
+    // clear interval only if no reviews are in local storage (avoid 5 second delay on initial mount)
+    // return () => clearInterval(intervalId);
   }, []);
 
   if (reviews.length) {

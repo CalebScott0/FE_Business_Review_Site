@@ -89,7 +89,6 @@ const Commentlist = ({
     })();
   }, [refetch]);
 
-  console.log("reviewDate", reviewDate);
   const commentDate = (date) => {
     // accidentally seeded comment dates w/o taking into account review date - handle that here
     const comDate = dateFormatter(date);
