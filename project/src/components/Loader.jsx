@@ -1,5 +1,6 @@
+import PulseLoader from "react-spinners/PulseLoader";
 const Loader = () => {
-  return <p>Hi</p>;
+  return <PulseLoader />;
 };
 
 export default Loader;

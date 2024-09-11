@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { useDeleteReviewMutation } from "../reviews/reviewSlice";
 import UserReviewCard from "./UserReviewCard";
 import { useNavigate } from "react-router-dom";
 import ReviewButton from "../reviews/ReviewButton";
 import ReviewCard from "./ReviewCard";
-
+import Loader from "@/components/Loader";
 // returns date formatted as yyyy-mm-dd
 const dateFormatter = (inpDate) => {
   const date = new Date(inpDate);
@@ -35,6 +35,9 @@ const ReviewList = ({
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [reviews, setReviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [index, setIndex] = useState(5);
+  const loaderRef = useRef(null)
 
   const navigate = useNavigate();
   const handleEditClick = ({ reviewId, stars, text }) => {
@@ -53,7 +56,7 @@ const ReviewList = ({
     (async function () {
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/${businessId}/reviews`,
+          `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=5`,
         );
         const json = await response.json();
         setReviews(json.reviews);
@@ -105,15 +108,17 @@ const ReviewList = ({
           userReviewDate={userReviewDate}
         />
         {/* map the rest of reviews */}
-        {reviewList.map((review) => (
-          <ReviewCard
-            key={review.id}
-            review={review}
-            dateFormatter={dateFormatter}
-            TOKEN={TOKEN}
-            USER_ID={USER_ID}
-          />
-        ))}
+        <div>
+          {reviewList.map((review) => (
+            <ReviewCard
+              key={review.id}
+              review={review}
+              dateFormatter={dateFormatter}
+              TOKEN={TOKEN}
+              USER_ID={USER_ID}
+            />
+          ))}
+        </div>
       </section>
     );
   }

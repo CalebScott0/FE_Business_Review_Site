@@ -208,7 +208,7 @@ const BusinessList = () => {
           </Card>
         ))}
       </div>
-      <div ref={loaderRef}>{isLoading && <Loader />}</div>
+      <div ref={loaderRef} className="text-center">{isLoading && <Loader />}</div>
       {!isMoreData && <p className="text-center">End of list.</p>}
     </main>
   );
