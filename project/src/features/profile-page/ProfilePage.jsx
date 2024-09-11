@@ -1,6 +1,6 @@
 import { useGetMeQuery } from "../auth/authSlice";
 import { Skeleton } from "@/components/ui/skeleton";
-import UserReviews from "./UserReviews";
+import ProfileReviewList from "./ProfileReviewList";
 import UserComments from "./UserComments";
 import LoginPopupForm from "../auth/LoginPopupForm";
 import {
@@ -37,8 +37,9 @@ const ProfilePage = ({ TOKEN }) => {
   if (TOKEN && data) {
     console.table(data.user);
     return (
-      <section>
-        <Card className="mx-6 h-fit">
+      <section className="mx-12">
+        <h1 className="my-6 text-3xl font-bold tracking-wider">Your Profile</h1>
+        <Card className="h-fit">
           {/* User card */}
           <CardHeader>
             <CardTitle>{data.user.username}</CardTitle>
@@ -94,11 +95,19 @@ const ProfilePage = ({ TOKEN }) => {
             </ul>
           </CardContent>
         </Card>
-        <div className="mt-2 flex">
-          <div className="flex-1">
+        <div className="font-l mt-2 flex gap-12">
+          <div className="mt-20">
+            <h4 className="relative bottom-16 text-center text-2xl font-semibold">
+              Comments
+            </h4>
             <UserComments TOKEN={TOKEN} />
           </div>
-          <UserReviews TOKEN={TOKEN} />
+          <div className="mt-4">
+            <h4 className="relative ml-6 text-2xl font-semibold">Reviews</h4>
+            <div className="mt-6">
+              <ProfileReviewList TOKEN={TOKEN} />
+            </div>
+          </div>
         </div>
       </section>
     );

@@ -1,20 +1,9 @@
 import { useEffect, useState } from "react";
-import { CircleGauge, CircleUser } from "lucide-react";
-import CommentList from "../comments/CommentList";
 import { useDeleteReviewMutation } from "../reviews/reviewSlice";
-import { useEditCommentMutation } from "../comments/commentSlice";
 import UserReviewCard from "./UserReviewCard";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { useNavigate } from "react-router-dom";
 import ReviewButton from "../reviews/ReviewButton";
-import ReactStars from "react-rating-stars-component";
+import ReviewCard from "./ReviewCard";
 
 // returns date formatted as yyyy-mm-dd
 const dateFormatter = (inpDate) => {
@@ -48,7 +37,6 @@ const ReviewList = ({
   const [reviews, setReviews] = useState([]);
 
   const navigate = useNavigate();
-
   const handleEditClick = ({ reviewId, stars, text }) => {
     setIsEditReview(true);
     // set router state with stars and text to edit form
@@ -95,7 +83,7 @@ const ReviewList = ({
     ? reviews?.toSpliced(reviews?.indexOf(userReview), 1)
     : reviews;
 
-  if (reviews.length) {
+  if (reviews.length !== 0) {
     return (
       <section>
         <span className="mx-5">{reviewCount} reviews</span>
@@ -117,46 +105,13 @@ const ReviewList = ({
           userReviewDate={userReviewDate}
         />
         {/* map the rest of reviews */}
-        {reviewList.map((rev) => (
-          <Card key={rev.id}>
-            <CardHeader>
-              <CardTitle>
-                <div className="flex">
-                  <ReactStars
-                    value={rev.stars}
-                    size={18}
-                    edit={false}
-                    isHalf={false}
-                  />
-                  <span className="-mt-0.5 ml-1 text-sm">{rev.stars}</span>
-                </div>
-                <div className="mt-5 flex space-x-1">
-                  <CircleUser className="-mt-0.5 size-6" />
-                  <span className="-mt-1 text-base tracking-wide">
-                    {
-                      // slice out '#' from username
-                      rev.author.slice(0, rev.author.indexOf("#"))
-                    }
-                    :
-                  </span>
-                </div>
-              </CardTitle>
-              <CardDescription>{dateFormatter(rev.createdAt)}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <blockquote>{rev.text}</blockquote>
-            </CardContent>
-            <CardFooter>
-              <CommentList
-                reviewDate={dateFormatter(rev.createdAt)}
-                dateFormatter={dateFormatter}
-                TOKEN={TOKEN}
-                reviewId={rev.id}
-                isUserReview={false}
-                userId={USER_ID}
-              />
-            </CardFooter>
-          </Card>
+        {reviewList.map((review) => (
+          <ReviewCard
+            review={review}
+            dateFormatter={dateFormatter}
+            TOKEN={TOKEN}
+            USER_ID={USER_ID}
+          />
         ))}
       </section>
     );

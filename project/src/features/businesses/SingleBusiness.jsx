@@ -105,12 +105,12 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             <BusinessPhotos businessId={id} />
           </CardContent>
           <CardFooter>
-            <div className="grid grid-cols-6">
+            <div className="flex flex-wrap">
               {business.categories
                 .sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1))
                 .map((category, idx) => (
                   <Badge
-                    className="mx-0.5 mb-2 h-6 cursor-pointer"
+                    className="mx-0.5 mb-2 h-6 cursor-pointer w-fit"
                     key={idx}
                     onClick={() => handleBadgeClick(category.categoryName)}
                   >

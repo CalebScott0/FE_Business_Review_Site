@@ -3,10 +3,16 @@ import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 
 const UserComments = ({ TOKEN }) => {
@@ -26,7 +32,6 @@ const UserComments = ({ TOKEN }) => {
         );
         const json = await response.json();
         setComments(json.comments);
-        console.log(json.comments);
       } catch (error) {
         console.log(error);
       }
@@ -35,41 +40,62 @@ const UserComments = ({ TOKEN }) => {
 
   const commentDate = (date) => {
     const commentDate = new Date(date);
-    return commentDate.toDateString() + " - " + commentDate.toLocaleTimeString();
+    return (
+      commentDate.toDateString() + " - " + commentDate.toLocaleTimeString()
+    );
   };
 
   if (comments.length !== 0) {
     return (
-      <section className="flex flex-wrap justify-center gap-2">
-        {comments.map((comment) => (
-          <Card key={comment.id} className="w-full max-w-md">
-            <CardHeader className="text-sm">
-              <CardTitle className="text-sm">
-                {commentDate(comment.createdAt)}
-              </CardTitle>
-              <Separator />
-              <div>
-                You Commented on{" "}
-                <span className="font-semibold">
-                  {comment.reviewAuthor.slice(
-                    0,
-                    comment.reviewAuthor.indexOf("#"),
-                  )}
-                  's
-                </span>{" "}
-                Review
-              </div>
-              <p>
-                For{" "}
-                <span className="font-semibold">{comment.businessName}</span>
-              </p>
-            </CardHeader>
-            <Separator className="mx-auto w-[90%]" />
-            <CardDescription className="ml-2">Comment:</CardDescription>
-            <CardContent>{comment.text}</CardContent>
-          </Card>
-        ))}
-      </section>
+      <Carousel
+        opts={{
+          align: "start",
+        }}
+        orientation="vertical"
+        className="w-full max-w-xs"
+      >
+        <CarouselContent className="-mt-1 h-full max-h-[650px]">
+          {comments.map((comment) => (
+            <CarouselItem
+              key={comment.id}
+              // className="md:basis-1/2 lg:basis-1/3"
+            >
+              <Card className="w-full">
+                <CardHeader className="text-center text-base">
+                  <CardDescription className="text-sm">
+                    {commentDate(comment.createdAt)}
+                  </CardDescription>
+                  <Separator />
+                  <CardTitle className="text-base tracking-wide font-normal">
+                    <div>
+                      You Commented on{" "}
+                      <span className="font-bold">
+                        {comment.reviewAuthor.slice(
+                          0,
+                          comment.reviewAuthor.indexOf("#"),
+                        )}
+                        's
+                      </span>{" "}
+                      Review
+                    </div>
+                    <p>
+                      For{" "}
+                      <span className="font-bold">{comment.businessName}</span>
+                    </p>
+                  </CardTitle>
+                </CardHeader>
+                <Separator className="mx-auto w-[90%]" />
+                <CardDescription className="ml-2 text-xs">
+                  Comment:
+                </CardDescription>
+                <CardContent>{comment.text}</CardContent>
+              </Card>
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     );
   }
 };

@@ -10,19 +10,22 @@ import ReactStars from "react-rating-stars-component";
 import { useEffect, useState } from "react";
 
 const ReviewCards = () => {
-  // setState to revies in localstorage or empty array fallback
+  // // setState to reviews in localstorage or empty array fallback
   const [reviews, setReviews] = useState(
     JSON.parse(localStorage.getItem("landing-page-reviews")) || [],
   );
+  // const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
+    // setIsMounted(true);
     // grab most recent reviews on mount - will update every 5 seconds
-    // const intervalId = setInterval(() => {
     (async function () {
       try {
         const response = await fetch(
           "http://localhost:8080/api/landing-page/reviews/recent",
         );
         const json = await response.json();
+        // if(!isMounted) return
+        localStorage.removeItem("landing-page-reviews");
         localStorage.setItem(
           "landing-page-reviews",
           JSON.stringify(json.reviews),
@@ -32,9 +35,16 @@ const ReviewCards = () => {
         console.log(error);
       }
     })();
+
+    // set interval to fetch reviews every 5 seconds after mount
+    // const intervalId = setInterval(() => {
+    // fetchReviews();
     // }, 5000);
-    // clear interval only if no reviews are in local storage (avoid 5 second delay on initial mount)
-    // return () => clearInterval(intervalId);
+    // clear interval and set is mounted to false
+    // return () => {
+    // clearInterval(intervalId);
+    // setIsMounted(false);
+    // };
   }, []);
 
   if (reviews.length) {

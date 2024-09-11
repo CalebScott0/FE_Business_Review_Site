@@ -10,6 +10,8 @@ import { Button } from "@/components/ui/button";
 import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
 import CommentList from "../comments/CommentList";
+import { useRef } from "react";
+import useTruncatedElement from "../../utilities/useTruncatedElement";
 
 const UserReviewCard = ({
   deleteError,
@@ -19,6 +21,11 @@ const UserReviewCard = ({
   userReview,
   userReviewDate,
 }) => {
+  const ref = useRef(null);
+  const { isTruncated, isShowingMore, toggleIsShowingMore } =
+    useTruncatedElement({
+      ref,
+    });
   if (userReview) {
     return (
       <Card className="mb-10">
@@ -75,7 +82,19 @@ const UserReviewCard = ({
           </CardTitle>
           <CardDescription>{userReviewDate}</CardDescription>
         </CardHeader>
-        <CardContent>{userReview.text}</CardContent>
+        <CardContent className="flex flex-col">
+          <blockquote
+            ref={ref}
+            className={`mb-3 line-clamp-${isShowingMore ? 0 : 5}`}
+          >
+            {userReview.text}
+          </blockquote>
+          {isTruncated && (
+            <Button className="self-end" variant="ghost" onClick={toggleIsShowingMore}>
+              {!isShowingMore ? `Read More` : `See less`}
+            </Button>
+          )}
+        </CardContent>
         <CardFooter>
           {/* <CommentList data={userReview.comments} isUserReview={true} /> */}
         </CardFooter>
