@@ -15,7 +15,6 @@ import { CircleUser } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loader from "../../components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { set } from "zod";
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);
@@ -27,7 +26,7 @@ const BusinessList = () => {
   // grab category name from url
   const { categoryName } = useParams();
   const navigate = useNavigate();
-  console.log(window.history);
+
   useEffect(() => {
     // fetch initial page data
     (async function () {
@@ -57,12 +56,13 @@ const BusinessList = () => {
         `http://localhost:8080/api/businesses/list/category/${categoryName}?offset=${index}0&limit=10`,
       );
       const json = await response.json();
+      // return and end inifinite scroll if no more data
       if (!json.businesses) {
         setHasMore(false);
         return;
       }
       setHasMore(true);
-      // json.businesses ? setHasMore(true) : setHasMore(false);
+      // append new businesses to businesses state
       setBusinesses((prevBusinesses) => [
         ...prevBusinesses,
         ...json.businesses,
@@ -196,7 +196,6 @@ const BusinessList = () => {
             ))}
         </div>
       </InfiniteScroll>
-      {/* <div className="text-center">{isLoading && <Loader />}</div> */}
     </main>
   );
 };

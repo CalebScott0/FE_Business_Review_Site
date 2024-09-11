@@ -74,21 +74,21 @@ const Commentlist = ({
   };
 
   // fetch comments for reviews on initial mount - and on comment functions with refresh
-  useEffect(() => {
-    (async function () {
-      setLoading(true);
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/businesses/reviews/${reviewId}/comments`,
-        );
-        const json = await response.json();
-        setComments(json.comments);
-      } catch (error) {
-        console.log(error);
-      }
-      setLoading(false);
-    })();
-  }, [refetch]);
+  // useEffect(() => {
+  //   (async function () {
+  //     setLoading(true);
+  //     try {
+  //       const response = await fetch(
+  //         `http://localhost:8080/api/businesses/reviews/${reviewId}/comments`,
+  //       );
+  //       const json = await response.json();
+  //       setComments(json.comments);
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //     setLoading(false);
+  //   })();
+  // }, [refetch]);
 
   const commentDate = (date) => {
     // accidentally seeded comment dates w/o taking into account review date - handle that here

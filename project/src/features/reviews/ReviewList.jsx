@@ -1,10 +1,11 @@
-import { useEffect, useState, useRef, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useDeleteReviewMutation } from "../reviews/reviewSlice";
 import UserReviewCard from "./UserReviewCard";
 import { useNavigate } from "react-router-dom";
 import ReviewButton from "../reviews/ReviewButton";
 import ReviewCard from "./ReviewCard";
 import Loader from "@/components/Loader";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 // returns date formatted as yyyy-mm-dd
 const dateFormatter = (inpDate) => {
@@ -35,80 +36,53 @@ const ReviewList = ({
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [index, setIndex] = useState(5);
-  const [isMoreData, setIsMoreData] = useState(true);
+  const [hasMore, setHasMore] = useState(true);
+  const [isInitialLoad, setIsInitialLoad] = useState(false);
 
-  const loaderRef = useRef(null);
   const [deleteReview] = useDeleteReviewMutation();
 
   const navigate = useNavigate();
 
-  const fetchData = useCallback(async () => {
-    // escape function if loading or no more data to fetch
-    if (isLoading || !isMoreData) return;
-
-    setIsLoading(true);
-    setIsMoreData(true);
-
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=5`,
-      );
-      const json = await response.json();
-      // return if no more data
-      if (!json.reviews) {
-        setIsLoading(false);
-        setIsMoreData(false);
-        return;
-      }
-      // append new reviews to reviews state
-      setReviews((prevReviews) => [...prevReviews, ...json.reviews]);
-    } catch (error) {
-      console.log(error);
-    }
-    // increment index
-    setIndex((prevIndex) => prevIndex + 5);
-
-    setIsLoading(false);
-  }, [index, isLoading]);
-
   useEffect(() => {
-    // add observer for loader ref to fetch data according to target
-    const observer = new IntersectionObserver((entries) => {
-      const target = entries[0];
-      if (target.isIntersecting) {
-        fetchData();
-      }
-    });
-    if (loaderRef.current) {
-      // add loaderRef element to the set of target elements watched by IntersectionObserver
-      observer.observe(loaderRef.current);
-    }
-    // cleanup function to ensure loader element is not observed when component is unmounted
-    return () => {
-      if (loaderRef.current) {
-        observer.unobserve(loaderRef.current);
-      }
-    };
-  }, [fetchData]);
-
-  useEffect(() => {
-  
     // fetch reviews for business on mount
     (async function () {
+      setIsInitialLoad(true);
       try {
         const response = await fetch(
           `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=5`,
         );
         const json = await response.json();
+
         setReviews(json.reviews);
+        json.reviews.length < 5 && setHasMore(false);
       } catch (error) {
         console.log(error);
       }
+      setIsInitialLoad(false);
     })();
   }, []);
 
+  const fetchMoreReviews = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=5`,
+      );
+      const json = await response.json();
+      // return and end scroll if no more data
+      console.log(json.reviews.length);
+      if (!json.reviews.length) {
+        setHasMore(false);
+        return;
+      }
+      setHasMore(true);
+      // append new reviews to reviews state
+      setReviews((prevReviews) => [...prevReviews, ...json.reviews]);
+    } catch (error) {
+      console.log(error);
+    }
+    setIndex((prevIndex) => prevIndex + 5);
+  };
   const handleEditClick = ({ reviewId, stars, text }) => {
     setIsEditReview(true);
     // set router state with stars and text to edit form
@@ -162,21 +136,29 @@ const ReviewList = ({
           userReviewDate={userReviewDate}
         />
         {/* map the rest of reviews */}
-        <div>
-          {reviewList.map((review) => (
-            <ReviewCard
-              key={review.id}
-              review={review}
-              dateFormatter={dateFormatter}
-              TOKEN={TOKEN}
-              USER_ID={USER_ID}
-            />
-          ))}
-        </div>
-        <div ref={loaderRef} className="mt-6 text-center">
-          {isLoading && <Loader />}
-        </div>
-        {!isMoreData && <p className="mt-6 text-center">End of list.</p>}
+        <InfiniteScroll
+          dataLength={reviews.length}
+          next={fetchMoreReviews}
+          hasMore={hasMore}
+          loader={
+            <div className="mt-2 text-center">
+              <Loader />
+            </div>
+          }
+          endMessage={<p className="text-center mt-4">End of list</p>}
+        >
+          <div>
+            {reviewList.map((review) => (
+              <ReviewCard
+                key={review.id}
+                review={review}
+                dateFormatter={dateFormatter}
+                TOKEN={TOKEN}
+                USER_ID={USER_ID}
+              />
+            ))}
+          </div>
+        </InfiniteScroll>
       </section>
     );
   }
