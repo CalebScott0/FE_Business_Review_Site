@@ -39,7 +39,9 @@ const ReviewCard = ({ review, dateFormatter, TOKEN, USER_ID }) => {
             <span className="-mt-1 text-base tracking-wide">
               {
                 // slice out '#' from username
-                review.author.slice(0, review.author.indexOf("#"))
+                review.author.indexOf("#") < 0
+                  ? review.author
+                  : review.author.slice(0, review.author.indexOf("#"))
               }
               :
             </span>
@@ -55,7 +57,11 @@ const ReviewCard = ({ review, dateFormatter, TOKEN, USER_ID }) => {
           {review.text}
         </blockquote>
         {isTruncated && (
-          <Button className="self-end" variant="ghost" onClick={toggleIsShowingMore}>
+          <Button
+            className="self-end"
+            variant="ghost"
+            onClick={toggleIsShowingMore}
+          >
             {!isShowingMore ? `Read More` : `See less`}
           </Button>
         )}

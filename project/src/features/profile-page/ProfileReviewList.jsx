@@ -1,12 +1,15 @@
 import { useState, useEffect } from "react";
 import ProfileReviewCard from "./ProfileReviewCard.jsx";
+import Loader from "@/components/Loader.jsx";
 
 const ProfileReviewList = ({ TOKEN }) => {
   const [reviews, setReviews] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async function () {
       // grab a logged in user's reviews
+      setIsLoading(true);
       try {
         const response = await fetch("http://localhost:8080/api/user/reviews", {
           headers: {
@@ -18,6 +21,7 @@ const ProfileReviewList = ({ TOKEN }) => {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     })();
   }, []);
 
@@ -25,6 +29,8 @@ const ProfileReviewList = ({ TOKEN }) => {
     const reviewDate = new Date(date);
     return reviewDate.toDateString() + " - " + reviewDate.toLocaleTimeString();
   };
+
+  if (isLoading) return <Loader />;
 
   if (reviews.length > 0) {
     return (

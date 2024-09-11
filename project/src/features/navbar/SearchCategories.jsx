@@ -15,20 +15,26 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-// import { useGetCategoriesQuery } from "./categorySlice";
 
 const SearchCategories = ({ setCategory, value, setValue }) => {
   const [categories, setCategories] = useState([]);
+  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    async function fetchCategories() {
-      const res = await fetch("http://localhost:8080/api/categories");
-      const json = await res.json();
-      setCategories(json.categories);
-    }
-    fetchCategories();
+    (async function () {
+      setIsLoading(true);
+      setError(false);
+      try {
+        const res = await fetch("http://localhost:8080/api/categories");
+        const json = await res.json();
+        setCategories(json.categories);
+      } catch (error) {
+        setError(true);
+      }
+      setIsLoading(false);
+    })();
   }, []);
-  // use error and isLoading on this (isLoading use spinner?)
 
   const [open, setOpen] = useState(false);
   // value mapped to category.name
@@ -52,12 +58,8 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
         <Command>
           <CommandInput placeholder="Search category..." />
           <CommandList>
-            {/* {error && <CommandEmpty>No categories found.</CommandEmpty>} */}
-            {/* {isLoading && (
-              <CommandLoading className="text-center">
-                Loading categories...
-              </CommandLoading>
-            )} */}
+            {error && <CommandEmpty>No categories found.</CommandEmpty>}
+            {isLoading && <p className="text-center">Loading categories...</p>}
             <CommandGroup>
               {categories.map((category) => (
                 <CommandItem

@@ -2,6 +2,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 import { Separator } from "@/components/ui/separator";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import SearchCategories from "./SearchCategories";
+import SearchBusinessByName from "./SearchBusinessByName";
 import LogoutButton from "../auth/LogoutButton";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -67,6 +68,7 @@ const NavBar = ({ TOKEN }) => {
             >
               <Search />
             </Button>
+            <SearchBusinessByName />
           </div>
         )}
         <div className="flex space-x-5">

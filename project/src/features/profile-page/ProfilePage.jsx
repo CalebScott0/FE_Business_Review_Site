@@ -1,13 +1,11 @@
 import { useGetMeQuery } from "../auth/authSlice";
 import { Skeleton } from "@/components/ui/skeleton";
 import ProfileReviewList from "./ProfileReviewList";
-import UserComments from "./UserComments";
-import LoginPopupForm from "../auth/LoginPopupForm";
+import ProfileCommentList from "./ProfileCommentList";
 import {
   Card,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -27,7 +25,9 @@ const ProfilePage = ({ TOKEN }) => {
       </div>
     );
   }
-
+  if (error) {
+    return <p>Error loading account Info</p>;
+  }
   // convert user date to new Date object returning string of just the date
   const userDate = data && new Date(data.user.createdAt).toDateString();
 
@@ -37,7 +37,7 @@ const ProfilePage = ({ TOKEN }) => {
   if (TOKEN && data) {
     console.table(data.user);
     return (
-      <section className="mx-12">
+      <section className="mx-12 mb-52">
         <h1 className="my-6 text-3xl font-bold tracking-wider">Your Profile</h1>
         <Card className="h-fit">
           {/* User card */}
@@ -79,7 +79,7 @@ const ProfilePage = ({ TOKEN }) => {
           <CardContent>
             User Since: {userDate}
             <ul>
-              <li className="flex items-center mt-2">
+              <li className="mt-2 flex items-center">
                 <span className="mr-2">- Average Review Rating:</span>
                 <ReactStars
                   edit={false}
@@ -101,7 +101,7 @@ const ProfilePage = ({ TOKEN }) => {
             <h4 className="relative bottom-16 text-center text-2xl font-semibold">
               Comments
             </h4>
-            <UserComments TOKEN={TOKEN} />
+            <ProfileCommentList TOKEN={TOKEN} />
           </div>
           <div className="mt-4">
             <h4 className="relative ml-6 text-2xl font-semibold">Reviews</h4>

@@ -17,7 +17,6 @@ const ProfileReviewCard = ({ review, reviewDate }) => {
     useTruncatedElement({
       ref,
     });
-
   return (
     <Card className="mb-6">
       <CardHeader>

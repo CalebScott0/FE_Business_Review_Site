@@ -20,6 +20,7 @@ const UserReviewCard = ({
   isDelete,
   userReview,
   userReviewDate,
+  dateFormatter,
 }) => {
   const ref = useRef(null);
   const { isTruncated, isShowingMore, toggleIsShowingMore } =
@@ -72,10 +73,10 @@ const UserReviewCard = ({
             <div className="mt-5 flex space-x-1">
               <CircleUser className="-mt-0.5 size-5" />
               <span className="-mt-1 text-base tracking-wide">
-                {
-                  // slice out '#' from username
-                  userReview.author.slice(0, userReview.author.indexOf("#"))
-                }
+                {/* slice out '#' from username */}
+                {userReview.author.indexOf("#") < 0
+                  ? userReview.author
+                  : userReview.author.slice(0, userReview.author.indexOf("#"))}
                 :
               </span>
             </div>
@@ -100,7 +101,11 @@ const UserReviewCard = ({
           )}
         </CardContent>
         <CardFooter>
-          {/* <CommentList data={userReview.comments} isUserReview={true} /> */}
+          <CommentList
+            dateFormatter={dateFormatter}
+            reviewId={userReview.id}
+            isUserReview={true}
+          />
         </CardFooter>
       </Card>
     );

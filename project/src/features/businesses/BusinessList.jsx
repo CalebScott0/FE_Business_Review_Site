@@ -57,7 +57,7 @@ const BusinessList = () => {
       );
       const json = await response.json();
       // return and end inifinite scroll if no more data
-      if (!json.businesses) {
+      if (json.businesses.length < 10) {
         setHasMore(false);
         return;
       }

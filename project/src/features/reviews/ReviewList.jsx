@@ -36,9 +36,9 @@ const ReviewList = ({
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [reviews, setReviews] = useState([]);
-  const [index, setIndex] = useState(5);
+  const [index, setIndex] = useState(1);
   const [hasMore, setHasMore] = useState(true);
-  const [isInitialLoad, setIsInitialLoad] = useState(false);
+  // const [isInitialLoad, setIsInitialLoad] = useState(false);
 
   const [deleteReview] = useDeleteReviewMutation();
 
@@ -47,31 +47,30 @@ const ReviewList = ({
   useEffect(() => {
     // fetch reviews for business on mount
     (async function () {
-      setIsInitialLoad(true);
+      // setIsInitialLoad(true);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=5`,
+          `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=1`,
         );
         const json = await response.json();
 
         setReviews(json.reviews);
-        json.reviews.length < 5 && setHasMore(false);
+        json.reviews.length === 0 && setHasMore(false);
       } catch (error) {
         console.log(error);
       }
-      setIsInitialLoad(false);
+      // setIsInitialLoad(false);
     })();
   }, []);
 
   const fetchMoreReviews = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=5`,
+        `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=1`,
       );
       const json = await response.json();
       // return and end scroll if no more data
-      console.log(json.reviews.length);
-      if (!json.reviews.length) {
+      if (json.reviews.length === 0) {
         setHasMore(false);
         return;
       }
@@ -81,7 +80,7 @@ const ReviewList = ({
     } catch (error) {
       console.log(error);
     }
-    setIndex((prevIndex) => prevIndex + 5);
+    setIndex((prevIndex) => prevIndex + 1);
   };
   const handleEditClick = ({ reviewId, stars, text }) => {
     setIsEditReview(true);
@@ -134,6 +133,7 @@ const ReviewList = ({
           isDelete={isDelete}
           userReview={userReview}
           userReviewDate={userReviewDate}
+          dateFormatter={dateFormatter}
         />
         {/* map the rest of reviews */}
         <InfiniteScroll
@@ -141,11 +141,11 @@ const ReviewList = ({
           next={fetchMoreReviews}
           hasMore={hasMore}
           loader={
-            <div className="mt-2 text-center">
+            <div className="mt-2">
               <Loader />
             </div>
           }
-          endMessage={<p className="text-center mt-4">End of list</p>}
+          endMessage={<p className="mt-4 text-center">End of list</p>}
         >
           <div>
             {reviewList.map((review) => (

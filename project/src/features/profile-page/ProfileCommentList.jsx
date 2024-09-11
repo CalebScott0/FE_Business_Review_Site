@@ -14,13 +14,16 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
+import Loader from "@/components/Loader";
 
-const UserComments = ({ TOKEN }) => {
+const ProfileCommentList = ({ TOKEN }) => {
   const [comments, setComments] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     // grab logged in user's comments
     (async function () {
+      setIsLoading(true);
       try {
         const response = await fetch(
           "http://localhost:8080/api/user/comments",
@@ -35,6 +38,7 @@ const UserComments = ({ TOKEN }) => {
       } catch (error) {
         console.log(error);
       }
+      setIsLoading(false);
     })();
   }, []);
 
@@ -44,6 +48,8 @@ const UserComments = ({ TOKEN }) => {
       commentDate.toDateString() + " - " + commentDate.toLocaleTimeString()
     );
   };
+
+  if (isLoading) return <Loader />;
 
   if (comments.length > 0) {
     return (
@@ -66,7 +72,7 @@ const UserComments = ({ TOKEN }) => {
                     {commentDate(comment.createdAt)}
                   </CardDescription>
                   <Separator />
-                  <CardTitle className="text-base tracking-wide font-normal">
+                  <CardTitle className="text-base font-normal tracking-wide">
                     <div>
                       You Commented on{" "}
                       <span className="font-bold">
@@ -99,4 +105,4 @@ const UserComments = ({ TOKEN }) => {
     );
   }
 };
-export default UserComments;
+export default ProfileCommentList;

@@ -12,6 +12,7 @@ import { HeartPulse, Layers, Sandwich, Search, Wrench } from "lucide-react";
 import { NavigationMenu } from "@/components/ui/navigation-menu";
 import { useNavigate } from "react-router-dom";
 import SearchCategories from "../navbar/SearchCategories";
+import SearchBusinessByName from "../navbar/SearchBusinessByName";
 import { Button } from "@/components/ui/button";
 
 const LandingPage = () => {
@@ -20,28 +21,6 @@ const LandingPage = () => {
   // value for category search box, reset on go button click
   const [value, setValue] = useState("");
   const navigate = useNavigate();
-  // const imageArr = [
-  //   {
-  //     src: "../../assets/home-page-pic-1.png",
-  //     alt: "A shopping center.",
-  //   },
-  //   {
-  //     src: "../../assets/home-page-pic-2.png",
-  //     alt: "A table at a nice restaurant.",
-  //   },
-  //   {
-  //     src: "../../assets/home-page-pic-3.png",
-  //     alt: "A group of people doing yoga in a park",
-  //   },
-  //   {
-  //     src: "../../assets/home-page-pic-4.png",
-  //     alt: "A plumber working in a home",
-  //   },
-  //   {
-  //     src: "../../assets/home-page-pic-5.png",
-  //     alt: "An auto repair shop",
-  //   },
-  // ];
 
   const handleClick = (categoryName) => {
     navigate(`/businesses/${categoryName}`);
@@ -49,7 +28,7 @@ const LandingPage = () => {
   };
   return (
     <main>
-      <section className="h-48 bg-muted">
+      <section className="h-60 bg-muted">
         {" "}
         <div className="ml-4 flex space-x-2">
           <NavigationMenu>
@@ -103,10 +82,13 @@ const LandingPage = () => {
             <Search />
           </Button>
         </div>
+        <div className="ml-10 mt-10 flex items-center space-x-0.5">
+          <SearchBusinessByName />
+        </div>
       </section>
-      {/* <main className="mt-10 flex flex-col items-center"> */}
-      {/* <CarouselTemplate imageArr={imageArr} /> */}
-      <ReviewCards />
+      <div className="mt-20">
+        <ReviewCards />
+      </div>
     </main>
   );
 };

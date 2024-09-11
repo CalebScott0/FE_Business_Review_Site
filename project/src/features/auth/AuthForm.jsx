@@ -22,6 +22,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useLocation } from "react-router-dom";
 
 const schema = z.object({
   username: z.string().min(1, { message: "Required" }),
@@ -34,8 +35,8 @@ const AuthForm = ({ location }) => {
   const [login] = useLoginMutation();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const PATH = location.pathname || "/login";
+  const { pathname } = useLocation();
+  const PATH = pathname || "/login";
 
   const authType = PATH === "/login" ? "Log in" : "Register";
   const oppAuthType = PATH !== "/login" ? "Log in" : "Create an account";
@@ -109,8 +110,9 @@ const AuthForm = ({ location }) => {
                     </FormControl>
                     <FormMessage />
                     <FormDescription>
-                      {PATH === "/register" &&
-                        `ENTER SOMETHING ABOUT PASSWORD REQUIREMENTS HERE`}
+                      {/* {PATH === "/register" &&
+                       `ENTER SOMETHING ABOUT PASSWORD REQUIREMENTS HERE`}
+                       */}
                     </FormDescription>
                   </FormItem>
                 )}
