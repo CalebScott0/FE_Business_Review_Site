@@ -35,7 +35,6 @@ const SearchBusinessByName = () => {
         const res = await fetch("http://localhost:8080/api/businesses");
         const json = await res.json();
         setBusinesses(json.businesses);
-        console.log(json.businesses.length);
       } catch (error) {
         setError(true);
       }
