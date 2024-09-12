@@ -13,7 +13,7 @@
 5. Submit a Review: Users can write and submit a review for a business, which includes:
   * Written Text Review: A detailed written opinion about the business.
   * Rating: star rating to evaluate the item.
-5.5. Review Constraints: Users can submit only one review per item to maintain review uniqueness.
+*5.5. Review Constraints: Users can submit only one review per item to maintain review uniqueness.
 
 ### Manage Reviews:
 
