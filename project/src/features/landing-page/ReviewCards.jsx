@@ -16,9 +16,8 @@ const ReviewCards = () => {
   );
   // const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
-    // setIsMounted(true);
     // grab most recent reviews on mount - will update every 5 seconds
-    (async function () {
+    (async () => {
       try {
         const response = await fetch(
           "http://localhost:8080/api/landing-page/reviews/recent",

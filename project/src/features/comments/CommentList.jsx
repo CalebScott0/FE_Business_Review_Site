@@ -72,7 +72,7 @@ const Commentlist = ({
 
   // fetch comments for reviews on initial mount - and on comment functions with refresh
   useEffect(() => {
-    (async function () {
+    (async () => {
       isUserReview && console.log("user review");
       setIsLoading(true);
       setIndex(2);

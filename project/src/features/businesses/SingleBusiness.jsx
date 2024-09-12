@@ -29,7 +29,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     setLoading(true);
 
     // fetch business on mount / url id change to new business
-    (async function () {
+    (async () => {
       try {
         const response = await fetch(
           `http://localhost:8080/api/businesses/${id}`,

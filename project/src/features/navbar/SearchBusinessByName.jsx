@@ -29,7 +29,7 @@ const SearchBusinessByName = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    (async function () {
+    (async () => {
       setError(false);
       try {
         const res = await fetch("http://localhost:8080/api/businesses");

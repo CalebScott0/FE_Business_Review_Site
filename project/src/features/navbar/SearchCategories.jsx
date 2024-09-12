@@ -22,7 +22,7 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    (async function () {
+    (async () => {
       setIsLoading(true);
       setError(false);
       try {

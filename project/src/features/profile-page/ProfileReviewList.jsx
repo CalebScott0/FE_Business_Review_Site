@@ -7,7 +7,7 @@ const ProfileReviewList = ({ TOKEN }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    (async function () {
+    (async () => {
       // grab a logged in user's reviews
       setIsLoading(true);
       try {

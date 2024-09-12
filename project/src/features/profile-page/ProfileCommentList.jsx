@@ -22,7 +22,7 @@ const ProfileCommentList = ({ TOKEN }) => {
 
   useEffect(() => {
     // grab logged in user's comments
-    (async function () {
+    (async () => {
       setIsLoading(true);
       try {
         const response = await fetch(

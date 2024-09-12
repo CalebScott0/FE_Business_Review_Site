@@ -29,7 +29,7 @@ const BusinessList = () => {
 
   useEffect(() => {
     // fetch initial page data
-    (async function () {
+    (async () => {
       setHasMore(true);
       setIndex(1);
       setIsInitialLoad(true);

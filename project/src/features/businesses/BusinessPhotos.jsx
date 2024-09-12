@@ -13,7 +13,7 @@ const BusinessPhotos = ({ businessId }) => {
   const [photos, setPhotos] = useState([]);
   const [currentPhoto, setCurrentPhoto] = useState("");
   useEffect(() => {
-    (async function () {
+    (async () => {
       try {
         const response = await fetch(
           `http://localhost:8080/api/businesses/${businessId}/photos`,
