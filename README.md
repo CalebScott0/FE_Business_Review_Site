@@ -33,3 +33,13 @@
 11. Edit Comments: Users can edit their comments.
 12. Delete Comments: Users can delete their comments.
 
+## Local Setup
+1. Install packages
+```bash
+npm install
+```
+2. Run app
+```bash
+npm run dev
+```
+
