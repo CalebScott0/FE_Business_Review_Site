@@ -29,7 +29,7 @@ const schema = z.object({
   password: z.string().min(1, { message: "Required" }),
 });
 
-const AuthForm = ({ location }) => {
+const AuthForm = () => {
   const navigate = useNavigate();
   const [register] = useRegisterMutation();
   const [login] = useLoginMutation();
@@ -125,6 +125,11 @@ const AuthForm = ({ location }) => {
           <p className="mt-2 tracking-wide text-destructive">
             {error && error}
           </p>
+          {loading && (
+            <p className="mt-2 tracking-wide">
+              {PATH === "/login" ? "Logging in..." : "Registering account...."}
+            </p>
+          )}
         </CardContent>
         <CardFooter>
           <p>

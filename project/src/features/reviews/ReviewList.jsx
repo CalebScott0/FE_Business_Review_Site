@@ -36,6 +36,7 @@ const ReviewList = ({
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
   const [index, setIndex] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -46,32 +47,31 @@ const ReviewList = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    setError(null)(
-      // fetch reviews for business on mount
-      async function () {
-        // setIsInitialLoad(true);
-        try {
-          const response = await fetch(
-            `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=1`,
-          );
-          const json = await response.json();
+    // fetch reviews for business on mount
+    (async function () {
+      setError(null);
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          `https://api-business-review-site.onrender.com/api/businesses/${businessId}/reviews?offset=0&limit=10`,
+        );
+        const json = await response.json();
 
-          setReviews(json.reviews);
-          json.reviews.length === 0 && setHasMore(false);
-        } catch (error) {
-          console.log(error);
-          setError("Failed to load reviews, please try again");
-        }
-        // setIsInitialLoad(false);
-      },
-    )();
+        setReviews(json.reviews);
+        json.reviews.length === 0 && setHasMore(false);
+      } catch (error) {
+        console.log(error);
+        setError("Failed to load reviews, please try again");
+      }
+      setIsLoading(false);
+    })();
   }, []);
 
   const fetchMoreReviews = async () => {
     setError(null);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=1`,
+        `https://api-business-review-site.onrender.com/api/businesses/${businessId}/reviews?offset=${index}0&limit=10`,
       );
       const json = await response.json();
       // return and end scroll if no more data
@@ -120,7 +120,12 @@ const ReviewList = ({
     : reviews;
 
   if (error) return <p>{error}</p>;
-
+  if (isLoading)
+    return (
+      <p className="mt-2 text-center">
+        <Loader />
+      </p>
+    );
   if (reviews.length > 0) {
     return (
       <section>

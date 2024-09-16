@@ -22,28 +22,27 @@ const ProfileCommentList = ({ TOKEN }) => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    setError(null)(
-      // grab logged in user's comments
-      async () => {
-        setIsLoading(true);
-        try {
-          const response = await fetch(
-            "http://localhost:8080/api/user/comments",
-            {
-              headers: {
-                authorization: `Bearer ${TOKEN}`,
-              },
+    // grab logged in user's comments
+    (async () => {
+      setError(null);
+      setIsLoading(true);
+      try {
+        const response = await fetch(
+          "https://api-business-review-site.onrender.com/api/user/comments",
+          {
+            headers: {
+              authorization: `Bearer ${TOKEN}`,
             },
-          );
-          const json = await response.json();
-          setComments(json.comments);
-        } catch (error) {
-          console.log(error);
-          setError("Failed to load user comments, please try again");
-        }
-        setIsLoading(false);
-      },
-    )();
+          },
+        );
+        const json = await response.json();
+        setComments(json.comments);
+      } catch (error) {
+        console.log(error);
+        setError("Failed to load user comments, please try again");
+      }
+      setIsLoading(false);
+    })();
   }, []);
 
   const commentDate = (date) => {

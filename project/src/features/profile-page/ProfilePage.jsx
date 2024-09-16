@@ -31,11 +31,8 @@ const ProfilePage = ({ TOKEN }) => {
   // convert user date to new Date object returning string of just the date
   const userDate = data && new Date(data.user.createdAt).toDateString();
 
-  // if (error) {
-  //   return <p>{error}</p>;
-  // }
   if (TOKEN && data) {
-    console.table(data.user);
+    // console.table(data.user);
     return (
       <section className="mx-12 mb-52">
         <h1 className="my-6 text-3xl font-bold tracking-wider">Your Profile</h1>

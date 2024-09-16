@@ -36,13 +36,14 @@ const BusinessList = () => {
       setError(null);
       // get businesses in category with page and limit parameters
       try {
+        // usage of fetch over RTK Query is to exponentially speed up api get requests
         const response = await fetch(
-          `http://localhost:8080/api/businesses/list/category/${categoryName}?offset=0&limit=10`,
+          `https://api-business-review-site.onrender.com/api/businesses/list/category/${categoryName}?offset=0&limit=10`,
         );
         const json = await response.json();
 
         setBusinesses(json.businesses);
-        json.businesses.length < 10 && setHasMore(false);
+        json.businesses?.length < 10 && setHasMore(false);
       } catch (error) {
         console.log(error);
         setError("Failed to load businesses, please try again.");
@@ -56,7 +57,7 @@ const BusinessList = () => {
     // get businesses in category with page and limit parameters
     try {
       const response = await fetch(
-        `http://localhost:8080/api/businesses/list/category/${categoryName}?offset=${index}0&limit=10`,
+        `https://api-business-review-site.onrender.com/api/businesses/list/category/${categoryName}?offset=${index}0&limit=10`,
       );
       const json = await response.json();
       // return and end inifinite scroll if no more data
@@ -147,12 +148,11 @@ const BusinessList = () => {
                     <div className="flex space-x-2">
                       <img
                         className="box-border size-24 border object-cover"
-                        src={`../../../photos/${bus.photos[0].id}.jpg`}
-                        alt={
-                          bus.photos[0].caption
-                            ? bus.photos[0].caption
-                            : bus.name
+                        src={
+                          // `s3://cbs062-review-site-photos/photos/${bus.photos[0].id}.jpg` ||
+                          `../../../photos/${bus.photos[0].id}.jpg`
                         }
+                        alt={bus.photos[0].label}
                       />
                       <Badge
                         variant="outline"
@@ -167,15 +167,15 @@ const BusinessList = () => {
                         @
                         {
                           // slice out '#' from username
-                          bus.reviews[0].author.slice(
+                          bus.review[0].author.slice(
                             0,
-                            bus.reviews[0].author.indexOf("#"),
+                            bus.review[0].author.indexOf("#"),
                           )
                         }
                       </p>
                     </div>
                     <p className="mt-2 line-clamp-2 text-xs tracking-tight">
-                      {bus.reviews[0].text}
+                      {bus.review[0].text}
                     </p>
                   </CardContent>
                 </NavLink>

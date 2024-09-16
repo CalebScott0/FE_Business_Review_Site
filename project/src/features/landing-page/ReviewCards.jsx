@@ -22,7 +22,7 @@ const ReviewCards = () => {
       setError(null);
       try {
         const response = await fetch(
-          "http://localhost:8080/api/landing-page/reviews/recent",
+          "https://api-business-review-site.onrender.com/api/landing-page/reviews/recent",
         );
         const json = await response.json();
         // if(!isMounted) return

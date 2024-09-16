@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 
-import { Card, CardContent } from "@/components/ui/card";
 import {
   Carousel,
   CarouselContent,
@@ -19,12 +18,12 @@ const BusinessPhotos = ({ businessId }) => {
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/${businessId}/photos`,
+          `https://api-business-review-site.onrender.com/api/businesses/${businessId}/photos`,
         );
         const json = await response.json();
         setPhotos(json.photos);
         // set initial display photos
-        setCurrentPhoto(json.photos[0].id);
+        setCurrentPhoto(json.photos[0]);
       } catch (error) {
         console.log(error);
         setError("Failed to load photos, please try again.");
@@ -36,12 +35,12 @@ const BusinessPhotos = ({ businessId }) => {
 
   if (photos.length > 0) {
     // moved handlePhotoClick to top to set currentPhotoIndex after click
-    const handlePhotoClick = (id) => {
-      setCurrentPhoto(id);
+    const handlePhotoClick = (photo) => {
+      setCurrentPhoto(photo);
     };
     // find index of current photo
     const currentPhotoIndex = photos.findIndex(
-      (photo) => photo.id === currentPhoto,
+      (photo) => photo.id === currentPhoto.id,
     );
     // splice out current photo from photo array and copy to a new array
     const photosSubArray = photos.toSpliced(currentPhotoIndex, 1);
@@ -52,7 +51,11 @@ const BusinessPhotos = ({ businessId }) => {
 
         {/* show first photo on render and currentPhoto on click */}
         <img
-          src={`../../../photos/${currentPhoto}.jpg`}
+          src={
+            // `s3://cbs062-review-site-photos/photos/${currentPhoto.id}.jpg` ||
+            `../../../photos/${currentPhoto.id}.jpg`
+          }
+          alt={currentPhoto.label}
           className="w-full max-w-lg border object-cover"
         />
         <Carousel className="mt-2 w-full">
@@ -64,8 +67,12 @@ const BusinessPhotos = ({ businessId }) => {
               >
                 <img
                   className="box-border size-20 cursor-pointer border object-cover hover:-translate-y-2 hover:scale-125 hover:shadow-md"
-                  onClick={() => handlePhotoClick(photo.id)}
-                  src={`../../../photos/${photo.id}.jpg`}
+                  onClick={() => handlePhotoClick(photo)}
+                  src={
+                    // `s3://cbs062-review-site-photos/photos/${photo.id}.jpg` ||
+                    `../../../photos/${photo.id}.jpg`
+                  }
+                  alt={photo.label}
                 />
               </CarouselItem>
             ))}

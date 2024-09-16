@@ -81,7 +81,7 @@ const Commentlist = ({
       setError(null);
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/reviews/${reviewId}/comments?offset=0&limit=2`,
+          `https://api-business-review-site.onrender.com/api/businesses/reviews/${reviewId}/comments?offset=0&limit=2`,
         );
         const json = await response.json();
         setComments(json.comments);
@@ -105,7 +105,7 @@ const Commentlist = ({
 
     try {
       const response = await fetch(
-        `http://localhost:8080/api/businesses/reviews/${reviewId}/comments?offset=${index}&limit=2`,
+        `https://api-business-review-site.onrender.com/api/businesses/reviews/${reviewId}/comments?offset=${index}&limit=2`,
       );
       const json = await response.json();
       if (json.comments.length < 2) {

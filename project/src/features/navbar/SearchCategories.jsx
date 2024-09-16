@@ -26,7 +26,9 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
       setIsLoading(true);
       setError(false);
       try {
-        const res = await fetch("http://localhost:8080/api/categories");
+        const res = await fetch(
+          "https://api-business-review-site.onrender.com/api/categories",
+        );
         const json = await res.json();
         setCategories(json.categories);
       } catch (error) {

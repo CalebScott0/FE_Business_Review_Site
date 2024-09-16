@@ -21,7 +21,7 @@ import { useNavigate } from "react-router-dom";
 const SearchBusinessByName = () => {
   const [businesses, setBusinesses] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setErorr] = useState(null);
+  const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const navigate = useNavigate();
@@ -29,13 +29,17 @@ const SearchBusinessByName = () => {
   useEffect(() => {
     (async () => {
       setError(false);
+      setIsLoading(true);
       try {
-        const res = await fetch("http://localhost:8080/api/businesses");
+        const res = await fetch(
+          "https://api-business-review-site.onrender.com/api/businesses",
+        );
         const json = await res.json();
         setBusinesses(json.businesses);
       } catch (error) {
         setError(true);
       }
+      setIsLoading(false);
     })();
   }, []);
   //   const businessList = businesses;
@@ -68,7 +72,9 @@ const SearchBusinessByName = () => {
             <CommandInput placeholder="Search category..." />
             <CommandList>
               {error && <CommandEmpty>No businesses found.</CommandEmpty>}
-              {isLoading && <p className="text-center py-4">Loading categories...</p>}
+              {isLoading && (
+                <p className="py-4 text-center">Loading categories...</p>
+              )}
 
               <CommandGroup>
                 {businessList.map((business) => (

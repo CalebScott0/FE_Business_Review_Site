@@ -35,7 +35,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
 
       try {
         const response = await fetch(
-          `http://localhost:8080/api/businesses/${id}`,
+          `https://api-business-review-site.onrender.com/api/businesses/${id}`,
         );
         const json = await response.json();
         setBusiness(json.business);
