@@ -20,16 +20,19 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
   const { id, name } = useParams();
 
   const [business, setBusiness] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [refetch, setRefetch] = useState(false);
   const navigate = useNavigate();
 
   // const {data , error, isLoading, isFetching } = useGetBusinessByIdQuery(id);
   useEffect(() => {
-    setLoading(true);
+    setIsLoading(true);
 
     // fetch business on mount / url id change to new business
     (async () => {
+      setError(null);
+
       try {
         const response = await fetch(
           `http://localhost:8080/api/businesses/${id}`,
@@ -38,8 +41,9 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
         setBusiness(json.business);
       } catch (error) {
         console.log(error);
+        setError("Failed to load business, please try again.");
       }
-      setLoading(false);
+      setIsLoading(false);
     })();
     // refetch on id change (new business loaded) & review deletion
   }, [id, refetch]);
@@ -49,9 +53,9 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     navigate(`/businesses/${categoryName}`);
   };
 
-  // if (error) {
-  // }
-  if (loading) {
+  if (error) return <p>{error}</p>;
+
+  if (isLoading) {
     return (
       <div className="py-5">
         {Array.from({ length: 10 }).map((_, idx) => (
@@ -110,7 +114,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 .sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1))
                 .map((category, idx) => (
                   <Badge
-                    className="mx-0.5 mb-2 h-6 cursor-pointer w-fit"
+                    className="mx-0.5 mb-2 h-6 w-fit cursor-pointer"
                     key={idx}
                     onClick={() => handleBadgeClick(category.categoryName)}
                   >

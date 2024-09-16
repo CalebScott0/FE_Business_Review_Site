@@ -59,7 +59,9 @@ const SearchCategories = ({ setCategory, value, setValue }) => {
           <CommandInput placeholder="Search category..." />
           <CommandList>
             {error && <CommandEmpty>No categories found.</CommandEmpty>}
-            {isLoading && <p className="text-center">Loading categories...</p>}
+            {isLoading && (
+              <p className="py-4 text-center">Loading categories...</p>
+            )}
             <CommandGroup>
               {categories.map((category) => (
                 <CommandItem

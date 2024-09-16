@@ -11,9 +11,12 @@ import {
 
 const BusinessPhotos = ({ businessId }) => {
   const [photos, setPhotos] = useState([]);
+  const [error, setError] = useState(null);
+
   const [currentPhoto, setCurrentPhoto] = useState("");
   useEffect(() => {
     (async () => {
+      setError(null);
       try {
         const response = await fetch(
           `http://localhost:8080/api/businesses/${businessId}/photos`,
@@ -24,9 +27,13 @@ const BusinessPhotos = ({ businessId }) => {
         setCurrentPhoto(json.photos[0].id);
       } catch (error) {
         console.log(error);
+        setError("Failed to load photos, please try again.");
       }
     })();
   }, [businessId]);
+
+  if (error) return <p>{error}</p>;
+
   if (photos.length > 0) {
     // moved handlePhotoClick to top to set currentPhotoIndex after click
     const handlePhotoClick = (id) => {

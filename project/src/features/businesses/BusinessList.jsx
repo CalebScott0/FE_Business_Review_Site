@@ -18,7 +18,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const BusinessList = () => {
   const [businesses, setBusinesses] = useState([]);
-  // const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [index, setIndex] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [isInitialLoad, setIsInitialLoad] = useState(false);
@@ -33,6 +33,7 @@ const BusinessList = () => {
       setHasMore(true);
       setIndex(1);
       setIsInitialLoad(true);
+      setError(null);
       // get businesses in category with page and limit parameters
       try {
         const response = await fetch(
@@ -44,12 +45,14 @@ const BusinessList = () => {
         json.businesses.length < 10 && setHasMore(false);
       } catch (error) {
         console.log(error);
+        setError("Failed to load businesses, please try again.");
       }
       setIsInitialLoad(false);
     })();
   }, [categoryName]);
 
   const fetchMoreBusinesses = async () => {
+    setError(null);
     // get businesses in category with page and limit parameters
     try {
       const response = await fetch(
@@ -69,6 +72,7 @@ const BusinessList = () => {
       ]);
     } catch (error) {
       console.log(error);
+      setError("Failed to load businesses, please try again.");
     }
 
     setIndex((prevIndex) => prevIndex + 1);
@@ -92,7 +96,7 @@ const BusinessList = () => {
   //     </div>
   //   );
   // }
-
+  if (error) return <p>{error}</p>;
   return (
     <main>
       <h1 className="m-5 text-2xl font-semibold leading-6 tracking-wide">

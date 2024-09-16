@@ -19,27 +19,31 @@ import Loader from "@/components/Loader";
 const ProfileCommentList = ({ TOKEN }) => {
   const [comments, setComments] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    // grab logged in user's comments
-    (async () => {
-      setIsLoading(true);
-      try {
-        const response = await fetch(
-          "http://localhost:8080/api/user/comments",
-          {
-            headers: {
-              authorization: `Bearer ${TOKEN}`,
+    setError(null)(
+      // grab logged in user's comments
+      async () => {
+        setIsLoading(true);
+        try {
+          const response = await fetch(
+            "http://localhost:8080/api/user/comments",
+            {
+              headers: {
+                authorization: `Bearer ${TOKEN}`,
+              },
             },
-          },
-        );
-        const json = await response.json();
-        setComments(json.comments);
-      } catch (error) {
-        console.log(error);
-      }
-      setIsLoading(false);
-    })();
+          );
+          const json = await response.json();
+          setComments(json.comments);
+        } catch (error) {
+          console.log(error);
+          setError("Failed to load user comments, please try again");
+        }
+        setIsLoading(false);
+      },
+    )();
   }, []);
 
   const commentDate = (date) => {
@@ -50,6 +54,8 @@ const ProfileCommentList = ({ TOKEN }) => {
   };
 
   if (isLoading) return <Loader />;
+
+  if (error) return <p>{error}</p>;
 
   if (comments.length > 0) {
     return (

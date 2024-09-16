@@ -44,6 +44,7 @@ const Commentlist = ({
   const [index, setIndex] = useState(2);
   const [hasMore, setHasMore] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const [deleteComment] = useDeleteCommentMutation();
 
@@ -77,6 +78,7 @@ const Commentlist = ({
       setIsLoading(true);
       setIndex(2);
       setHasMore(true);
+      setError(null);
       try {
         const response = await fetch(
           `http://localhost:8080/api/businesses/reviews/${reviewId}/comments?offset=0&limit=2`,
@@ -91,6 +93,7 @@ const Commentlist = ({
         }
       } catch (error) {
         console.log(error);
+        setError("Failed to load comments, please try again.");
       }
       setIsLoading(false);
     })();
@@ -98,6 +101,8 @@ const Commentlist = ({
 
   const fetchMoreComments = async () => {
     setIsLoading(true);
+    setError(null);
+
     try {
       const response = await fetch(
         `http://localhost:8080/api/businesses/reviews/${reviewId}/comments?offset=${index}&limit=2`,
@@ -113,6 +118,7 @@ const Commentlist = ({
       setComments((prevComments) => [...prevComments, ...json.comments]);
     } catch (error) {
       console.log(error);
+      setError("Failed to load comments, please try again.");
     }
 
     setIndex((prevIndex) => prevIndex + 2);
@@ -125,6 +131,7 @@ const Commentlist = ({
     return comDate < reviewDate ? reviewDate : comDate;
   };
 
+  if (error) return <p>{error}</p>;
   return (
     <Collapsible
       open={isOpen}

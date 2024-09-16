@@ -35,6 +35,7 @@ const ReviewList = ({
 }) => {
   const [isDelete, setIsDelete] = useState(false);
   const [deleteError, setDeleteError] = useState(null);
+  const [error, setError] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [index, setIndex] = useState(1);
   const [hasMore, setHasMore] = useState(true);
@@ -45,25 +46,29 @@ const ReviewList = ({
   const navigate = useNavigate();
 
   useEffect(() => {
-    // fetch reviews for business on mount
-    (async function () {
-      // setIsInitialLoad(true);
-      try {
-        const response = await fetch(
-          `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=1`,
-        );
-        const json = await response.json();
+    setError(null)(
+      // fetch reviews for business on mount
+      async function () {
+        // setIsInitialLoad(true);
+        try {
+          const response = await fetch(
+            `http://localhost:8080/api/businesses/${businessId}/reviews?offset=0&limit=1`,
+          );
+          const json = await response.json();
 
-        setReviews(json.reviews);
-        json.reviews.length === 0 && setHasMore(false);
-      } catch (error) {
-        console.log(error);
-      }
-      // setIsInitialLoad(false);
-    })();
+          setReviews(json.reviews);
+          json.reviews.length === 0 && setHasMore(false);
+        } catch (error) {
+          console.log(error);
+          setError("Failed to load reviews, please try again");
+        }
+        // setIsInitialLoad(false);
+      },
+    )();
   }, []);
 
   const fetchMoreReviews = async () => {
+    setError(null);
     try {
       const response = await fetch(
         `http://localhost:8080/api/businesses/${businessId}/reviews?offset=${index}&limit=1`,
@@ -79,6 +84,7 @@ const ReviewList = ({
       setReviews((prevReviews) => [...prevReviews, ...json.reviews]);
     } catch (error) {
       console.log(error);
+      setError("Failed to load reviews, please try again");
     }
     setIndex((prevIndex) => prevIndex + 1);
   };
@@ -112,6 +118,8 @@ const ReviewList = ({
   const reviewList = userReview
     ? reviews?.toSpliced(reviews?.indexOf(userReview), 1)
     : reviews;
+
+  if (error) return <p>{error}</p>;
 
   if (reviews.length > 0) {
     return (

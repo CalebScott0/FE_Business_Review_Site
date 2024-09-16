@@ -15,17 +15,15 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import Loader from "@/components/Loader";
-import InfiniteScroll from "react-infinite-scroll-component";
 import { Search } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const SearchBusinessByName = () => {
   const [businesses, setBusinesses] = useState([]);
-  const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setErorr] = useState(null);
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-  const [index, setIndex] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -40,8 +38,8 @@ const SearchBusinessByName = () => {
       }
     })();
   }, []);
-//   const businessList = businesses;
-    const businessList = businesses.slice(0, 1000);
+  //   const businessList = businesses;
+  const businessList = businesses.slice(0, 1000);
 
   const handleBusinessClick = () => {
     const { name } = businesses.find((business) => business.id === value);
@@ -70,6 +68,8 @@ const SearchBusinessByName = () => {
             <CommandInput placeholder="Search category..." />
             <CommandList>
               {error && <CommandEmpty>No businesses found.</CommandEmpty>}
+              {isLoading && <p className="text-center py-4">Loading categories...</p>}
+
               <CommandGroup>
                 {businessList.map((business) => (
                   <CommandItem

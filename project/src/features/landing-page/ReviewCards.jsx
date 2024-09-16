@@ -14,10 +14,12 @@ const ReviewCards = () => {
   const [reviews, setReviews] = useState(
     JSON.parse(localStorage.getItem("landing-page-reviews")) || [],
   );
+  const [error, setError] = useState(null);
   // const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     // grab most recent reviews on mount - will update every 5 seconds
     (async () => {
+      setError(null);
       try {
         const response = await fetch(
           "http://localhost:8080/api/landing-page/reviews/recent",
@@ -32,6 +34,7 @@ const ReviewCards = () => {
         setReviews(JSON.parse(localStorage.getItem("landing-page-reviews")));
       } catch (error) {
         console.log(error);
+        setError("Error showing recent reviews");
       }
     })();
 
@@ -45,6 +48,8 @@ const ReviewCards = () => {
     // setIsMounted(false);
     // };
   }, []);
+
+  if (error) return <p>{error}</p>;
 
   if (reviews.length > 0) {
     return (
