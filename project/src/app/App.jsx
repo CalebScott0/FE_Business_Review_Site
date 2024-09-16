@@ -16,6 +16,8 @@ const App = () => {
   const { location, pathname } = useLocation();
   const TOKEN = useSelector((state) => state.auth.token);
   const USER_ID = useSelector((state) => state.auth.userId);
+  const BASE_URL = "https://api-business-review-site.onrender.com/api";
+
   const [isEditReview, setIsEditReview] = useState(false);
 
   return (

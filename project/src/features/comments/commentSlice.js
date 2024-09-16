@@ -8,10 +8,7 @@ const commentApi = api.injectEndpoints({
         method: "POST",
         body,
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        { type: "User" },
-      ],
+      invalidatesTags: ["User"],
     }),
     editComment: builder.mutation({
       query: ({ commentId, body }) => ({
@@ -19,20 +16,14 @@ const commentApi = api.injectEndpoints({
         method: "PUT",
         body,
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        { type: "User" },
-      ],
+      invalidatesTags: ["User"],
     }),
     deleteComment: builder.mutation({
       query: ({ commentId }) => ({
         url: `/comment/${commentId}`,
         method: "DELETE",
       }),
-      invalidatesTags: (result, error, arg) => [
-        { type: "Business", id: arg.id },
-        { type: "User" },
-      ],
+      invalidatesTags: ["User"],
     }),
   }),
 });
