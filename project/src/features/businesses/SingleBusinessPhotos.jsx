@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 
-const BusinessPhotos = ({ businessId }) => {
+const SingleBusinessPhotos = ({ businessId }) => {
   const [photos, setPhotos] = useState([]);
   const [error, setError] = useState(null);
 
@@ -79,4 +79,4 @@ const BusinessPhotos = ({ businessId }) => {
   }
 };
 
-export default BusinessPhotos;
+export default SingleBusinessPhotos;
