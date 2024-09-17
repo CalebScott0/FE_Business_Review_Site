@@ -13,10 +13,10 @@ import { useSelector } from "react-redux";
 import { useState } from "react";
 
 const App = () => {
-  const { location, pathname } = useLocation();
+  const { pathname } = useLocation();
   const TOKEN = useSelector((state) => state.auth.token);
   const USER_ID = useSelector((state) => state.auth.userId);
-  
+
   const BASE_URL = "https://api-business-review-site.onrender.com/api";
 
   const [isEditReview, setIsEditReview] = useState(false);
@@ -41,8 +41,8 @@ const App = () => {
           }
         />
         {/* google better way to do the below location pathname?*/}
-        <Route path="/login" element={<AuthForm location={location} />} />
-        <Route path="/register" element={<AuthForm location={location} />} />
+        <Route path="/login" element={<AuthForm />} />
+        <Route path="/register" element={<AuthForm />} />
         <Route path="/profile" element={<ProfilePage TOKEN={TOKEN} />} />
         <Route
           path={`/business/:name/${!isEditReview ? "createreview/:businessId" : "editreview/:reviewId"}`}

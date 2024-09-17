@@ -85,18 +85,18 @@ const BusinessList = () => {
   };
 
   /*  Style this sizing / spacing after businesses are styled on page
-   Make it look different than loaded businesses so it's not just rectangles */
-  // if (isLoading) {
-  //   return (
-  //     <div className="py-5">
-  //       {Array.from({ length: 10 }).map((_, idx) => (
-  //         <div key={idx} className="mt-4">
-  //           <Skeleton className="mx-4 h-16" />
-  //         </div>
-  //       ))}
-  //     </div>
-  //   );
-  // }
+   Make it look like loaded businesses so it's not just rectangles */
+  if (isInitialLoad) {
+    return (
+      <div className="py-5">
+        {Array.from({ length: 10 }).map((_, idx) => (
+          <div key={idx} className="mt-4">
+            <Skeleton className="mx-4 h-16" />
+          </div>
+        ))}
+      </div>
+    );
+  }
   if (error) return <p>{error}</p>;
   return (
     <main>
@@ -115,47 +115,44 @@ const BusinessList = () => {
         endMessage={<p className="text-center">End of list</p>}
       >
         <div className="m-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
-          {/* <Button onClick={() => count++}>Click</Button> */}
-          {/* {!data.businesses &&
-        Array.from({ length: 10 }).map((_, idx) => (
-          <div key={idx} className="mt-4">
-            <Skeleton className="mx-4 h-16" />
-          </div>
-        ))} */}
-          {/* {data.businesses.map((bus) => ( */}
           {!isInitialLoad &&
-            businesses.map((bus) => (
+            businesses.map((business) => (
               <Card className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
-                <NavLink to={`/business/${bus.name}/${bus.id}`} key={bus.id}>
+                <NavLink
+                  to={`/business/${business.name}/${business.id}`}
+                  key={business.id}
+                >
                   <CardHeader>
                     <CardTitle className="text-center">
                       <span className="text-xl leading-5 tracking-wide">
-                        {bus.name}
+                        {business.name}
                       </span>
                     </CardTitle>
                     <div className="flex place-content-center items-center space-x-1.5">
                       <ReactStars
-                        value={bus.stars}
+                        value={business.stars}
                         size={20}
                         edit={false}
                         isHalf={true}
                       />
-                      <span className="text-sm">{bus.stars.toFixed(1)}</span>
-                      <span className="text-xs">{`(${bus.reviewCount}) reviews`}</span>
+                      <span className="text-sm">
+                        {business.stars.toFixed(1)}
+                      </span>
+                      <span className="text-xs">{`(${business.reviewCount}) reviews`}</span>
                     </div>
                   </CardHeader>
                   <CardContent>
                     <div className="flex space-x-2">
                       <img
                         className="box-border size-24 border object-cover"
-                        src={`s3://cbs062-review-site-photos/photos/${bus.photos[0].id}.jpg`}
-                        alt={bus.photos[0].label}
+                        src={`s3://cbs062-review-site-photos/photos/${business.photos[0].id}.jpg`}
+                        alt={business.photos[0].label}
                       />
                       <Badge
                         variant="outline"
-                        className={`h-fit text-muted ${bus.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                        className={`h-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
                       >
-                        {bus.isOpen ? "Open" : "Closed"}
+                        {business.isOpen ? "Open" : "Closed"}
                       </Badge>
                     </div>
                     <div className="mt-2 flex items-center space-x-1">
@@ -164,21 +161,21 @@ const BusinessList = () => {
                         @
                         {
                           // slice out '#' from username
-                          bus.review[0].author.slice(
+                          business.review[0].author.slice(
                             0,
-                            bus.review[0].author.indexOf("#"),
+                            business.review[0].author.indexOf("#"),
                           )
                         }
                       </p>
                     </div>
                     <p className="mt-2 line-clamp-2 text-xs tracking-tight">
-                      {bus.review[0].text}
+                      {business.review[0].text}
                     </p>
                   </CardContent>
                 </NavLink>
                 <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
-                  {bus.categories.slice(0, 5).map((item, idx) => (
-                    // {bus.categories.map((item) => (
+                  {business.categories.slice(0, 5).map((item, idx) => (
+                    // {business.categories.map((item) => (
                     // MAKE THESE VARIOUS COLORS
                     // (Array of colors in tailwind class syntax w/ random in badge classname?)
                     <Badge

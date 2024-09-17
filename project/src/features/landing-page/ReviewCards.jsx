@@ -63,17 +63,14 @@ const ReviewCards = () => {
               <CardTitle className="flex items-end space-x-2 text-xs">
                 <CircleUser />
                 <span>
-                  {review.author.username.slice(
-                    0,
-                    review.author.username.indexOf("#"),
-                  )}
+                  {review.author.slice(0, review.author.indexOf("#"))}
                 </span>
               </CardTitle>
               <CardDescription>
                 <p>
                   reviewed{" "}
                   <span className="text-black dark:text-white">
-                    {review.business.name}
+                    {review.businessName}
                   </span>
                 </p>
               </CardDescription>
