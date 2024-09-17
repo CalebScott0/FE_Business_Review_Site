@@ -148,10 +148,7 @@ const BusinessList = () => {
                     <div className="flex space-x-2">
                       <img
                         className="box-border size-24 border object-cover"
-                        src={
-                          // `s3://cbs062-review-site-photos/photos/${bus.photos[0].id}.jpg` ||
-                          `../../../photos/${bus.photos[0].id}.jpg`
-                        }
+                        src={`s3://cbs062-review-site-photos/photos/${bus.photos[0].id}.jpg`}
                         alt={bus.photos[0].label}
                       />
                       <Badge
