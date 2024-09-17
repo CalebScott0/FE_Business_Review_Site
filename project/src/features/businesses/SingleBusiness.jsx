@@ -13,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import ReviewList from "../reviews/ReviewList";
-import BusinessPhotos from "./BusinessPhotos";
+import SingleBusinessPhotos from "./SingleBusinessPhotos";
 import { useNavigate } from "react-router-dom";
 
 const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
@@ -106,7 +106,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             </div>
           </CardDescription>
           <CardContent>
-            <BusinessPhotos businessId={id} />
+            <SingleBusinessPhotos businessId={id} />
           </CardContent>
           <CardFooter>
             <div className="flex flex-wrap">

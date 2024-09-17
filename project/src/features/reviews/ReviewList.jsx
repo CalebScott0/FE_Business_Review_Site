@@ -38,7 +38,7 @@ const ReviewList = ({
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [reviews, setReviews] = useState([]);
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(5);
   const [hasMore, setHasMore] = useState(true);
   // const [isInitialLoad, setIsInitialLoad] = useState(false);
 
@@ -53,7 +53,7 @@ const ReviewList = ({
       setIsLoading(true);
       try {
         const response = await fetch(
-          `https://api-business-review-site.onrender.com/api/businesses/${businessId}/reviews?offset=0&limit=10`,
+          `https://api-business-review-site.onrender.com/api/businesses/${businessId}/reviews?offset=0&limit=5`,
         );
         const json = await response.json();
 
@@ -71,7 +71,7 @@ const ReviewList = ({
     setError(null);
     try {
       const response = await fetch(
-        `https://api-business-review-site.onrender.com/api/businesses/${businessId}/reviews?offset=${index}0&limit=10`,
+        `https://api-business-review-site.onrender.com/api/businesses/${businessId}/reviews?offset=${index}&limit=5`,
       );
       const json = await response.json();
       // return and end scroll if no more data
@@ -86,7 +86,7 @@ const ReviewList = ({
       console.log(error);
       setError("Failed to load reviews, please try again");
     }
-    setIndex((prevIndex) => prevIndex + 1);
+    setIndex((prevIndex) => prevIndex + 5);
   };
   const handleEditClick = ({ reviewId, stars, text }) => {
     setIsEditReview(true);

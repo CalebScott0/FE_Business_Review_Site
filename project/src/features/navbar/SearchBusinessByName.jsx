@@ -69,11 +69,11 @@ const SearchBusinessByName = () => {
         </PopoverTrigger>
         <PopoverContent className="w-72 p-0">
           <Command>
-            <CommandInput placeholder="Search category..." />
+            <CommandInput placeholder="Search business..." />
             <CommandList>
               {error && <CommandEmpty>No businesses found.</CommandEmpty>}
               {isLoading && (
-                <p className="py-4 text-center">Loading categories...</p>
+                <p className="py-4 text-center">Loading businesses...</p>
               )}
 
               <CommandGroup>
