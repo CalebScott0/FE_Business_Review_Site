@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { CircleUser } from "lucide-react";
+import { CircleUser, CloudLightning } from "lucide-react";
 import ReactStars from "react-rating-stars-component";
 import { useEffect, useState } from "react";
 
@@ -31,6 +31,7 @@ const ReviewCards = () => {
           "landing-page-reviews",
           JSON.stringify(json.reviews),
         );
+        console.log(json.reviews);
         setReviews(JSON.parse(localStorage.getItem("landing-page-reviews")));
       } catch (error) {
         console.log(error);
@@ -63,7 +64,7 @@ const ReviewCards = () => {
               <CardTitle className="flex items-end space-x-2 text-xs">
                 <CircleUser />
                 <span>
-                  {review.author.slice(0, review.author.indexOf("#"))}
+                  {review.author?.slice(0, review.author?.indexOf("#"))}
                 </span>
               </CardTitle>
               <CardDescription>

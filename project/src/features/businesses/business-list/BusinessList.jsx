@@ -7,16 +7,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
 import { CircleUser } from "lucide-react";
 import { useEffect, useState } from "react";
-import Loader from "../../components/Loader";
+import Loader from "@/components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
+import BusinessListPhoto from "./BusinessListPhoto";
 
-const BusinessList = () => {
+const BusinessList = ({ BASE_URL }) => {
   const [businesses, setBusinesses] = useState([]);
   const [error, setError] = useState(null);
   const [index, setIndex] = useState(1);
@@ -38,7 +38,7 @@ const BusinessList = () => {
       try {
         // usage of fetch over RTK Query is to exponentially speed up api get requests
         const response = await fetch(
-          `https://api-business-review-site.onrender.com/api/businesses/list/category/${categoryName}?offset=0&limit=10`,
+          `${BASE_URL}/businesses/list/category/${categoryName}?offset=0&limit=10`,
         );
         const json = await response.json();
 
@@ -57,7 +57,7 @@ const BusinessList = () => {
     // get businesses in category with page and limit parameters
     try {
       const response = await fetch(
-        `https://api-business-review-site.onrender.com/api/businesses/list/category/${categoryName}?offset=${index}0&limit=10`,
+        `${BASE_URL}/businesses/list/category/${categoryName}?offset=${index}0&limit=10`,
       );
       const json = await response.json();
       // return and end inifinite scroll if no more data
@@ -100,7 +100,7 @@ const BusinessList = () => {
   if (error) return <p>{error}</p>;
   return (
     <main>
-      <h1 className="m-5 text-2xl font-semibold leading-6 tracking-wide">
+      <h1 className="my-6 ml-12 text-4xl font-semibold leading-6 tracking-wide">
         {categoryName}
       </h1>
       <InfiniteScroll
@@ -142,39 +142,33 @@ const BusinessList = () => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <div className="flex space-x-2">
-                      <img
-                        className="box-border size-24 border object-cover"
-                        src={`s3://cbs062-review-site-photos/photos/${business.photos[0].id}.jpg`}
-                        alt={business.photos[0].label}
-                      />
-                      <Badge
-                        variant="outline"
-                        className={`h-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
-                      >
-                        {business.isOpen ? "Open" : "Closed"}
-                      </Badge>
-                    </div>
-                    <div className="mt-2 flex items-center space-x-1">
-                      <CircleUser className="mt-2 size-5" />
-                      <p className="mt-2 text-xs tracking-tighter text-muted-foreground">
-                        @
-                        {
-                          // slice out '#' from username
-                          business.review[0].author.slice(
-                            0,
-                            business.review[0].author.indexOf("#"),
-                          )
-                        }
+                    <BusinessListPhoto
+                      businessId={business.id}
+                      BASE_URL={BASE_URL}
+                    />
+                    {/* 
+                    <div>
+                      <div className="mt-2 flex items-center space-x-1">
+                        <CircleUser className="mt-2 size-5" />
+                        <p className="mt-2 text-xs tracking-tighter text-muted-foreground">
+                          @
+                          {
+                            // slice out '#' from username
+                            business.review[0].author.slice(
+                              0,
+                              business.review[0].author.indexOf("#"),
+                            )
+                          }
+                        </p>
+                      </div>
+                      <p className="mt-2 line-clamp-2 text-xs tracking-tight">
+                        {business.review[0].text}
                       </p>
-                    </div>
-                    <p className="mt-2 line-clamp-2 text-xs tracking-tight">
-                      {business.review[0].text}
-                    </p>
+                    </div> */}
                   </CardContent>
                 </NavLink>
                 <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
-                  {business.categories.slice(0, 5).map((item, idx) => (
+                  {/* {business.categories.slice(0, 5).map((item, idx) => (
                     // {business.categories.map((item) => (
                     // MAKE THESE VARIOUS COLORS
                     // (Array of colors in tailwind class syntax w/ random in badge classname?)
@@ -187,7 +181,7 @@ const BusinessList = () => {
                         {item.categoryName}
                       </span>
                     </Badge>
-                  ))}
+                  ))} */}
                 </CardDescription>
                 <CardFooter></CardFooter>
               </Card>

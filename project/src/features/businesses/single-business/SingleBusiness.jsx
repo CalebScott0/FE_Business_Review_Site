@@ -12,7 +12,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
-import ReviewList from "../reviews/ReviewList";
+import ReviewList from "../../reviews/ReviewList";
 import SingleBusinessPhotos from "./SingleBusinessPhotos";
 import { useNavigate } from "react-router-dom";
 

@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import NavBar from "@/features/navbar/NavBar";
 import LandingPage from "@/features/landing-page/LandingPage";
-import BusinessList from "@/features/businesses/BusinessList";
-import SingleBusiness from "@/features/businesses/SingleBusiness";
+import BusinessList from "@/features/businesses/business-list/BusinessList";
+import SingleBusiness from "@/features/businesses/single-business/SingleBusiness";
 import { Route, Routes } from "react-router-dom";
 import AuthForm from "@/features/auth/AuthForm";
 import { useLocation } from "react-router-dom";
@@ -29,7 +29,10 @@ const App = () => {
       )}
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/businesses/:categoryName" element={<BusinessList />} />
+        <Route
+          path="/businesses/:categoryName"
+          element={<BusinessList BASE_URL={BASE_URL} />}
+        />
         <Route
           path="/business/:name/:id"
           element={
