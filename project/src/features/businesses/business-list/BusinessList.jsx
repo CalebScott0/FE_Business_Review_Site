@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
 import BusinessListPhoto from "./BusinessListPhoto";
+import { Badge } from "@/components/ui/badge";
 
 const BusinessList = ({ BASE_URL }) => {
   const [businesses, setBusinesses] = useState([]);
@@ -142,10 +143,20 @@ const BusinessList = ({ BASE_URL }) => {
                     </div>
                   </CardHeader>
                   <CardContent>
-                    <BusinessListPhoto
-                      businessId={business.id}
-                      BASE_URL={BASE_URL}
-                    />
+                    <div className="flex space-x-2">
+                      <div className="size-24">
+                        <BusinessListPhoto
+                          businessId={business.id}
+                          BASE_URL={BASE_URL}
+                        />
+                      </div>
+                      <Badge
+                        variant="outline"
+                        className={`h-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                      >
+                        {business.isOpen ? "Open" : "Closed"}
+                      </Badge>
+                    </div>
                     {/* 
                     <div>
                       <div className="mt-2 flex items-center space-x-1">

@@ -9,14 +9,12 @@ import App from "./app/App.jsx/";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <BrowserRouter>
-    <ScrollToTop />
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </BrowserRouter>,
-  {
-    /* </StrictMode>, */
-  },
+  <StrictMode>
+    <BrowserRouter>
+      <ScrollToTop />
+      <Provider store={store}>
+        <App />
+      </Provider>
+    </BrowserRouter>
+  </StrictMode>,
 );

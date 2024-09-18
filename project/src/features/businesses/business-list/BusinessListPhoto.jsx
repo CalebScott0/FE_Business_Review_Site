@@ -1,32 +1,33 @@
-import { Badge } from "@/components/ui/badge";
+import Loader from "@/components/Loader";
 import { useEffect, useState } from "react";
 
 const BusinessListPhoto = ({ businessId, BASE_URL }) => {
-  const [photo, setPhoto] = useState();
+  const [photo, setPhoto] = useState({});
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     (async () => {
+      setError(null);
+      setIsLoading(true);
       try {
+        // grab photos for a business, set state to first photo object
+        // const response = await fetch(
+        //   `${BASE_URL}/businesses/${business.id}/photos`,
+        // );
       } catch (error) {}
+      setIsLoading(false);
     })();
   });
 
+  if (isLoading) return <Loader />;
+
   return (
-    <div className="flex space-x-2">
-      <img
-        className="box-border size-24 border object-cover"
-        src={`s3://cbs062-review-site-photos/photos/${business.photos[0].id}.jpg`}
-        alt={business.photos[0].label}
-      />
-      <Badge
-        variant="outline"
-        className={`h-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
-      >
-        {business.isOpen ? "Open" : "Closed"}
-      </Badge>
-    </div>
+    <img
+      className="box-border size-full border object-cover"
+      src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
+      alt={photo.label}
+    />
   );
 };
 
