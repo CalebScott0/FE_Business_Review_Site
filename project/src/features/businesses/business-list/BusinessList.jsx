@@ -98,9 +98,12 @@ const BusinessList = ({ BASE_URL }) => {
       </div>
     );
   }
-  if (error) return <p>{error}</p>;
+  if (error)
+    return (
+      <p className="mt-2 text-center text-2xl text-destructive">{error}</p>
+    );
   return (
-    <main>
+    <main className="mx-20">
       <h1 className="my-6 ml-12 text-4xl font-semibold leading-6 tracking-wide">
         {categoryName}
       </h1>
@@ -115,47 +118,46 @@ const BusinessList = ({ BASE_URL }) => {
         }
         endMessage={<p className="text-center">End of list</p>}
       >
-        <div className="m-5 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+        {/* <div className="my-5"> */}
+          <div className="my-5 grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-2">
           {!isInitialLoad &&
             businesses.map((business) => (
-              <Card className="mx-auto w-96 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
+              <Card className="mx-auto w-full my-8 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
                 <NavLink
                   to={`/business/${business.name}/${business.id}`}
                   key={business.id}
                 >
                   <CardHeader>
-                    <CardTitle className="text-center">
-                      <span className="text-xl leading-5 tracking-wide">
+                    <CardTitle className="flex space-x-2">
+                      <h2 className="text-2xl leading-5 tracking-wide">
                         {business.name}
-                      </span>
+                      </h2>
+                      <Badge
+                        variant="outline"
+                        className={`mx-auto size-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                      >
+                        {business.isOpen ? "Open" : "Closed"}
+                      </Badge>
                     </CardTitle>
-                    <div className="flex place-content-center items-center space-x-1.5">
+                    <div className="flex items-center space-x-1.5">
                       <ReactStars
                         value={business.stars}
-                        size={20}
+                        size={24}
                         edit={false}
                         isHalf={true}
                       />
-                      <span className="text-sm">
-                        {business.stars.toFixed(1)}
-                      </span>
-                      <span className="text-xs">{`(${business.reviewCount}) reviews`}</span>
+                      <span>{business.stars.toFixed(1)}</span>
                     </div>
+                      <p>{`(${business.reviewCount}) reviews`}</p>
                   </CardHeader>
                   <CardContent>
                     <div className="flex space-x-2">
-                      <div className="size-24">
+                      <div>
                         <BusinessListPhoto
                           businessId={business.id}
                           BASE_URL={BASE_URL}
                         />
                       </div>
-                      <Badge
-                        variant="outline"
-                        className={`h-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
-                      >
-                        {business.isOpen ? "Open" : "Closed"}
-                      </Badge>
                     </div>
                     {/* 
                     <div>
