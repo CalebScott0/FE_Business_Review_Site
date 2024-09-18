@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/card";
 import ReactStars from "react-rating-stars-component";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 import ReviewList from "../../reviews/ReviewList";
@@ -70,7 +69,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     return (
       <main>
         {/* Business card */}
-        <Card className="border-none mx-12">
+        <Card className="shadow-lg mx-12 my-6">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center space-x-2">
@@ -79,7 +78,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 </span>
                 <Badge
                   variant="outline"
-                  className={`h-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                  className={`h-fit text-white ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
                 >
                   {business.isOpen === true ? "Open" : "Closed"}
                 </Badge>
@@ -116,7 +115,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 .sort((a, b) => (a.categoryName < b.categoryName ? -1 : 1))
                 .map((category, idx) => (
                   <Badge
-                    className="mx-0.5 mb-2 h-6 w-fit cursor-pointer"
+                    className="mx-0.5 mb-2 h-6 w-fit cursor-pointer drop-shadow-md"
                     key={idx}
                     onClick={() => handleBadgeClick(category.categoryName)}
                   >
@@ -126,7 +125,6 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             </div>
           </CardFooter>
         </Card>
-        <Separator className="my-2 w-11/12 mx-auto" />
         <ReviewList
           businessId={id}
           name={name}

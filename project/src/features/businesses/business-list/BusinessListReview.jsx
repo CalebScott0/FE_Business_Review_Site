@@ -40,7 +40,7 @@ const BusinessListReview = ({ BASE_URL, businessId }) => {
 
   return (
     review?.id && (
-      <section className="bg-secondary border box-border p-3 relative top-10">
+      <section className="bg-secondary border rounded-[.75rem] box-border p-3 relative top-10 drop-shadow-md">
         <div className="mt-2 flex items-center space-x-1">
           <CircleUser className="mt-2 size-5" />
           <p className="mt-2 text-base tracking-tighter text-muted-foreground">

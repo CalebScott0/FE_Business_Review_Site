@@ -36,7 +36,7 @@ const AuthForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const { pathname } = useLocation();
-  const PATH = pathname || "/login";
+  const PATH = pathname;
 
   const authType = PATH === "/login" ? "Log in" : "Register";
   const oppAuthType = PATH !== "/login" ? "Log in" : "Create an account";
@@ -54,15 +54,15 @@ const AuthForm = () => {
   const tryAuth = async (values, e) => {
     e.preventDefault();
     setError(null);
-    const authMethod = PATH === "/login" ? login : register;
+    setLoading(true);
     try {
-      setLoading(true);
+      const authMethod = PATH === "/login" ? login : register;
       await authMethod(values).unwrap();
-      navigate(-1);
+      navigate("/profile");
     } catch (error) {
-      setLoading(false);
       setError(error.data.message);
     }
+    setLoading(false);
   };
   const handleClick = () => {
     form.reset();
@@ -106,7 +106,11 @@ const AuthForm = () => {
                   <FormItem>
                     <FormLabel>Password</FormLabel>
                     <FormControl>
-                      <Input placeholder="Password" {...field} />
+                      <Input
+                        placeholder="Password"
+                        type="password"
+                        {...field}
+                      />
                     </FormControl>
                     <FormMessage />
                     <FormDescription>

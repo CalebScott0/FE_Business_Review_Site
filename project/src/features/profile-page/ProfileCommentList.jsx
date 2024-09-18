@@ -71,7 +71,7 @@ const ProfileCommentList = ({ TOKEN }) => {
               key={comment.id}
               // className="md:basis-1/2 lg:basis-1/3"
             >
-              <Card className="w-full">
+              <Card className="w-full shadow-md bg-muted">
                 <CardHeader className="text-center text-base">
                   <CardDescription className="text-sm">
                     {commentDate(comment.createdAt)}

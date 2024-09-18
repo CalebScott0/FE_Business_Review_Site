@@ -46,16 +46,23 @@ const SingleBusinessPhotos = ({ businessId }) => {
     const photosSubArray = photos.toSpliced(currentPhotoIndex, 1);
 
     return (
-      <div className="ml-10 w-full max-w-lg">
+      <div className="ml-10 w-full">
         {/* ADD ALT AND ATTRIBUTES TO IMAGE */}
 
         {/* show first photo on render and currentPhoto on click */}
-        <img
-          src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${currentPhoto.id}.jpg`}
-          alt={currentPhoto.label}
-          className="size-[500px] max-w-lg border object-cover"
-        />
-        <Carousel className="mt-2 w-full">
+        <figure class="flex space-x-6">
+          <img
+            src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${currentPhoto.id}.jpg`}
+            alt={currentPhoto.label}
+            className="size-[500px] max-w-lg border object-cover shadow-lg shadow-secondary"
+          />
+          {currentPhoto.caption && (
+            <figcaption className="box-border max-w-[400px] self-end rounded-lg border bg-secondary px-6 py-3 border-dotted shadow-lg shadow-secondary">
+              {currentPhoto.caption}
+            </figcaption>
+          )}
+        </figure>
+        <Carousel className="mt-2 w-full max-w-lg">
           <CarouselContent>
             {photosSubArray.map((photo, idx) => (
               <CarouselItem
@@ -63,7 +70,7 @@ const SingleBusinessPhotos = ({ businessId }) => {
                 className="pl-4 md:basis-1/3 lg:basis-1/5"
               >
                 <img
-                  className="box-border size-20 cursor-pointer border object-cover hover:-translate-y-2 hover:scale-125 hover:shadow-md"
+                  className="box-border size-20 cursor-pointer border object-cover hover:scale-125 shadow-md shadow-secondary"
                   onClick={() => handlePhotoClick(photo)}
                   src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
                   alt={photo.label}

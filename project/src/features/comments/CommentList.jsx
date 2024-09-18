@@ -180,7 +180,7 @@ const Commentlist = ({
           {comments.map((comment) => (
             <Card
               key={comment.id}
-              className="rounded-md border px-4 py-2 text-sm shadow-sm"
+              className="rounded-md border px-4 py-2 text-sm shadow-md bg-muted"
             >
               <CardHeader>
                 <CardTitle className="flex items-center space-x-1 text-sm">

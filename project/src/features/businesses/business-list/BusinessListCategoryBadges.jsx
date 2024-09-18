@@ -38,7 +38,7 @@ const BusinessListCategoryBadges = ({
     // MAKE THESE VARIOUS COLORS w/ avatar component
     <Badge
       key={category.id}
-      className="cursor-pointer"
+      className="cursor-pointer drop-shadow-md"
       onClick={() => handleBadgeClick(category.categoryName)}
     >
       <span className="h-fit leading-5 tracking-wide">

@@ -35,6 +35,7 @@ const ProfileReviewCard = ({ review, reviewDate }) => {
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col">
+      <Separator className="mx-auto w-[98%] mb-3" />
         <blockquote
           ref={ref}
           className={`mb-3 line-clamp-${isShowingMore ? 0 : 5}`}
@@ -52,7 +53,7 @@ const ProfileReviewCard = ({ review, reviewDate }) => {
         )}
       </CardContent>
       <Separator className="mx-auto w-[98%]" />
-      <CardDescription className="my-2 ml-7 text-sm">
+      <CardDescription className="my-2 mx-12 text-sm">
         {reviewDate(review.createdAt)}
       </CardDescription>
     </Card>

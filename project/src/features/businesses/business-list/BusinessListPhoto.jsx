@@ -48,7 +48,7 @@ const BusinessListPhoto = ({ businessId, BASE_URL }) => {
   return (
     // <figure className="flex flex-col">
     <img
-      className="mt-12 box-border size-72 rounded-sm border object-cover"
+      className="mt-12 box-border size-72 rounded-sm border object-cover drop-shadow-md"
       src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
       alt={photo.label}
     />

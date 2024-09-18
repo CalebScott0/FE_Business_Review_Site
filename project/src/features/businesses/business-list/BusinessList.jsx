@@ -123,7 +123,7 @@ const BusinessList = ({ BASE_URL }) => {
             businesses.map((business) => (
               <Card
                 key={business.id}
-                className="mx-auto my-8 w-full cursor-pointer pl-6 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
+                className="shadow-lg mx-auto my-8 w-full cursor-pointer pl-6 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
               >
                 <NavLink to={`/business/${business.name}/${business.id}`}>
                   <div className="flex">
