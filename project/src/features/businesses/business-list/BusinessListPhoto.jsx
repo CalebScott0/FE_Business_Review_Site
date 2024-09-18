@@ -1,4 +1,5 @@
 import Loader from "@/components/Loader";
+import { Separator } from "@/components/ui/separator";
 import { useEffect, useState } from "react";
 
 const BusinessListPhoto = ({ businessId, BASE_URL }) => {
@@ -36,17 +37,24 @@ const BusinessListPhoto = ({ businessId, BASE_URL }) => {
 
   if (isLoading) return <Loader />;
 
-  if (error) return <p className="text-enter mt-2 text-destructive">{error}</p>;
+  if (error)
+    return <p className="mt-2 text-center text-destructive">{error}</p>;
 
   return (
-    <div className="flex">
+    <figure className="flex">
       <img
         className="box-border size-72 border object-cover"
         src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
         alt={photo.label}
       />
-      <p className="mx-3 text-center">{photo.caption}</p>
-    </div>
+      {photo.caption && (
+        <figcaption className="m-12 flex flex-1 items-end justify-center text-start leading-7 tracking-wider">
+          <Separator orientation="vertical" className="mx-2 h-2/5 px-0.5" />
+
+          <q className="cursor-text">{photo.caption}</q>
+        </figcaption>
+      )}
+    </figure>
   );
 };
 

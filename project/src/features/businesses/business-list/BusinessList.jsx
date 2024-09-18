@@ -85,6 +85,10 @@ const BusinessList = ({ BASE_URL }) => {
     navigate(`/businesses/${categoryName}`);
   };
 
+  const handleCardClick = ({ businessName, businessId }) => {
+    navigate(`/business/${businessName}/${businessId}`);
+  };
+
   /*  Style this sizing / spacing after businesses are styled on page
    Make it look like loaded businesses so it's not just rectangles */
   if (isInitialLoad) {
@@ -119,47 +123,51 @@ const BusinessList = ({ BASE_URL }) => {
         endMessage={<p className="text-center">End of list</p>}
       >
         {/* <div className="my-5"> */}
-          <div className="my-5 grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-2">
+        <div className="my-5 grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-2">
           {!isInitialLoad &&
             businesses.map((business) => (
-              <Card className="mx-auto w-full my-8 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500">
-                <NavLink
-                  to={`/business/${business.name}/${business.id}`}
-                  key={business.id}
-                >
-                  <CardHeader>
-                    <CardTitle className="flex space-x-2">
-                      <h2 className="text-2xl leading-5 tracking-wide">
-                        {business.name}
-                      </h2>
-                      <Badge
-                        variant="outline"
-                        className={`mx-auto size-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
-                      >
-                        {business.isOpen ? "Open" : "Closed"}
-                      </Badge>
-                    </CardTitle>
-                    <div className="flex items-center space-x-1.5">
-                      <ReactStars
-                        value={business.stars}
-                        size={24}
-                        edit={false}
-                        isHalf={true}
+              <Card
+                className="mx-auto my-8 w-full cursor-pointer duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
+                onClick={() =>
+                  handleCardClick({
+                    businessName: business.name,
+                    businessId: business.id,
+                  })
+                }
+              >
+                <CardHeader>
+                  <CardTitle className="flex space-x-2">
+                    <h2 className="text-2xl leading-5 tracking-wide">
+                      {business.name}
+                    </h2>
+                    <Badge
+                      variant="outline"
+                      className={`mx-auto size-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                    >
+                      {business.isOpen ? "Open" : "Closed"}
+                    </Badge>
+                  </CardTitle>
+                  <div className="flex items-center space-x-1.5">
+                    <ReactStars
+                      value={business.stars}
+                      size={24}
+                      edit={false}
+                      isHalf={true}
+                    />
+                    <span>{business.stars.toFixed(1)}</span>
+                  </div>
+                  <p>{`(${business.reviewCount}) reviews`}</p>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex space-x-2">
+                    <div>
+                      <BusinessListPhoto
+                        businessId={business.id}
+                        BASE_URL={BASE_URL}
                       />
-                      <span>{business.stars.toFixed(1)}</span>
                     </div>
-                      <p>{`(${business.reviewCount}) reviews`}</p>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="flex space-x-2">
-                      <div>
-                        <BusinessListPhoto
-                          businessId={business.id}
-                          BASE_URL={BASE_URL}
-                        />
-                      </div>
-                    </div>
-                    {/* 
+                  </div>
+                  {/* 
                     <div>
                       <div className="mt-2 flex items-center space-x-1">
                         <CircleUser className="mt-2 size-5" />
@@ -178,8 +186,7 @@ const BusinessList = ({ BASE_URL }) => {
                         {business.review[0].text}
                       </p>
                     </div> */}
-                  </CardContent>
-                </NavLink>
+                </CardContent>
                 <CardDescription className="ml-3 space-x-0.5 space-y-0.5 pb-2">
                   {/* {business.categories.slice(0, 5).map((item, idx) => (
                     // {business.categories.map((item) => (
