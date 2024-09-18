@@ -41,14 +41,14 @@ const NavBar = ({ TOKEN }) => {
   //  or just set a default location?
   return (
     <nav>
-      <div className="flex flex-wrap items-center justify-between space-x-10 p-5 pr-10">
+      <div className="flex flex-wrap items-center justify-between space-x-10 p-5 pr-12">
         <NavLink to="/" className="ml-10 flex items-center">
           {/* <img src="../../../assets/favicon.ico" /> */}
           <img
-            src="../../../assets/icons8-sea-shell-doodle-96.png"
+            src="../../../assets/icons8-sea-shell-48.png"
             className="size-1/4"
           />
-          <h1 className="ml-3 text-2xl font-semibold tracking-wider">
+          <h1 className="ml-3 text-2xl font-semibold min-w-[200px] tracking-wider">
             Review Guru
           </h1>
         </NavLink>
