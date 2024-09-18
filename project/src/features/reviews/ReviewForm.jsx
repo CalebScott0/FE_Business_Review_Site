@@ -104,6 +104,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
                       size={26}
                       value={state?.stars}
                       onChange={handleRatingChange}
+                      activeColor="#ff001a"
                     />
                   </FormControl>
                   <FormMessage />

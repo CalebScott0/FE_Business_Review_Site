@@ -10,7 +10,7 @@ const CategoryMenu = ({ icon, title, array, handleClick }) => {
   return (
     <NavigationMenuList>
       <NavigationMenuItem>
-        <NavigationMenuTrigger className="bg-muted hover:border">
+        <NavigationMenuTrigger className="mt-3 hover:border">
           {icon}
           <span>{title}</span>
         </NavigationMenuTrigger>
@@ -18,7 +18,7 @@ const CategoryMenu = ({ icon, title, array, handleClick }) => {
           {array.map((item, index) => (
             <NavigationMenuLink
               key={index}
-              className="flex w-40 flex-row rounded-md p-2 text-sm leading-6 hover:bg-destructive"
+              className="flex w-40 flex-row rounded-md p-2 text-sm leading-6 hover:bg-accent"
               onClick={() => handleClick(item.categoryName)}
             >
               {item.icon}

@@ -41,7 +41,7 @@ const NavBar = ({ TOKEN }) => {
   //  or just set a default location?
   return (
     <nav>
-      <div className="flex flex-wrap items-center justify-between space-x-10 bg-accent p-5 pr-10">
+      <div className="flex flex-wrap items-center justify-between space-x-10 p-5 pr-10">
         <NavLink to="/" className="ml-10 flex items-center">
           <img src="../../../assets/favicon.ico" />
           <h2 className="ml-3 text-xl font-semibold tracking-wider">
@@ -81,7 +81,6 @@ const NavBar = ({ TOKEN }) => {
           )}
         </div>
       </div>
-      <Separator className="mb-2" />
     </nav>
   );
 };

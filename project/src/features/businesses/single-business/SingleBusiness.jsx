@@ -91,6 +91,8 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
                 size={24}
                 edit={false}
                 isHalf={true}
+                activeColor="#ff001a"
+
               />
               <span>{business.stars?.toFixed(1)}</span>
             </div>

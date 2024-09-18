@@ -1,4 +1,3 @@
-import { CarouselTemplate } from "@/components/Carousel";
 import { useState } from "react";
 import ReviewCards from "./ReviewCards";
 import CategoryMenu from "../navbar/CategoryMenu";
@@ -28,7 +27,7 @@ const LandingPage = () => {
   };
   return (
     <main>
-      <section className="h-60 bg-muted">
+      <section className="h-60">
         {" "}
         <div className="ml-4 flex space-x-2">
           <NavigationMenu>
@@ -67,7 +66,7 @@ const LandingPage = () => {
         <div className="ml-10 mt-10 flex items-center space-x-0.5">
           <SearchBusinessByName />
         </div>
-        <div className="ml-10 mt-10 flex items-center space-x-0.5">
+        <div className="ml-10 mt-10 flex items-center">
           <SearchCategories
             setCategory={setCategory}
             value={value}

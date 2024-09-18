@@ -10,7 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useNavigate } from "react-router-dom";
 import ReactStars from "react-rating-stars-component";
-import { CircleUser } from "lucide-react";
+import { CircleUser, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
 import InfiniteScroll from "react-infinite-scroll-component";
@@ -107,7 +107,7 @@ const BusinessList = ({ BASE_URL }) => {
       <p className="mt-2 text-center text-2xl text-destructive">{error}</p>
     );
   return (
-    <main className="mx-20">
+    <main className="mx-12">
       <h1 className="my-6 ml-12 text-4xl font-semibold leading-6 tracking-wide">
         {categoryName}
       </h1>
@@ -122,12 +122,12 @@ const BusinessList = ({ BASE_URL }) => {
         }
         endMessage={<p className="text-center">End of list</p>}
       >
-        {/* <div className="my-5"> */}
-        <div className="my-5 grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-2">
+        <div className="my-5">
+          {/* <div className="my-5 grid grid-cols-1 gap-8 md:grid-cols-1 lg:grid-cols-2"> */}
           {!isInitialLoad &&
             businesses.map((business) => (
               <Card
-                className="mx-auto my-8 w-full cursor-pointer duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
+                className="mx-auto my-8 flex w-full cursor-pointer pl-6 duration-300 hover:-translate-y-1 hover:shadow-md dark:hover:shadow-gray-500"
                 onClick={() =>
                   handleCardClick({
                     businessName: business.name,
@@ -135,14 +135,14 @@ const BusinessList = ({ BASE_URL }) => {
                   })
                 }
               >
-                <CardHeader>
-                  <CardTitle className="flex space-x-2">
+                <CardHeader className="w-1/3">
+                  <CardTitle>
                     <h2 className="text-2xl leading-5 tracking-wide">
                       {business.name}
                     </h2>
                     <Badge
                       variant="outline"
-                      className={`mx-auto size-fit text-muted ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
+                      className={`mx-auto size-fit tracking-wide text-white ${business.isOpen ? "bg-emerald-500" : "bg-destructive"}`}
                     >
                       {business.isOpen ? "Open" : "Closed"}
                     </Badge>
@@ -153,19 +153,23 @@ const BusinessList = ({ BASE_URL }) => {
                       size={24}
                       edit={false}
                       isHalf={true}
-                    />
+                      activeColor="#ff001a"
+                      />
                     <span>{business.stars.toFixed(1)}</span>
                   </div>
                   <p>{`(${business.reviewCount}) reviews`}</p>
+                  <div>
+                    <span className="block">{business.address}</span>
+                    <span>{business.city} </span>
+                    <span>{business.state}</span>
+                  </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="flex space-x-2">
-                    <div>
-                      <BusinessListPhoto
-                        businessId={business.id}
-                        BASE_URL={BASE_URL}
-                      />
-                    </div>
+                  <div className="ml-6 py-12">
+                    <BusinessListPhoto
+                      businessId={business.id}
+                      BASE_URL={BASE_URL}
+                    />
                   </div>
                   {/* 
                     <div>

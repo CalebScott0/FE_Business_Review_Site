@@ -28,6 +28,7 @@ const ProfileReviewCard = ({ review, reviewDate }) => {
               isHalf={false}
               size={18}
               value={review.stars}
+              activeColor="#ff001a"
             />
             {review.stars}
           </div>

@@ -41,20 +41,22 @@ const BusinessListPhoto = ({ businessId, BASE_URL }) => {
     return <p className="mt-2 text-center text-destructive">{error}</p>;
 
   return (
-    <figure className="flex">
+    // <figure className="flex flex-col">
       <img
         className="box-border size-72 border object-cover"
         src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
         alt={photo.label}
       />
-      {photo.caption && (
-        <figcaption className="m-12 flex flex-1 items-end justify-center text-start leading-7 tracking-wider">
-          <Separator orientation="vertical" className="mx-2 h-2/5 px-0.5" />
+      // {photo.caption && (
+        // <figcaption className="mt-3 flex">
 
-          <q className="cursor-text">{photo.caption}</q>
-        </figcaption>
-      )}
-    </figure>
+        //   <Separator orientation="" className="mx-2 h-3/5 px-0.5" />
+        //   <q className="mb-3 line-clamp-3 cursor-text leading-7 tracking-wider">
+        //     {photo.caption}
+        //   </q>
+        // </figcaption>
+      // )}
+    // </figure>
   );
 };
 
