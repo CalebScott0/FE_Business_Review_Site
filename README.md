@@ -1,7 +1,7 @@
 # Business_Review_Site
 
-https://66e8b9c8a914983cbe649314--poetic-semifreddo-65249f.netlify.app/
-
+https://66ea9c3586732f463890a720--thunderous-hotteok-6aea09.netlify.app/
+ 
 ## Website Functionality
 
 1. Browse and Read Reviews: Users can access the website to explore and read reviews on various businesses.
