@@ -43,31 +43,37 @@ const NavBar = ({ TOKEN }) => {
     <nav>
       <div className="flex flex-wrap items-center justify-between space-x-10 p-5 pr-10">
         <NavLink to="/" className="ml-10 flex items-center">
-          <img src="../../../assets/favicon.ico" />
-          <h2 className="ml-3 text-xl font-semibold tracking-wider">
+          {/* <img src="../../../assets/favicon.ico" /> */}
+          <img
+            src="../../../assets/icons8-sea-shell-doodle-96.png"
+            className="size-1/4"
+          />
+          <h1 className="ml-3 text-2xl font-semibold tracking-wider">
             Review Guru
-          </h2>
+          </h1>
         </NavLink>
         {/* Have to filter by location before any search allowed */}
         {pathname !== "/" && (
-          <div className="flex space-x-0.5">
-            <SearchCategories
-              setCategory={setCategory}
-              value={value}
-              setValue={setValue}
-            />
-            {/* put another search for business names here */}
-            <Button
-              size="icon"
-              variant="outline"
-              // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
-              // Reset combobox on click
-              onClick={() => {
-                category && handleClick(category);
-              }}
-            >
-              <Search />
-            </Button>
+          <div className="flex items-center space-x-2">
+            <div className="flex space-x-0.5">
+              <SearchCategories
+                setCategory={setCategory}
+                value={value}
+                setValue={setValue}
+              />
+
+              <Button
+                size="icon"
+                variant="outline"
+                // HIGHLIGHT OR SHOW MESSAGE IF NO CATEGORY SELECTED
+                // Reset combobox on click
+                onClick={() => {
+                  category && handleClick(category);
+                }}
+              >
+                <Search />
+              </Button>
+            </div>
             <SearchBusinessByName />
           </div>
         )}

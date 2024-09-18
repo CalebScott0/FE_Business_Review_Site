@@ -51,9 +51,9 @@ const SingleBusinessPhotos = ({ businessId }) => {
 
         {/* show first photo on render and currentPhoto on click */}
         <img
-          src={`s3://cbs062-review-site-photos/photos/${currentPhoto.id}.jpg`}
+          src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${currentPhoto.id}.jpg`}
           alt={currentPhoto.label}
-          className="w-full max-w-lg border object-cover"
+          className="size-[500px] max-w-lg border object-cover"
         />
         <Carousel className="mt-2 w-full">
           <CarouselContent>
@@ -65,7 +65,7 @@ const SingleBusinessPhotos = ({ businessId }) => {
                 <img
                   className="box-border size-20 cursor-pointer border object-cover hover:-translate-y-2 hover:scale-125 hover:shadow-md"
                   onClick={() => handlePhotoClick(photo)}
-                  src={`s3://cbs062-review-site-photos/photos/${photo.id}.jpg`}
+                  src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
                   alt={photo.label}
                 />
               </CarouselItem>

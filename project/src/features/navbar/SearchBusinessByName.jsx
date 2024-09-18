@@ -52,7 +52,7 @@ const SearchBusinessByName = () => {
 
   // value mapped to category.name
   return (
-    <div className="flex">
+    <div className="flex space-x-0.5">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button

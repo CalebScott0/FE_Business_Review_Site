@@ -63,10 +63,10 @@ const LandingPage = () => {
             />
           </NavigationMenu>
         </div>
-        <div className="ml-10 mt-10 flex items-center space-x-0.5">
+        <div className="ml-48 mt-12">
           <SearchBusinessByName />
         </div>
-        <div className="ml-10 mt-10 flex items-center">
+        <div className="ml-48 mt-6 flex items-center space-x-0.5">
           <SearchCategories
             setCategory={setCategory}
             value={value}

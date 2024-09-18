@@ -22,7 +22,7 @@ const ReviewCard = ({ review, dateFormatter, TOKEN, USER_ID }) => {
     });
 
   return (
-    <Card>
+    <Card className="m-3">
       <CardHeader>
         <CardTitle>
           <div className="flex">
@@ -31,6 +31,8 @@ const ReviewCard = ({ review, dateFormatter, TOKEN, USER_ID }) => {
               size={18}
               edit={false}
               isHalf={false}
+              activeColor="#ff001a"
+
             />
             <span className="-mt-0.5 ml-1 text-sm">{review.stars}</span>
           </div>

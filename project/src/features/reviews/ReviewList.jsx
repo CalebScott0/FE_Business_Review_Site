@@ -128,7 +128,7 @@ const ReviewList = ({
     );
   if (reviews.length > 0) {
     return (
-      <section>
+      <section className="mx-12">
         <span className="mx-5">{reviewCount} reviews</span>
         {!userReview && (
           <ReviewButton

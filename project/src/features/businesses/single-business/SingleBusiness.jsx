@@ -70,7 +70,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
     return (
       <main>
         {/* Business card */}
-        <Card className="border-none">
+        <Card className="border-none mx-12">
           <CardHeader>
             <CardTitle>
               <div className="flex items-center space-x-2">
@@ -126,7 +126,7 @@ const SingleBusiness = ({ TOKEN, USER_ID, setIsEditReview }) => {
             </div>
           </CardFooter>
         </Card>
-        <Separator className="my-2" />
+        <Separator className="my-2 w-11/12 mx-auto" />
         <ReviewList
           businessId={id}
           name={name}

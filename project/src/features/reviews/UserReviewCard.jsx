@@ -29,7 +29,7 @@ const UserReviewCard = ({
     });
   if (userReview) {
     return (
-      <Card className="mb-10">
+      <Card className="m-3 mb-6">
         <CardHeader>
           <CardTitle>
             {deleteError && <p>{deleteError}</p>}
@@ -67,6 +67,7 @@ const UserReviewCard = ({
                 size={18}
                 edit={false}
                 isHalf={false}
+                activeColor="#ff001a"
               />
               <span className="-mt-0.5 ml-1 text-sm">{userReview.stars}</span>
             </div>

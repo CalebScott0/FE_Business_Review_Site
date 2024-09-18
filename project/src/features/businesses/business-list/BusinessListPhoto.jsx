@@ -35,27 +35,32 @@ const BusinessListPhoto = ({ businessId, BASE_URL }) => {
     })();
   }, []);
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <div className="size-72 flex items-end text-center">
+      <Loader />
+    </div>
+    );
 
   if (error)
     return <p className="mt-2 text-center text-destructive">{error}</p>;
 
   return (
     // <figure className="flex flex-col">
-      <img
-        className="box-border size-72 border object-cover"
-        src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
-        alt={photo.label}
-      />
-      // {photo.caption && (
-        // <figcaption className="mt-3 flex">
+    <img
+      className="mt-12 box-border size-72 rounded-sm border object-cover"
+      src={`https://cbs062-review-site-photos.s3.us-east-2.amazonaws.com/photos/${photo.id}.jpg`}
+      alt={photo.label}
+    />
+    // {photo.caption && (
+    // <figcaption className="mt-3 flex">
 
-        //   <Separator orientation="" className="mx-2 h-3/5 px-0.5" />
-        //   <q className="mb-3 line-clamp-3 cursor-text leading-7 tracking-wider">
-        //     {photo.caption}
-        //   </q>
-        // </figcaption>
-      // )}
+    //   <Separator orientation="" className="mx-2 h-3/5 px-0.5" />
+    //   <q className="mb-3 line-clamp-3 cursor-text leading-7 tracking-wider">
+    //     {photo.caption}
+    //   </q>
+    // </figcaption>
+    // )}
     // </figure>
   );
 };

@@ -141,7 +141,7 @@ const ReviewForm = ({ TOKEN, isEdit }) => {
               )}
             </CardFooter>
           </form>
-          <Button className="w-full max-w-52" onClick={() => navigate(-1)}>
+          <Button className="w-full max-w-52 ml-6" onClick={() => navigate(-1)}>
             Go Back
           </Button>
         </Form>
