@@ -1,7 +1,8 @@
 # Business_Review_Site
 
-https://66eb4f797ae654b340cde867--celadon-pavlova-1d67a5.netlify.app/
- 
+https://reviewguru.netlify.app/
+
+
 ## Website Functionality
 
 1. Browse and Read Reviews: Users can access the website to explore and read reviews on various businesses.
